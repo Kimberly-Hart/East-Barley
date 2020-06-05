@@ -1,4 +1,5 @@
 ﻿-- Create tables
+
 create table ProductTypes (
 	ProductTypesTableId int not null Identity(1,1) Primary Key,
 	ProductTypeName varchar(100) not null,
@@ -82,22 +83,22 @@ create table OrderStatus (
 
 -- link Foreign Keys to tables
 
-alter table Productsadd foreign key (ProductTypeId) references ProductTypes(ProductTypeId)
+alter table Products add foreign key (ProductTypesTableId) references ProductTypes(ProductTypesTableId)
 
-alter table BookDetailsadd foreign key (ProductId) references Products(ProductId)
+alter table BookDetails add foreign key (ProductId) references Products(ProductId)
 
-alter table LineItemsadd foreign key (ProductId) references Products(ProductId)
+alter table LineItems add foreign key (ProductId) references Products(ProductId)
 
-alter table Invoiceadd foreign key (InvoiceId) references LineItems(InvoiceId)
-alter table Invoiceadd foreign key (SalesRepId) references Employees(SalesRepId)
+alter table LineItems add foreign key (InvoiceId) references Invoice(InvoiceId)
+alter table Invoice add foreign key (SalesRepId) references Employees(SalesRepId)
 
-alter table Invoiceadd foreign key (UserId) references Users(UserId)
+alter table Invoice add foreign key (UserId) references Users(UserId)
 
-alter table Invoiceadd foreign key (PaymentId) references Payments(PaymentId)
+alter table Invoice add foreign key (PaymentId) references Payments(PaymentId)
 
-alter table Paymentsadd foreign key (UserId) references Users(UserId)
+alter table Payments add foreign key (UserId) references Users(UserId)
 
-alter table Invoiceadd foreign key (StatusId) references OrderStatus(StatusId)
+alter table Invoice add foreign key (StatusId) references OrderStatus(StatusId)
 
 -- insert seed data
 
