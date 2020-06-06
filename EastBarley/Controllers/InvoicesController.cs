@@ -81,5 +81,16 @@ namespace EastBarley.Controllers
             }
             return Ok(PaymentOptions);
         }
+
+        [HttpPost("paymentType/add")]
+        public IActionResult GetUserPayTypes(PaymentTypes paymentToAdd)
+        {
+            var newPaymentType = _repository.AddPaymentType(paymentToAdd);
+            if (newPaymentType == null)
+            {
+                return BadRequest("Your payment type could not be added at this time.");
+            }
+            return Created("", newPaymentType);
+        }
     }
 }
