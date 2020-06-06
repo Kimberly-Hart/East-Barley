@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Mvc;
+using EastBarley.Models;
+using EastBarley.DataAccess;
 
 namespace EastBarley.Models
 {
