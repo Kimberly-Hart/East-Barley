@@ -32,7 +32,7 @@ namespace EastBarley.Controllers
             return Ok(employees);
         }
 
-        [HttpGet("employees/{salesRepId}")]
+        [HttpGet("{salesRepId}")]
         public IActionResult GetSingleEmployee(int salesRepId)
 
         {
