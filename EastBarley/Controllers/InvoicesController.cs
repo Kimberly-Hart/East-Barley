@@ -74,14 +74,13 @@ namespace EastBarley.Controllers
             {
                 cart = _repository.StartNewOrder(UserId, totalCost);
             }
-
             lineItemToAdd.InvoiceId = cart.InvoiceId;
             var newLineItem = _repository.AddLineItem(lineItemToAdd);
             if (newLineItem == null)
             {
                 return NotFound("There was an error adding this item to your cart. Please try again.");
             }
-            return Ok(cart);
+            return Created("", cart);
         }
     }
 }
