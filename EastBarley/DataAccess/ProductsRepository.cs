@@ -17,5 +17,32 @@ namespace EastBarley.DataAccess
         {
             ConnectionString = config.GetConnectionString("EastBarley");
         }
+
+        public IEnumerable<Products> GetAllWhiskey()
+        {
+            var sql = @"SELECT p.*
+                        FROM Products p
+                            WHERE ProductTypesTableId = 3";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var result = db.Query<Products>(sql);
+                return result;
+            }
+        }
+
+        public Products GetWhiskeyById(int productId)
+        {
+            var sql = @"SELECT p.*
+                                FROM Products p
+                                WHERE p.productTypesTableId = 3 AND p.productId = @productId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { productId = productId };
+                var result = db.QueryFirstOrDefault<Products>(sql, parameters);
+                return result;
+            }
+        }
     }
 }
