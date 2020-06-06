@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using EastBarley.Models;
 using Dapper;
 
@@ -17,6 +16,7 @@ namespace EastBarley.DataAccess
         {
             ConnectionString = config.GetConnectionString("EastBarley");
         }
+
         public IEnumerable<Invoices> GetAllInvoices()
         {
             using (var db = new SqlConnection(ConnectionString))
@@ -24,6 +24,8 @@ namespace EastBarley.DataAccess
                 return db.Query<Invoices>("SELECT * FROM Invoice");
             }
         }
+
+
         public IEnumerable<Invoices> GetInvoicesByUserId(int userId)
         {
             var sql = @"SELECT *
@@ -37,6 +39,7 @@ namespace EastBarley.DataAccess
                 return result;
             }
         }
+
         public IEnumerable<Invoices> GetInvoicesByInvoiceId(int invoiceId)
         {
             var sql = @"SELECT *
@@ -47,6 +50,21 @@ namespace EastBarley.DataAccess
             {
                 var parameters = new { InvoiceId = invoiceId };
                 var result = db.Query<Invoices>(sql, parameters);
+                return result;
+            }
+        }
+
+        public IEnumerable<PaymentTypes> GetPaymentTypesByUser(int userId)
+        {
+            var sql = @"SELECT *
+                        FROM Payments
+                        WHERE UserId = @userId
+                        AND isActive = 1";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { UserId = userId };
+                var result = db.Query<PaymentTypes>(sql, parameters);
                 return result;
             }
         }

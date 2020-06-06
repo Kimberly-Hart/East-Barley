@@ -10,15 +10,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace EastBarley.Controllers
 {
     [Route("api/invoices/")]
+
     [ApiController]
     public class InvoicesController : ControllerBase
     {
         InvoicesRepository _repository;
+        UsersRepository _userRepository;
 
-        public InvoicesController(InvoicesRepository repository)
+        public InvoicesController(InvoicesRepository repository, UsersRepository userRepo)
         {
             _repository = repository;
+            _userRepository = userRepo;
         }
+
         // get all invoices
         [HttpGet]
         public IActionResult GetAllOrders()
@@ -31,6 +35,8 @@ namespace EastBarley.Controllers
             }
             return Ok(allInvoices);
         }
+
+        // get invoices by user
         [HttpGet("users/{userId}")]
         public IActionResult GetInvoicesByUserId(int userId)
 
@@ -43,6 +49,8 @@ namespace EastBarley.Controllers
             }
             return Ok(invoicesByUserId);
         }
+
+        // get single invoice by invoiceId
         [HttpGet("invoiceId/{invoiceId}")]
         public IActionResult GetInvoicesByInvoiceId(int invoiceId)
 
@@ -54,6 +62,24 @@ namespace EastBarley.Controllers
                 return NotFound("There are currently no invoices matching this invoice id.");
             }
             return Ok(invoicesByInvoiceId);
+        }
+
+        // get payment types by user
+        [HttpGet("paymentType/{userId}")]
+        public IActionResult GetUserPayTypes(int userId)
+        {
+            var findUser = _userRepository.GetUserById(userId);
+            if (findUser == null)
+            {
+                return NotFound("This user could not be found.");
+            }
+            var PaymentOptions = _repository.GetPaymentTypesByUser(userId);
+            var noSavedPayTypes = !PaymentOptions.Any();
+            if (noSavedPayTypes)
+            {
+                return NotFound("You do not have any saved payment types, please create a new one.");
+            }
+            return Ok(PaymentOptions);
         }
     }
 }
