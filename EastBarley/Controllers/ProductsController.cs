@@ -28,7 +28,7 @@ namespace EastBarley.Controllers
             var noWhiskey = !allWhiskey.Any();
             if (noWhiskey)
             {
-                return NotFound("There is currently no whiskey to be listed!");
+                return NotFound("There is currently no whiskey to be listed.");
             }
             return Ok(allWhiskey);
         }
@@ -39,9 +39,57 @@ namespace EastBarley.Controllers
             var singleWhiskey = _repository.GetWhiskeyById(productId);
             if (singleWhiskey == null)
             {
-                return NotFound("That whiskey doesn't exist");
+                return NotFound("That whiskey doesn't exist.");
             }
             return Ok(singleWhiskey);
+        }
+    
+        [HttpGet("beer/all")]
+        public IActionResult GetAllBeer()
+        {
+            var allBeer = _repository.GetAllBeer();
+            var noBeer = !allBeer.Any();
+            if (noBeer)
+            {
+                return NotFound("There is currently no beer to be listed.");
+            }
+            return Ok(allBeer);
+        }
+
+        [HttpGet("beer/{productId}")]
+        public IActionResult GetBeerById(int productId)
+        {
+            var singleBeer = _repository.GetBeerById(productId);
+            if (singleBeer == null)
+            {
+                return NotFound("That beer doesn't exist.");
+            }
+            return Ok(singleBeer);
+            
+        }
+
+        [HttpGet("books/all")]
+        public IActionResult GetBooks()
+        {
+            var books = _repository.GetAllBooks();
+            var noBooks = !books.Any();
+            if (noBooks)
+            {
+                return NotFound("No books were found");
+            }
+            return Ok(books);
+        }
+
+        [HttpGet("books/{productId}")]
+        public IActionResult GetSingleBook(int productId)
+
+        {
+            var singleBook = _repository.GetSingleBook(productId);
+            if (singleBook == null)
+            {
+                return NotFound("No books matched this search");
+            }
+            return Ok(singleBook);
         }
     }
 }
