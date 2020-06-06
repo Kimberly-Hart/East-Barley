@@ -43,5 +43,13 @@ namespace EastBarley.Controllers
             }
             return Ok(singleEmployee);
         }
+
+        [HttpPost]
+         public IActionResult AddEmployee(Employees employeeToAdd)
+        {
+                var newEmployee = _repository.CreateANewEmployee(employeeToAdd);
+                return Created("", newEmployee);
+        }
+
     }
 }

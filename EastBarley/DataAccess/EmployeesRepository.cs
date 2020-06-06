@@ -33,5 +33,17 @@ namespace EastBarley.DataAccess
                 return db.QueryFirstOrDefault<Employees>(sql, parameters);
             }
         }
+        public Employees CreateANewEmployee(Employees newEmployee)
+        {
+            var sql = @"insert into Employees(LastName, FirstName, Title, HireDate, Email)
+                            output inserted.*
+                                    values(@LastName, @FirstName, @Title, @HireDate, @Email)";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var result = db.QueryFirstOrDefault<Employees>(sql, newEmployee);
+                return result;
+            }
+        }
     }
 }
