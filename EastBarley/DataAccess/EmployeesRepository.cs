@@ -24,5 +24,18 @@ namespace EastBarley.DataAccess
                 return db.Query<Employees>("SELECT * FROM Employees");
             }
         }
+
+        public Employees GetASingleEmployee(int salesRepId)
+        {
+            var sql = @"SELECT *
+                            FROM [employees]
+                            WHERE [employees].salesRepId = @salesRepId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { salesRepId = salesRepId };
+                return db.QueryFirstOrDefault<Employees>(sql, parameters);
+            }
+        }
     }
 }
