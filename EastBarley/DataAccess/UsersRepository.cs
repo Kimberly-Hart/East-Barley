@@ -16,7 +16,7 @@ namespace EastBarley.DataAccess
         string ConnectionString;
         public UsersRepository(IConfiguration config)
         {
-            ConnectionString = config.GetConnectionString("East&Barley");
+            ConnectionString = config.GetConnectionString("EastBarley");
         }
             //GET ALL USERS
 
@@ -26,9 +26,6 @@ namespace EastBarley.DataAccess
 
                     return db.Query<Users>("select * from Users");
             }
-        
-        
-        
         }
     }
 
