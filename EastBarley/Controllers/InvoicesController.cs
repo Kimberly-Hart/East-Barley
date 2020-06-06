@@ -31,5 +31,17 @@ namespace EastBarley.Controllers
             }
             return Ok(allInvoices);
         }
+        [HttpGet("users/{userId}")]
+        public IActionResult GetInvoicesByUserId(int userId)
+
+        {
+            var invoicesByUserId = _repository.GetInvoicesByUserId(userId);
+            var noInvoicesByUserId = !invoicesByUserId.Any();
+            if (noInvoicesByUserId)
+            {
+                return NotFound("There are currently no orders for this user.");
+            }
+            return Ok(invoicesByUserId);
+        }
     }
 }
