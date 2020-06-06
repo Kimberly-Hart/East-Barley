@@ -43,5 +43,28 @@ namespace EastBarley.Controllers
             }
             return Ok(singleWhiskey);
         }
+
+        [HttpGet("books/all")]
+        public IActionResult GetBooks()
+        {
+            var books = _repository.GetAllBooks();
+            var noBooks = !books.Any();
+            if (noBooks)
+            {
+                return NotFound("No books were found");
+            }
+            return Ok(books);
+        }
+
+        [HttpGet("books/{productId}")]
+        public IActionResult GetSingleBook(int productId)
+
+        {
+            var singleBook = _repository.GetSingleBook(productId);
+            if (singleBook == null)
+            {
+                return NotFound("No books matched this search");
+            }
+            return Ok(singleBook);
+        }
     }
-}
