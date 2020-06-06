@@ -22,10 +22,15 @@ namespace EastBarley.Controllers
         }
         
     //**Get All Users**
-    [HttpGet]
+    [HttpGet("all")]
     public IActionResult GetAllUsers()
         {
             var allUsers = _repository.GetAllUsers();
+            var isEmpty = !allUsers.Any();
+            if (isEmpty)
+            {
+                return NotFound("No users were found");
+            }
             return Ok(allUsers);
         }
 

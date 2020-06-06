@@ -12,7 +12,7 @@ namespace EastBarley.Models
         public decimal TotalCost { get; set; }
         public int PaymentId { get; set; }
         public DateTime InvoiceDate { get; set; }
-        public string BillingAddrress { get; set; }
+        public string BillingAddress { get; set; }
         public string BillingCity { get; set; }
         public int BillingZip { get; set; }
         public string BillingState { get; set; }

@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EastBarley.Controllers
 {
-    [Route("api/eastbarley")]
+    [Route("api/employees/")]
     [ApiController]
     public class EmployeesController : ControllerBase
     {
@@ -20,11 +20,15 @@ namespace EastBarley.Controllers
             _repository = repository;
         }
         // get all employees
-        [HttpGet("employees/all/")]
+        [HttpGet]
         public IActionResult GetAllEmployees()
         {
             var employees = _repository.GetAllEmployees();
-
+            var noEmployees = !employees.Any();
+            if (noEmployees)
+            {
+                return NotFound("There are currently no employees.");
+            }
             return Ok(employees);
         }
 

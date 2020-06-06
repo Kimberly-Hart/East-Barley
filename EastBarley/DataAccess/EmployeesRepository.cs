@@ -1,12 +1,8 @@
-﻿using Microsoft.Extensions.Configuration;
-using System;
+﻿using Dapper;
+using EastBarley.Models;
+using Microsoft.Extensions.Configuration;
 using System.Collections.Generic;
 using System.Data.SqlClient;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
-using EastBarley.Models;
-using Dapper;
 
 namespace EastBarley.DataAccess
 {

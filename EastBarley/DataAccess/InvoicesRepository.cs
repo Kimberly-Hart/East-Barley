@@ -17,5 +17,25 @@ namespace EastBarley.DataAccess
         {
             ConnectionString = config.GetConnectionString("EastBarley");
         }
+        public IEnumerable<Invoices> GetAllInvoices()
+        {
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                return db.Query<Invoices>("SELECT * FROM Invoice");
+            }
+        }
+        public IEnumerable<Invoices> GetInvoicesByUserId(int userId)
+        {
+            var sql = @"SELECT *
+                                FROM Invoice
+                                WHERE UserId = @userId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { UserId = userId };
+                var result = db.Query<Invoices>(sql, parameters);
+                return result;
+            }
+        }
     }
 }
