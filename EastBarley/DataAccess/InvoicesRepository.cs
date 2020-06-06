@@ -82,6 +82,20 @@ namespace EastBarley.DataAccess
             }
         }
 
+        public IEnumerable<Invoices> GetInvoicesBySalesRepId(int salesRepId)
+        {
+            var sql = @"SELECT *
+                        FROM Invoice
+                        WHERE SalesRepId = @salesRepId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { SalesRepId = salesRepId };
+                var result = db.Query<Invoices>(sql, parameters);
+                return result;
+            }
+        }
+
         public IEnumerable<PaymentTypes> GetPaymentTypesByUser(int userId)
         {
             var sql = @"SELECT *
