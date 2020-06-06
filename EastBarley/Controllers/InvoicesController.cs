@@ -31,6 +31,8 @@ namespace EastBarley.Controllers
             }
             return Ok(allInvoices);
         }
+
+        // get invoices by userId
         [HttpGet("users/{userId}")]
         public IActionResult GetInvoicesByUserId(int userId)
 
@@ -43,6 +45,8 @@ namespace EastBarley.Controllers
             }
             return Ok(invoicesByUserId);
         }
+
+        // get invoices by invoiceId
         [HttpGet("invoiceId/{invoiceId}")]
         public IActionResult GetInvoicesByInvoiceId(int invoiceId)
 
