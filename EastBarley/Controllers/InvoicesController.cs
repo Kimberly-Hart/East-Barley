@@ -92,5 +92,34 @@ namespace EastBarley.Controllers
             }
             return Created("", newPaymentType);
         }
+
+        // starts a new invoice at Open Cart status
+        [HttpPost("newCart/{UserId}")]
+        public IActionResult CreateNewOrder(int UserId, LineItems lineItemToAdd)
+        {
+            var findUser = _userRepository.GetUserById(UserId);
+            if (findUser == null)
+            {
+                return NotFound("This user could not be found.");
+            }
+            var hasCart = _repository.CheckForCart(UserId);
+            var totalCost = lineItemToAdd.Price * lineItemToAdd.Quantity;
+            OrderCart cart;
+            if (hasCart != null)
+            {
+                cart = _repository.AddToExistingCart(hasCart.InvoiceId, totalCost);
+            }
+            else
+            {
+                cart = _repository.StartNewOrder(UserId, totalCost);
+            }
+            lineItemToAdd.InvoiceId = cart.InvoiceId;
+            var newLineItem = _repository.AddLineItem(lineItemToAdd);
+            if (newLineItem == null)
+            {
+                return NotFound("There was an error adding this item to your cart. Please try again.");
+            }
+            return Created("", cart);
+        }
     }
 }
