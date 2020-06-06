@@ -28,8 +28,17 @@ namespace EastBarley.Controllers
             var allUsers = _repository.GetAllUsers();
             return Ok(allUsers);
         }
-    
-    
-    
+
+
+        //** Get User By ID
+        [HttpGet("{id}")]
+        public IActionResult GetUserById(int id)
+        {
+            var user = _repository.GetUserById(id);
+            if (user == null) return NotFound("User Does Not Exist");
+            return Ok(user);
+        }
+
+
     }
 }

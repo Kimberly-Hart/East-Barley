@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using EastBarley.Models;
 using Dapper;
-
+using Microsoft.AspNetCore.Mvc;
 
 namespace EastBarley.DataAccess
 {
@@ -18,14 +18,32 @@ namespace EastBarley.DataAccess
         {
             ConnectionString = config.GetConnectionString("EastBarley");
         }
-            //GET ALL USERS
+        //GET ALL USERS
 
-            public IEnumerable<Users> GetAllUsers()
-            {
+        public IEnumerable<Users> GetAllUsers()
+        {
+            using (var db = new SqlConnection(ConnectionString))
+
+                return db.Query<Users>("select * from Users");
+        }
+
+        // GET USER BY ID
+        public Users GetUserById(int userId)
+        {
+                var query = @"select *
+                          from Users
+                          where UserId = @userId";
+
                 using (var db = new SqlConnection(ConnectionString))
+                {
+                    var parameters = new { UserId = userId };
 
-                    return db.Query<Users>("select * from Users");
+                    var user = db.QueryFirstOrDefault<Users>(query, parameters);
+
+                    return user;
+                }
             }
+
         }
     }
 
