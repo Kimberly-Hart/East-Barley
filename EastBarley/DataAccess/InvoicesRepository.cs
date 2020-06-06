@@ -39,5 +39,51 @@ namespace EastBarley.DataAccess
                 return result;
             }
         }
+
+        public OrderCart CheckForCart(int userId)
+        {
+            var sql = @"select UserId, TotalCost, Status
+                                 from Invoice
+                                 where UserId = @userId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { UserId = userId }
+                var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
+                return result;
+            }
+        }
+
+        public OrderCart StartNewOrder(int userId, decimal totalCost)
+        {
+            var sql = @"insert into Invoice(UserId, TotalCost, Status)
+                                output inserted *
+                                values(@userId, @totalCost, 'InProgress')";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = { UserId = userId, TotalCost = totalCost };
+                var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
+                return result;
+            }
+        }
+
+        public LineItems AddLineItem(int invoiceId, LineItems lineItemToAdd)
+        {
+            var sql = @"insert into LineItems(ProductId, InvoiceId, Price, Quantity)
+                                output inserted *
+                                values(@productId, @invoiceId, @price, @quantity)";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var result = db.QueryFirstOrDefault<LineItems>(sql, lineItemToAdd);
+                return result;
+            }
+        }
+
+        public OrderCart AddToExistingCart(int invoiceId, decimal totalCost)
+        {
+            throw new NotImplementedException();
+        }
     }
 }
