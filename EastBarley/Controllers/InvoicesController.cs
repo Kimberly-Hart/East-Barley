@@ -10,15 +10,19 @@ using Microsoft.AspNetCore.Mvc;
 namespace EastBarley.Controllers
 {
     [Route("api/invoices/")]
+
     [ApiController]
     public class InvoicesController : ControllerBase
     {
         InvoicesRepository _repository;
+        UsersRepository _userRepository;
 
-        public InvoicesController(InvoicesRepository repository)
+        public InvoicesController(InvoicesRepository repository, UsersRepository userRepo)
         {
             _repository = repository;
+            _userRepository = userRepo;
         }
+
         // get all invoices
         [HttpGet]
         public IActionResult GetAllOrders()
@@ -46,7 +50,8 @@ namespace EastBarley.Controllers
             return Ok(invoicesByUserId);
         }
 
-        // get invoices by invoiceId
+        // get single invoice by invoiceId
+
         [HttpGet("invoiceId/{invoiceId}")]
         public IActionResult GetInvoicesByInvoiceId(int invoiceId)
 
@@ -58,6 +63,64 @@ namespace EastBarley.Controllers
                 return NotFound("There are currently no invoices matching this invoice id.");
             }
             return Ok(invoicesByInvoiceId);
+        }
+
+        // get payment types by user
+        [HttpGet("paymentType/{userId}")]
+        public IActionResult GetUserPayTypes(int userId)
+        {
+            var findUser = _userRepository.GetUserById(userId);
+            if (findUser == null)
+            {
+                return NotFound("This user could not be found.");
+            }
+            var PaymentOptions = _repository.GetPaymentTypesByUser(userId);
+            var noSavedPayTypes = !PaymentOptions.Any();
+            if (noSavedPayTypes)
+            {
+                return NotFound("You do not have any saved payment types, please create a new one.");
+            }
+            return Ok(PaymentOptions);
+        }
+
+        [HttpPost("paymentType/add")]
+        public IActionResult GetUserPayTypes(PaymentTypes paymentToAdd)
+        {
+            var newPaymentType = _repository.AddPaymentType(paymentToAdd);
+            if (newPaymentType == null)
+            {
+                return BadRequest("Your payment type could not be added at this time.");
+            }
+            return Created("", newPaymentType);
+        }
+
+        // starts a new invoice at Open Cart status
+        [HttpPost("newCart/{UserId}")]
+        public IActionResult CreateNewOrder(int UserId, LineItems lineItemToAdd)
+        {
+            var findUser = _userRepository.GetUserById(UserId);
+            if (findUser == null)
+            {
+                return NotFound("This user could not be found.");
+            }
+            var hasCart = _repository.CheckForCart(UserId);
+            var totalCost = lineItemToAdd.Price * lineItemToAdd.Quantity;
+            OrderCart cart;
+            if (hasCart != null)
+            {
+                cart = _repository.AddToExistingCart(hasCart.InvoiceId, totalCost);
+            }
+            else
+            {
+                cart = _repository.StartNewOrder(UserId, totalCost);
+            }
+            lineItemToAdd.InvoiceId = cart.InvoiceId;
+            var newLineItem = _repository.AddLineItem(lineItemToAdd);
+            if (newLineItem == null)
+            {
+                return NotFound("There was an error adding this item to your cart. Please try again.");
+            }
+            return Created("", cart);
         }
     }
 }
