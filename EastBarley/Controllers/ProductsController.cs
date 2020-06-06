@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EastBarley.Controllers
 {
-    [Route("api/products)]
+    [Route("api/products")]
     [ApiController]
     public class ProductsController : ControllerBase
     {
