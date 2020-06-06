@@ -9,7 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EastBarley.Controllers
 {
-    [Route("api/invoices")]
+    [Route("api/invoices/")]
+
     [ApiController]
     public class InvoicesController : ControllerBase
     {
@@ -22,6 +23,20 @@ namespace EastBarley.Controllers
             _userRepository = userRepo;
         }
 
+        // get all invoices
+        [HttpGet]
+        public IActionResult GetAllOrders()
+        {
+            var allInvoices = _repository.GetAllInvoices();
+            var noInvoices = !allInvoices.Any();
+            if (noInvoices)
+            {
+                return NotFound("There are currently no invoices.");
+            }
+            return Ok(allInvoices);
+        }
+
+        // get payment types by user
         [HttpGet("paymentType/{userId}")]
         public IActionResult GetUserPayTypes(int userId)
         {

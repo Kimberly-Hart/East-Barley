@@ -17,6 +17,14 @@ namespace EastBarley.DataAccess
             ConnectionString = config.GetConnectionString("EastBarley");
         }
 
+        public IEnumerable<Invoices> GetAllInvoices()
+        {
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                return db.Query<Invoices>("SELECT * FROM Invoice");
+            }
+        }
+
         public IEnumerable<PaymentTypes> GetPaymentTypesByUser(int userId)
         {
             var sql = @"SELECT *
