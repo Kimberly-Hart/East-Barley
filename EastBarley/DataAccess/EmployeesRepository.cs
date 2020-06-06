@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using Microsoft.Extensions.Configuration;
 using EastBarley.Models;
 using Dapper;
+using System.Security.Cryptography.X509Certificates;
 
 namespace EastBarley.DataAccess
 {

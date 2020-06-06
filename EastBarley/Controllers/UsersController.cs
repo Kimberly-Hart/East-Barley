@@ -22,7 +22,7 @@ namespace EastBarley.Controllers
         }
         
     //**Get All Users**
-    [HttpGet("user/all")]
+    [HttpGet("all")]
     public IActionResult GetAllUsers()
         {
             var allUsers = _repository.GetAllUsers();
