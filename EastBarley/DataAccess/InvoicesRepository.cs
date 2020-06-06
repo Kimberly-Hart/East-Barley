@@ -68,5 +68,18 @@ namespace EastBarley.DataAccess
                 return result;
             }
         }
+
+        public PaymentTypes AddPaymentType(PaymentTypes paymentToAdd)
+        {
+            var sql = @"Insert into Payments([UserId], PaymentType, AccountNumber, ExpirationYear, ExpirationMonth, isActive)
+                            output inserted.*
+		                        values(@UserId, @PaymentType, @AccountNumber, @ExpirationYear, @ExpirationMonth, @isActive)";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var result = db.QueryFirstOrDefault<PaymentTypes>(sql, paymentToAdd);
+                return result;
+            }
+        }
     }
 }

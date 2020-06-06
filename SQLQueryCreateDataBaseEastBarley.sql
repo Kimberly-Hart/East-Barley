@@ -61,7 +61,8 @@ create table Payments (
 	[UserId] int not null,
 	PaymentType varchar(100) not null,
 	AccountNumber int not null,
-	ExpirationDate varchar(30) not null,
+	ExpirationYear smallint not null,
+	ExpirationMonth smallint not null,
 	isActive bit not null
 )
 
@@ -141,19 +142,19 @@ Values('Wiles','Nick', '1988-05-10', 'nick.wiles@email.com', '2020-05-19', 1, 1)
 
 SELECT * FROM [Users]
 
-Insert into Payments([UserId], PaymentType, AccountNumber, ExpirationDate, isActive)
-Values(1,'PayPal', 193295189, '08/2022', 1),
-      (1,'MasterCard', 283882910, '03/2023', 1),
-      (2,'Visa', 283882910, '04/2026', 1),
-      (2,'Discover',283882910, '07/2023', 1),
-      (3, 'Apple Pay', 828191029, '06/2025', 1),
-      (3, 'American Expresss', 289039029, '02/2029', 1)
+Insert into Payments([UserId], PaymentType, AccountNumber, ExpirationYear, ExpirationMonth, isActive)
+Values(1,'PayPal', 193295189, 2022, 02, 1),
+      (1,'MasterCard', 283882910, 2023, 03, 1),
+      (2,'Visa', 283882910, 2026, 04, 1),
+      (2,'Discover',283882910, 2023, 07, 1),
+      (3, 'Apple Pay', 828191029, 2025, 05, 1),
+      (3, 'American Expresss', 289039029, 2029, 02, 1)
 
 SELECT * FROM Payments
 
 Insert into OrderStatus([Status])
-Values('Received'),
-      ('Processing'),
+Values('Open Cart'),
+      ('Received'),
       ('Complete'),
 	  ('Shipped')
 
