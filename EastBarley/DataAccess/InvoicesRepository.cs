@@ -42,13 +42,13 @@ namespace EastBarley.DataAccess
 
         public OrderCart CheckForCart(int userId)
         {
-            var sql = @"select UserId, TotalCost, Status
+            var sql = @"select UserId, TotalCost, StatusId
                                  from Invoice
                                  where UserId = @userId";
 
             using (var db = new SqlConnection(ConnectionString))
             {
-                var parameters = new { UserId = userId }
+                var parameters = new { UserId = userId };
                 var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
                 return result;
             }
@@ -56,22 +56,22 @@ namespace EastBarley.DataAccess
 
         public OrderCart StartNewOrder(int userId, decimal totalCost)
         {
-            var sql = @"insert into Invoice(UserId, TotalCost, Status)
-                                output inserted *
-                                values(@userId, @totalCost, 'InProgress')";
+            var sql = @"insert into Invoice(UserId, TotalCost, StatusId)
+                        output inserted.*
+                        values(@userId, @totalCost, 1)";
 
             using (var db = new SqlConnection(ConnectionString))
             {
-                var parameters = { UserId = userId, TotalCost = totalCost };
+                var parameters = new { UserId = userId, TotalCost = totalCost };
                 var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
                 return result;
             }
         }
 
-        public LineItems AddLineItem(int invoiceId, LineItems lineItemToAdd)
+        public LineItems AddLineItem(LineItems lineItemToAdd)
         {
             var sql = @"insert into LineItems(ProductId, InvoiceId, Price, Quantity)
-                                output inserted *
+                                output inserted.*
                                 values(@productId, @invoiceId, @price, @quantity)";
 
             using (var db = new SqlConnection(ConnectionString))
