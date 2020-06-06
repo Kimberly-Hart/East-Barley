@@ -68,6 +68,20 @@ namespace EastBarley.DataAccess
             }
         }
 
+        public IEnumerable<Invoices> GetInvoicesByStatus(int statusId)
+        {
+            var sql = @"SELECT *
+                        FROM Invoice
+                        WHERE StatusId = @statusId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { StatusId = statusId };
+                var result = db.Query<Invoices>(sql, parameters);
+                return result;
+            }
+        }
+
         public IEnumerable<PaymentTypes> GetPaymentTypesByUser(int userId)
         {
             var sql = @"SELECT *
