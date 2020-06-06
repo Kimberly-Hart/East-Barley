@@ -9,7 +9,7 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace EastBarley.Controllers
 {
-    [Route("api/eastbarley")]
+    [Route("api/products)]
     [ApiController]
     public class ProductsController : ControllerBase
     {
@@ -39,7 +39,7 @@ namespace EastBarley.Controllers
             var singleWhiskey = _repository.GetWhiskeyById(productId);
             if (singleWhiskey == null)
             {
-                return NotFound("That product doesn't exist");
+                return NotFound("That whiskey doesn't exist");
             }
             return Ok(singleWhiskey);
         }
