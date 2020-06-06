@@ -31,5 +31,17 @@ namespace EastBarley.Controllers
             }
             return Ok(employees);
         }
+
+        [HttpGet("{salesRepId}")]
+        public IActionResult GetSingleEmployee(int salesRepId)
+
+        {
+            var singleEmployee = _repository.GetASingleEmployee(salesRepId);
+            if (singleEmployee == null)
+            {
+                return NotFound("Employee Does Not Exist.");
+            }
+            return Ok(singleEmployee);
+        }
     }
 }
