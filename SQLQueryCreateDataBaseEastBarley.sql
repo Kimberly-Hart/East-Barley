@@ -60,8 +60,9 @@ create table Payments (
 	PaymentId int not null Identity(1,1) Primary Key,
 	[UserId] int not null,
 	PaymentType varchar(100) not null,
-	AccountNumber int not null,
-	ExpirationDate varchar(30) not null,
+	AccountNumber bigint not null,
+	ExpirationYear smallint not null,
+	ExpirationMonth smallint not null,
 	isActive bit not null
 )
 
@@ -137,23 +138,26 @@ SELECT * FROM Employees
 Insert into [Users](LastName, FirstName, DateOfBirth, Email, DateAccountCreated, isOver21, isAcctActive)
 Values('Wiles','Nick', '1988-05-10', 'nick.wiles@email.com', '2020-05-19', 1, 1),
       ('Miller', 'Morgan', '1990-04-14', 'morgan.miller@email.com', '2019-02-16', 1, 1),
-      ('Jenkins', 'Tyson', '1993-10-10', 'tyson.jenkins@email.com', '2018-09-05', 1, 1)
+      ('Jenkins', 'Tyson', '1993-10-10', 'tyson.jenkins@email.com', '2018-09-05', 1, 1),
+	  ('Wayne','Bruce', '1968-05-10', 'defNotBatman@email.com', '2020-05-19', 1, 1),
+      ('Parker', 'Peter', '2000-04-14', 'amazing@email.com', '2019-02-16', 0, 1),
+      ('Monroe', 'Aurora', '1983-10-10', 'storm@email.com', '2018-09-05', 1, 1)
 
 SELECT * FROM [Users]
 
-Insert into Payments([UserId], PaymentType, AccountNumber, ExpirationDate, isActive)
-Values(1,'PayPal', 193295189, '08/2022', 1),
-      (1,'MasterCard', 283882910, '03/2023', 1),
-      (2,'Visa', 283882910, '04/2026', 1),
-      (2,'Discover',283882910, '07/2023', 1),
-      (3, 'Apple Pay', 828191029, '06/2025', 1),
-      (3, 'American Expresss', 289039029, '02/2029', 1)
+Insert into Payments([UserId], PaymentType, AccountNumber, ExpirationYear, ExpirationMonth, isActive)
+Values(1,'PayPal', 193295189, 2022, 02, 1),
+      (1,'MasterCard', 283882910, 2023, 03, 1),
+      (2,'Visa', 283882910, 2026, 04, 1),
+      (2,'Discover',283882910, 2023, 07, 1),
+      (3, 'Apple Pay', 828191029, 2025, 05, 1),
+      (3, 'American Expresss', 289039029, 2029, 02, 1)
 
 SELECT * FROM Payments
 
 Insert into OrderStatus([Status])
-Values('Received'),
-      ('Processing'),
+Values('Open Cart'),
+      ('Received'),
       ('Complete'),
 	  ('Shipped')
 

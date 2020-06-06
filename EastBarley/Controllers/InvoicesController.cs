@@ -36,6 +36,34 @@ namespace EastBarley.Controllers
             return Ok(allInvoices);
         }
 
+        // get invoices by user
+        [HttpGet("users/{userId}")]
+        public IActionResult GetInvoicesByUserId(int userId)
+
+        {
+            var invoicesByUserId = _repository.GetInvoicesByUserId(userId);
+            var noInvoicesByUserId = !invoicesByUserId.Any();
+            if (noInvoicesByUserId)
+            {
+                return NotFound("There are currently no orders for this user.");
+            }
+            return Ok(invoicesByUserId);
+        }
+
+        // get single invoice by invoiceId
+        [HttpGet("invoiceId/{invoiceId}")]
+        public IActionResult GetInvoicesByInvoiceId(int invoiceId)
+
+        {
+            var invoicesByInvoiceId = _repository.GetInvoicesByInvoiceId(invoiceId);
+            var noInvoicesByInvoiceId = !invoicesByInvoiceId.Any();
+            if (noInvoicesByInvoiceId)
+            {
+                return NotFound("There are currently no invoices matching this invoice id.");
+            }
+            return Ok(invoicesByInvoiceId);
+        }
+
         // get payment types by user
         [HttpGet("paymentType/{userId}")]
         public IActionResult GetUserPayTypes(int userId)
@@ -52,6 +80,17 @@ namespace EastBarley.Controllers
                 return NotFound("You do not have any saved payment types, please create a new one.");
             }
             return Ok(PaymentOptions);
+        }
+
+        [HttpPost("paymentType/add")]
+        public IActionResult GetUserPayTypes(PaymentTypes paymentToAdd)
+        {
+            var newPaymentType = _repository.AddPaymentType(paymentToAdd);
+            if (newPaymentType == null)
+            {
+                return BadRequest("Your payment type could not be added at this time.");
+            }
+            return Created("", newPaymentType);
         }
 
         // starts a new invoice at Open Cart status

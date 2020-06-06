@@ -25,6 +25,35 @@ namespace EastBarley.DataAccess
             }
         }
 
+
+        public IEnumerable<Invoices> GetInvoicesByUserId(int userId)
+        {
+            var sql = @"SELECT *
+                        FROM Invoice
+                        WHERE UserId = @userId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { UserId = userId };
+                var result = db.Query<Invoices>(sql, parameters);
+                return result;
+            }
+        }
+
+        public IEnumerable<Invoices> GetInvoicesByInvoiceId(int invoiceId)
+        {
+            var sql = @"SELECT *
+                        FROM Invoice
+                        WHERE InvoiceId = @invoiceId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { InvoiceId = invoiceId };
+                var result = db.Query<Invoices>(sql, parameters);
+                return result;
+            }
+        }
+
         public IEnumerable<PaymentTypes> GetPaymentTypesByUser(int userId)
         {
             var sql = @"SELECT *
@@ -36,6 +65,19 @@ namespace EastBarley.DataAccess
             {
                 var parameters = new { UserId = userId };
                 var result = db.Query<PaymentTypes>(sql, parameters);
+                return result;
+            }
+        }
+
+        public PaymentTypes AddPaymentType(PaymentTypes paymentToAdd)
+        {
+            var sql = @"Insert into Payments([UserId], PaymentType, AccountNumber, ExpirationYear, ExpirationMonth, isActive)
+                            output inserted.*
+		                        values(@UserId, @PaymentType, @AccountNumber, @ExpirationYear, @ExpirationMonth, @isActive)";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var result = db.QueryFirstOrDefault<PaymentTypes>(sql, paymentToAdd);
                 return result;
             }
         }
@@ -85,5 +127,6 @@ namespace EastBarley.DataAccess
         {
             throw new NotImplementedException();
         }
+
     }
 }

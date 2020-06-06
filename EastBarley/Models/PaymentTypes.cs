@@ -10,8 +10,9 @@ namespace EastBarley.Models
         public int PaymentId { get; set; }
         public int UserId { get; set; }
         public string PaymentType { get; set; }
-        public int AccountNumber { get; set; }
-        public DateTime ExpirationDate { get; set; }
+        public long AccountNumber { get; set; }
+        public int ExpirationYear { get; set; }
+        public int ExpirationMonth { get; set; }
         public bool isActive { get; set; }
     }
 }
