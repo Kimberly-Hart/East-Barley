@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using EastBarley.Models;
 using Dapper;
 
@@ -68,6 +67,38 @@ namespace EastBarley.DataAccess
             {
                 var parameters = new { productId = productId };
                 var result = db.QueryFirstOrDefault<Products>(sql, parameters);
+                return result;
+            }
+        }
+
+        public IEnumerable<ProductBookDetails> GetAllBooks()
+        {
+            var sql = @"SELECT p.*, bd.*
+                            FROM Products p
+                                join BookDetails bd
+                                on p.productId = bd.productId
+                             WHERE p.ProductTypesTableId = 1";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var result = db.Query<ProductBookDetails>(sql);
+                return result;
+            }
+        }
+
+        public ProductBookDetails GetSingleBook(int productId)
+        {
+            var sql = @"SELECT p.*, bd.*
+                            FROM Products p
+                                join BookDetails bd
+                                on p.productId = bd.productId
+                             WHERE p.ProductTypesTableId = 1
+                             AND p.ProductId = @productId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { ProductId = productId };
+                var result = db.QueryFirstOrDefault<ProductBookDetails>(sql, parameters);
                 return result;
             }
         }
