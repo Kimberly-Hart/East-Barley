@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using EastBarley.Models;
 using Dapper;
 
@@ -16,6 +15,21 @@ namespace EastBarley.DataAccess
         public InvoicesRepository(IConfiguration config)
         {
             ConnectionString = config.GetConnectionString("EastBarley");
+        }
+
+        public IEnumerable<PaymentTypes> GetPaymentTypesByUser(int userId)
+        {
+            var sql = @"SELECT *
+                        FROM Payments
+                        WHERE UserId = @userId
+                        AND isActive = 1";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { UserId = userId };
+                var result = db.Query<PaymentTypes>(sql, parameters);
+                return result;
+            }
         }
     }
 }

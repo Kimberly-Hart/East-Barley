@@ -4,7 +4,6 @@ using System.Collections.Generic;
 using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.Extensions.Configuration;
 using EastBarley.Models;
 using Dapper;
 using Microsoft.AspNetCore.Mvc;
