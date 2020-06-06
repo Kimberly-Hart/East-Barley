@@ -60,7 +60,7 @@ create table Payments (
 	PaymentId int not null Identity(1,1) Primary Key,
 	[UserId] int not null,
 	PaymentType varchar(100) not null,
-	AccountNumber int not null,
+	AccountNumber bigint not null,
 	ExpirationYear smallint not null,
 	ExpirationMonth smallint not null,
 	isActive bit not null
@@ -138,7 +138,10 @@ SELECT * FROM Employees
 Insert into [Users](LastName, FirstName, DateOfBirth, Email, DateAccountCreated, isOver21, isAcctActive)
 Values('Wiles','Nick', '1988-05-10', 'nick.wiles@email.com', '2020-05-19', 1, 1),
       ('Miller', 'Morgan', '1990-04-14', 'morgan.miller@email.com', '2019-02-16', 1, 1),
-      ('Jenkins', 'Tyson', '1993-10-10', 'tyson.jenkins@email.com', '2018-09-05', 1, 1)
+      ('Jenkins', 'Tyson', '1993-10-10', 'tyson.jenkins@email.com', '2018-09-05', 1, 1),
+	  ('Wayne','Bruce', '1968-05-10', 'defNotBatman@email.com', '2020-05-19', 1, 1),
+      ('Parker', 'Peter', '2000-04-14', 'amazing@email.com', '2019-02-16', 0, 1),
+      ('Monroe', 'Aurora', '1983-10-10', 'storm@email.com', '2018-09-05', 1, 1)
 
 SELECT * FROM [Users]
 
