@@ -29,12 +29,26 @@ namespace EastBarley.DataAccess
         public IEnumerable<Invoices> GetInvoicesByUserId(int userId)
         {
             var sql = @"SELECT *
-                                FROM Invoice
-                                WHERE UserId = @userId";
+                        FROM Invoice
+                        WHERE UserId = @userId";
 
             using (var db = new SqlConnection(ConnectionString))
             {
                 var parameters = new { UserId = userId };
+                var result = db.Query<Invoices>(sql, parameters);
+                return result;
+            }
+        }
+
+        public IEnumerable<Invoices> GetInvoicesByInvoiceId(int invoiceId)
+        {
+            var sql = @"SELECT *
+                        FROM Invoice
+                        WHERE InvoiceId = @invoiceId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { InvoiceId = invoiceId };
                 var result = db.Query<Invoices>(sql, parameters);
                 return result;
             }

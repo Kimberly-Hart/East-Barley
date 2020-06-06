@@ -50,6 +50,20 @@ namespace EastBarley.Controllers
             return Ok(invoicesByUserId);
         }
 
+        // get single invoice by invoiceId
+        [HttpGet("invoiceId/{invoiceId}")]
+        public IActionResult GetInvoicesByInvoiceId(int invoiceId)
+
+        {
+            var invoicesByInvoiceId = _repository.GetInvoicesByInvoiceId(invoiceId);
+            var noInvoicesByInvoiceId = !invoicesByInvoiceId.Any();
+            if (noInvoicesByInvoiceId)
+            {
+                return NotFound("There are currently no invoices matching this invoice id.");
+            }
+            return Ok(invoicesByInvoiceId);
+        }
+
         // get payment types by user
         [HttpGet("paymentType/{userId}")]
         public IActionResult GetUserPayTypes(int userId)
