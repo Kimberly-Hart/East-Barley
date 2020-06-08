@@ -43,8 +43,6 @@ namespace EastBarley.Controllers
             if (user == null) return NotFound("User Does Not Exist");
             return Ok(user);
         }
-<<<<<<< HEAD
-=======
 
         //// Get User By email for the following method
         //public IActionResult GetUserByEmail(string email)
@@ -69,6 +67,5 @@ namespace EastBarley.Controllers
                 return Problem("An account with this email already exists.");
             }
         }
->>>>>>> master
     }
 }
