@@ -43,7 +43,5 @@ namespace EastBarley.Controllers
             if (user == null) return NotFound("User Does Not Exist");
             return Ok(user);
         }
-
-
     }
 }

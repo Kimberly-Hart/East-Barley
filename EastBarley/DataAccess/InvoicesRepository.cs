@@ -82,6 +82,20 @@ namespace EastBarley.DataAccess
             }
         }
 
+        public string DeactivatePaymentMethod(int paymentId)
+        {
+            var sql = @"Update Payments
+                            set isActive = 0
+		                        where Payments.PaymentId = @paymentId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { paymentId = paymentId };
+                db.Execute(sql, parameters);
+                return "The payment has been deleted.";
+            }
+        }
+
         public OrderCart CheckForCart(int userId)
         {
             var sql = @"select UserId, TotalCost, StatusId
