@@ -43,5 +43,32 @@ namespace EastBarley.Controllers
             if (user == null) return NotFound("User Does Not Exist");
             return Ok(user);
         }
+<<<<<<< HEAD
+=======
+
+        //// Get User By email for the following method
+        //public IActionResult GetUserByEmail(string email)
+        //{
+        //    var user = _repository.GetUserByEmail(email);
+        //    if (user == null) return NotFound("User Does Not Exist. Consider making an account.");
+        //    return Ok(user);
+        //}
+
+        // create/update a new/existing user
+        [HttpPost]
+        public IActionResult CreateNewUser(Users userToAdd)
+        {
+            var existingUser = _repository.GetUserByEmail(userToAdd.Email);
+            if (existingUser == null)
+            {
+                var newUser = _repository.CreateNewUser(userToAdd);
+                return Ok(newUser);
+            }
+            else
+            {
+                return Problem("An account with this email already exists.");
+            }
+        }
+>>>>>>> master
     }
 }
