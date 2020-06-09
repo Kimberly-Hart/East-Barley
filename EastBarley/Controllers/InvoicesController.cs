@@ -107,6 +107,17 @@ namespace EastBarley.Controllers
             return Created("", newPaymentType);
         }
 
+        [HttpPut("PaymentType/delete/{paymentId}")]
+        public IActionResult DeactivatePaymentMethod(int paymentId)
+        {
+            var paymentToDelete = _repository.DeactivatePaymentMethod(paymentId);
+            if (paymentToDelete == 0)
+            {
+                return NotFound("There is no payment method matching this query.");
+            }
+            return Ok("The payment has been deleted");
+        }
+
         // starts a new invoice at Open Cart status
         [HttpPost("newCart/{UserId}")]
         public IActionResult CreateNewOrder(int UserId, LineItems lineItemToAdd)
