@@ -102,24 +102,25 @@ namespace EastBarley.DataAccess
                 return result;
             }
         }
-        public Products UpdateProduct(Product product)
+        public Products UpdateProduct(Products product)
         {
-            var sql = @"update Quantity
+            var sql = @"update Products
                       set Quantity = @NewQuantity
                       output inserted.*
-                       where Id = @id";
+                       where Id = @Id";
 
             using (var db = new SqlConnection(ConnectionString))
-            { 
-                var parameters = new 
-            }
+            {
+                var parameters = new
                 {
-                    NewQuantity = product.id,
+                    NewQuantity = product.Quantity,
+                    Id = product.Quantity
                 };
-
-            return db.QueryFirstOrDefault<Play>(sql, parameters);
+                return db.QueryFirstOrDefault<Products>(sql, parameters);
+            }
         }
     }
+
 }
    
 
