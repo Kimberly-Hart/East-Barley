@@ -72,6 +72,24 @@ namespace EastBarley.DataAccess
                 return user;
             }
         }
+
+         public bool DeactivateUser(int userId)
+            {
+                var sql = @"UPDATE Users
+                            SET isAcctActive = 0
+                                WHERE UserId = @UserId";
+                         
+                using (var db = new SqlConnection(ConnectionString))
+                {
+                    var parameters = new { UserId = userId  };
+
+                    var userToDeactivateId = db.Execute(sql, parameters);
+
+                    return userToDeactivateId == 1;
+                }
+            }
+        }
     }
-}
+
+
 
