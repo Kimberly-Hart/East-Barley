@@ -78,6 +78,20 @@ namespace EastBarley.Controllers
             return Ok(invoicesByBillingState);
         }
 
+        // get invoices by billing status id
+        [HttpGet("status/{statusId}")]
+        public IActionResult GetInvoicesByStatus(int statusId)
+
+        {
+            var invoicesByStatus = _repository.GetInvoicesByStatus(statusId);
+            var noInvoicesByStatus = !invoicesByStatus.Any();
+            if (noInvoicesByStatus)
+            {
+                return NotFound("There are currently no invoices with this status.");
+            }
+            return Ok(invoicesByStatus);
+        }
+
         // get payment types by user
         [HttpGet("paymentType/{userId}")]
         public IActionResult GetUserPayTypes(int userId)
