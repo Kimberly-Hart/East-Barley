@@ -92,7 +92,7 @@ namespace EastBarley.Controllers
             return Ok(singleBook);
         }
 
-        [HttpPut]
+        [HttpPut("inventory")]
         public IActionResult UpdateProductQty(ProductQuantityUpdate products)
         {
             var updatedProductQty = _repository.UpdateProductQuantity(products);

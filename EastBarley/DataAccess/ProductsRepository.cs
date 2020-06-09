@@ -105,7 +105,7 @@ namespace EastBarley.DataAccess
         public Products UpdateProductQuantity(ProductQuantityUpdate product)
         {
             var sql = @"update Products
-                      set Quantity = @NewQuantity
+                      set Quantity = Quantity + @NewQuantity
                       output inserted.*
                       where ProductId = @ProductId";
 
