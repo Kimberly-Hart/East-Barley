@@ -51,8 +51,7 @@ namespace EastBarley.Controllers
         }
 
         // get single invoice by invoiceId
-
-        [HttpGet("invoiceId/{invoiceId}")]
+        [HttpGet("invoiceid/{invoiceId}")]
         public IActionResult GetInvoicesByInvoiceId(int invoiceId)
 
         {
@@ -63,6 +62,20 @@ namespace EastBarley.Controllers
                 return NotFound("There are currently no invoices matching this invoice id.");
             }
             return Ok(invoicesByInvoiceId);
+        }
+
+        // get invoices by billing state
+        [HttpGet("state/{billingState}")]
+        public IActionResult GetInvoicesByStateAbbr(string billingState)
+
+        {
+            var invoicesByBillingState = _repository.GetInvoicesByStateAbbr(billingState);
+            var noInvoicesByBillingState = !invoicesByBillingState.Any();
+            if (noInvoicesByBillingState)
+            {
+                return NotFound("There are currently no invoices for this state.");
+            }
+            return Ok(invoicesByBillingState);
         }
 
         // get payment types by user
