@@ -82,7 +82,7 @@ namespace EastBarley.DataAccess
             }
         }
 
-        public string DeactivatePaymentMethod(int paymentId)
+        public int DeactivatePaymentMethod(int paymentId)
         {
             var sql = @"Update Payments
                             set isActive = 0
@@ -91,8 +91,8 @@ namespace EastBarley.DataAccess
             using (var db = new SqlConnection(ConnectionString))
             {
                 var parameters = new { paymentId = paymentId };
-                db.Execute(sql, parameters);
-                return "The payment has been deleted.";
+                var result = db.Execute(sql, parameters);
+                return result;
             }
         }
 

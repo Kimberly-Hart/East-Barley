@@ -98,11 +98,11 @@ namespace EastBarley.Controllers
         public IActionResult DeactivatePaymentMethod(int paymentId)
         {
             var paymentToDelete = _repository.DeactivatePaymentMethod(paymentId);
-            if (paymentToDelete == null)
+            if (paymentToDelete == 0)
             {
                 return NotFound("There is no payment method matching this query.");
             }
-            return Ok(paymentToDelete);
+            return Ok("The payment has been deleted");
         }
 
         // starts a new invoice at Open Cart status
