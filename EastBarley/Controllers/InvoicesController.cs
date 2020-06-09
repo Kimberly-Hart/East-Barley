@@ -183,7 +183,7 @@ namespace EastBarley.Controllers
             {
                 return Problem("There was in issue completing your order. Please try again.");
             }
-            return Ok("Your order has been completed!");
+            return Ok("Your order has been received! We will process your order and email you shortly with shipping information.");
         }
     }
 }

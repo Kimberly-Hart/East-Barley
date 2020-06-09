@@ -202,6 +202,7 @@ namespace EastBarley.DataAccess
             {
                 var parameters = new
                 {
+                    InvoiceId = invoiceToComplete.InvoiceId,
                     PaymentId = invoiceToComplete.PaymentId,
                     InvoiceDate = invoiceToComplete.InvoiceDate,
                     BillingAddress = invoiceToComplete.BillingAddress,
@@ -209,8 +210,7 @@ namespace EastBarley.DataAccess
                     BillingState = invoiceToComplete.BillingState,
                     BillingZip = invoiceToComplete.BillingZip,
                     SalesRepId = invoiceToComplete.SalesRepId,
-                    StatusId = invoiceToComplete.StatusId,
-                    InvoiceId = invoiceToComplete.InvoiceId
+                    StatusId = invoiceToComplete.StatusId
                 };
                 var result = db.Execute(sql, parameters);
                 return result;
