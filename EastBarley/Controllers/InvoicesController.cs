@@ -137,12 +137,12 @@ namespace EastBarley.Controllers
         [HttpPut("cart/purchase")]
         public IActionResult CompleteOrder(Invoices invoiceToComplete)
         {
-            var completedInvoice = CompleteOrder(invoiceToComplete);
-            if (completedInvoice == null)
+            var completedInvoice = _repository.CompleteOrder(invoiceToComplete);
+            if (completedInvoice == 0)
             {
-                return Problem("There was in issue completing your order");
+                return Problem("There was in issue completing your order. Please try again.");
             }
-            return Ok($"Your order has been completed!");
+            return Ok("Your order has been completed!");
         }
     }
 }

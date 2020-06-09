@@ -153,7 +153,8 @@ namespace EastBarley.DataAccess
 	                        ,BillingState = @BillingState
 	                        ,SalesRepId = @SalesRepId
 	                        ,StatusId = @StatusId
-                              WHERE Invoice.InvoiceId = @InvoiceId";
+                              WHERE Invoice.InvoiceId = @InvoiceId
+                              AND Invoice.StatusId = 1";
 
             using (var db = new SqlConnection(ConnectionString))
             {
