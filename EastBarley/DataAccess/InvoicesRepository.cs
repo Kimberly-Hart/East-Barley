@@ -181,7 +181,16 @@ namespace EastBarley.DataAccess
 
         public OrderCart AddToExistingCart(int invoiceId, decimal totalCost)
         {
-            throw new NotImplementedException();
+            var sql = @"SELECT *
+                        FROM Invoice
+                        WHERE Invoice.InvoiceId = @invoiceId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { BillingState = billingState };
+                var result = db.QueryFirstOrDefault<Invoices>(sql, parameters);
+                return result;
+            }
         }
 
     }
