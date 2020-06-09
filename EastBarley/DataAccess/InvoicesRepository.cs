@@ -54,6 +54,48 @@ namespace EastBarley.DataAccess
             }
         }
 
+        public IEnumerable<Invoices> GetInvoicesByStateAbbr(string billingState)
+        {
+            var sql = @"SELECT *
+                        FROM Invoice
+                        WHERE BillingState = @billingState";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { BillingState = billingState };
+                var result = db.Query<Invoices>(sql, parameters);
+                return result;
+            }
+        }
+
+        public IEnumerable<Invoices> GetInvoicesByStatus(int statusId)
+        {
+            var sql = @"SELECT *
+                        FROM Invoice
+                        WHERE StatusId = @statusId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { StatusId = statusId };
+                var result = db.Query<Invoices>(sql, parameters);
+                return result;
+            }
+        }
+
+        public IEnumerable<Invoices> GetInvoicesBySalesRepId(int salesRepId)
+        {
+            var sql = @"SELECT *
+                        FROM Invoice
+                        WHERE SalesRepId = @salesRepId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { SalesRepId = salesRepId };
+                var result = db.Query<Invoices>(sql, parameters);
+                return result;
+            }
+        }
+
         public IEnumerable<PaymentTypes> GetPaymentTypesByUser(int userId)
         {
             var sql = @"SELECT *

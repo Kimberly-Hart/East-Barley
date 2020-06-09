@@ -91,6 +91,7 @@ alter table BookDetails add foreign key (ProductId) references Products(ProductI
 alter table LineItems add foreign key (ProductId) references Products(ProductId)
 
 alter table LineItems add foreign key (InvoiceId) references Invoice(InvoiceId)
+
 alter table Invoice add foreign key (SalesRepId) references Employees(SalesRepId)
 
 alter table Invoice add foreign key (UserId) references Users(UserId)
@@ -131,7 +132,8 @@ JOIN Products ON Products.ProductId = BookDetails.ProductId
 Insert into Employees(LastName, FirstName, Title, HireDate, Email)
 Values('Smith','Jay', 'BookKeeper', '2020-04-10', 'jay.smith@eastbarley.com'),
       ('Delk', 'Ryan', 'Asst. Manager', '2020-03-15', 'ryan.delk@eastbarley.com'),
-      ('Jones', 'Megan', 'Manager', '2020-02-20', 'megan.jones@eastbarley.com')
+      ('Jones', 'Megan', 'Manager', '2020-02-20', 'megan.jones@eastbarley.com'),
+	  ('Bot', 'Online', 'OnlineBot', '2019-01-01', 'East&Barley@eastbarley.com')
 
 SELECT * FROM Employees
 

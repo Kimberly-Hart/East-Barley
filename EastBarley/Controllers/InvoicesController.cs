@@ -51,8 +51,7 @@ namespace EastBarley.Controllers
         }
 
         // get single invoice by invoiceId
-
-        [HttpGet("invoiceId/{invoiceId}")]
+        [HttpGet("invoiceid/{invoiceId}")]
         public IActionResult GetInvoicesByInvoiceId(int invoiceId)
 
         {
@@ -63,6 +62,48 @@ namespace EastBarley.Controllers
                 return NotFound("There are currently no invoices matching this invoice id.");
             }
             return Ok(invoicesByInvoiceId);
+        }
+
+        // get invoices by billing state
+        [HttpGet("state/{billingState}")]
+        public IActionResult GetInvoicesByStateAbbr(string billingState)
+
+        {
+            var invoicesByBillingState = _repository.GetInvoicesByStateAbbr(billingState);
+            var noInvoicesByBillingState = !invoicesByBillingState.Any();
+            if (noInvoicesByBillingState)
+            {
+                return NotFound("There are currently no invoices for this state.");
+            }
+            return Ok(invoicesByBillingState);
+        }
+
+        // get invoices by billing status id
+        [HttpGet("status/{statusId}")]
+        public IActionResult GetInvoicesByStatus(int statusId)
+
+        {
+            var invoicesByStatus = _repository.GetInvoicesByStatus(statusId);
+            var noInvoicesByStatus = !invoicesByStatus.Any();
+            if (noInvoicesByStatus)
+            {
+                return NotFound("There are currently no invoices with this status.");
+            }
+            return Ok(invoicesByStatus);
+        }
+
+        // get invoices by sales rep id
+        [HttpGet("salesrep/{salesRepId}")]
+        public IActionResult GetInvoicesBySalesRepId(int salesRepId)
+
+        {
+            var invoicesBySalesRep = _repository.GetInvoicesBySalesRepId(salesRepId);
+            var noInvoicesBySalesRep = !invoicesBySalesRep.Any();
+            if (noInvoicesBySalesRep)
+            {
+                return NotFound("There are currently no invoices for this sales rep.");
+            }
+            return Ok(invoicesBySalesRep);
         }
 
         // get payment types by user
