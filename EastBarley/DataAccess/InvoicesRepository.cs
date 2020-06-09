@@ -179,19 +179,79 @@ namespace EastBarley.DataAccess
             }
         }
 
+        public OrderCart OpenCart(int userId, int statusId)
+        {
+            var sql = @"SELECT *
+                        FROM Invoice
+                        WHERE UserId = @userId
+                        AND StatusId = @statusId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { UserId = userId, StatusId = statusId };
+                var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
+                return result;
+            }
+        }
+
         public OrderCart AddToExistingCart(int invoiceId, decimal totalCost)
         {
             var sql = @"SELECT *
+                        SET TotalCost = TotalCost + @totalCost
                         FROM Invoice
                         WHERE Invoice.InvoiceId = @invoiceId";
 
             using (var db = new SqlConnection(ConnectionString))
             {
-                var parameters = new { BillingState = billingState };
-                var result = db.QueryFirstOrDefault<Invoices>(sql, parameters);
+                var parameters = new { InvoiceId = invoiceId, TotalCost = totalCost };
+                var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
                 return result;
             }
         }
+
+        public LineItems ChangeLineItemQty(LineItems changedLineItem)
+        {
+            var sql = @"SELECT *
+                        SET Quantity = Quantity + @changedLineItem
+                        FROM LineItems
+                        WHERE LineItemId = @changedLineItem.LineItemId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { ChangedLineItem = changedLineItem };
+                var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
+                return result;
+            }
+        }
+
+        public OrderCart DeleteCart(int invoiceId)
+        {
+            var sql = @"DELETE FROM Invoices
+                        WHERE Invoice.InvoiceId = @invoiceId
+                        AND status = 1";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { InvoiceId = invoiceId };
+                var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
+                return result;
+            }
+        }
+
+        public LineItems DeleteLineItem(int lineItemId)
+        {
+            var sql = @"DELETE FROM LineItem
+                        WHERE LineItem.LineItemId = @lineItemId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { LineItemId = lineItemId};
+                var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
+                return result;
+            }
+        }
+
+
 
     }
 }

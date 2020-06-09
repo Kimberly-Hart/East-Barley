@@ -174,5 +174,26 @@ namespace EastBarley.Controllers
             }
             return Created("", cart);
         }
+
+        [HttpPut("updatedcart/")]
+        public IActionResult UpdateCart(int userId, int statusId, int invoiceId, LineItems changedLineItem)
+        {
+            var openCart = _repository.OpenCart(userId, statusId);
+            if (openCart == null)
+            {
+                return NotFound("This user does not have any open carts.");
+            }
+            else if (openCart != null && openCart.InvoiceId == invoiceId && openCart.StatusId == statusId)
+            {
+
+            }
+
+            //var cart = _repository.ChangeLineItemQty(changedLineItem);
+            //if (cart == null)
+            //{
+            //    return NotFound("There are no items left in your cart. Add something!");
+            //}
+            //return Ok(cart);
+        }
     }
 }
