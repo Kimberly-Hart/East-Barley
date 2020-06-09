@@ -142,5 +142,37 @@ namespace EastBarley.DataAccess
             throw new NotImplementedException();
         }
 
+        public int CompleteOrder(Invoices invoiceToComplete)
+        {
+            var sql = @"UPDATE Invoice
+                         Set PaymentId = @PaymentId
+                            ,InvoiceDate = @InvoiceDate
+	                        ,BillingAddress = @BillingAddress
+	                        ,BillingCity = @BillingCity
+	                        ,BillingZip = @BillingZip
+	                        ,BillingState = @BillingState
+	                        ,SalesRepId = @SalesRepId
+	                        ,StatusId = @StatusId
+                              WHERE Invoice.InvoiceId = @InvoiceId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new
+                {
+                    PaymentId = invoiceToComplete.PaymentId,
+                    InvoiceDate = invoiceToComplete.InvoiceDate,
+                    BillingAddress = invoiceToComplete.BillingAddress,
+                    BillingCity = invoiceToComplete.BillingCity,
+                    BillingState = invoiceToComplete.BillingState,
+                    BillingZip = invoiceToComplete.BillingZip,
+                    SalesRepId = invoiceToComplete.SalesRepId,
+                    StatusId = invoiceToComplete.StatusId,
+                    InvoiceId = invoiceToComplete.InvoiceId
+                };
+                var result = db.Execute(sql, parameters);
+                return result;
+            }
+        }
+
     }
 }

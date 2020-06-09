@@ -133,5 +133,16 @@ namespace EastBarley.Controllers
             }
             return Created("", cart);
         }
+
+        [HttpPut("cart/purchase")]
+        public IActionResult CompleteOrder(Invoices invoiceToComplete)
+        {
+            var completedInvoice = CompleteOrder(invoiceToComplete);
+            if (completedInvoice == null)
+            {
+                return Problem("There was in issue completing your order");
+            }
+            return Ok($"Your order has been completed!");
+        }
     }
 }
