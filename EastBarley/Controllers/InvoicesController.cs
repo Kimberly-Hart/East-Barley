@@ -92,6 +92,20 @@ namespace EastBarley.Controllers
             return Ok(invoicesByStatus);
         }
 
+        // get invoices by sales rep id
+        [HttpGet("salesrep/{salesRepId}")]
+        public IActionResult GetInvoicesBySalesRepId(int salesRepId)
+
+        {
+            var invoicesBySalesRep = _repository.GetInvoicesBySalesRepId(salesRepId);
+            var noInvoicesBySalesRep = !invoicesBySalesRep.Any();
+            if (noInvoicesBySalesRep)
+            {
+                return NotFound("There are currently no invoices for this sales rep.");
+            }
+            return Ok(invoicesBySalesRep);
+        }
+
         // get payment types by user
         [HttpGet("paymentType/{userId}")]
         public IActionResult GetUserPayTypes(int userId)
