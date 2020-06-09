@@ -93,9 +93,9 @@ namespace EastBarley.Controllers
         }
 
         [HttpPut]
-        public IActionResult UpdateProductQty(Products products)
+        public IActionResult UpdateProductQty(ProductQuantityUpdate products)
         {
-            var updatedProductQty = _repository.UpdateProduct(products);
+            var updatedProductQty = _repository.UpdateProductQuantity(products);
             return Ok(updatedProductQty);
         }
     }
