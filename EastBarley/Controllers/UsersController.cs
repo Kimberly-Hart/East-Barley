@@ -50,7 +50,7 @@ namespace EastBarley.Controllers
         //    var user = _repository.GetUserByEmail(email);
         //    if (user == null) return NotFound("User Does Not Exist. Consider making an account.");
         //    return Ok(user);
-        //}
+        //}s
 
         // create/update a new/existing user
         [HttpPost]
@@ -64,7 +64,7 @@ namespace EastBarley.Controllers
             }
             else
             {
-                return Problem("An account with this email already exists.");
+                return Problem("An account with this email already exists. Try resetting your password.");
             }
         }
     }

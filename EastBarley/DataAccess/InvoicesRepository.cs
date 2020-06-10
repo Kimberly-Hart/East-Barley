@@ -179,7 +179,7 @@ namespace EastBarley.DataAccess
             }
         }
 
-        public OrderCart OpenCart(int userId, int statusId)
+        public OrderCart FindOpenCart(int userId, int statusId)
         {
             var sql = @"SELECT *
                         FROM Invoice
@@ -209,16 +209,31 @@ namespace EastBarley.DataAccess
             }
         }
 
-        public LineItems ChangeLineItemQty(LineItems changedLineItem)
+        public LineItems ChangeLineItemQty(int newQuantity, int lineItemId)
         {
-            var sql = @"SELECT *
-                        SET Quantity = Quantity + @changedLineItem
-                        FROM LineItems
-                        WHERE LineItemId = @changedLineItem.LineItemId";
+            var sql = @"UPDATE LineItems
+                        output inserted .*
+                        SET Quantity = Quantity + @NewQuantity
+                        WHERE LineItemId = @LineItemId";
 
             using (var db = new SqlConnection(ConnectionString))
             {
-                var parameters = new { ChangedLineItem = changedLineItem };
+                var parameters = new { NewQuantity = newQuantity, LineItemId = lineItemId };
+                var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
+
+                return result;
+            }
+        }
+
+        public LineItems GetLineItem(int invoiceId)
+        {
+            var sql = @"SELECT *
+                        FROM LineItems
+                        WHERE LineItems.InvoiceId = @invoiceId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { InvoiceId = invoiceId };
                 var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
                 return result;
             }
@@ -245,13 +260,10 @@ namespace EastBarley.DataAccess
 
             using (var db = new SqlConnection(ConnectionString))
             {
-                var parameters = new { LineItemId = lineItemId};
+                var parameters = new { LineItemId = lineItemId };
                 var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
                 return result;
             }
         }
-
-
-
     }
 }
