@@ -67,5 +67,19 @@ namespace EastBarley.Controllers
                 return Problem("An account with this email already exists.");
             }
         }
+
+    [HttpDelete("{userId}")]
+    public IActionResult DeactivateAUser(int userId)
+        {
+            var didItWork = _repository.DeactivateUser(userId);
+            if (didItWork)
+            {
+                return Ok(userId);
+            }
+            else
+            {
+                return Problem("No user was found to deactivate");
+            }
+        }
     }
 }
