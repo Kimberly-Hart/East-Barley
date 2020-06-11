@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using EastBarley.Models;
+using EastBarley.DataAccess;
 using Dapper;
 
 namespace EastBarley.DataAccess
@@ -184,7 +185,7 @@ namespace EastBarley.DataAccess
             throw new NotImplementedException();
         }
 
-        public int CompleteOrder(Invoices invoiceToComplete)
+        public IEnumerable<FinishOrder> CompleteOrder(Invoices invoiceToComplete)
         {
             var sql = @"UPDATE Invoice
                          Set PaymentId = @PaymentId
@@ -200,19 +201,28 @@ namespace EastBarley.DataAccess
 
             using (var db = new SqlConnection(ConnectionString))
             {
+                var result = db.Query<FinishOrder>(sql, invoiceToComplete);
+                return result;
+            }
+        }
+
+        public List<ProductQuantityUpdate> GetQuantityToDelete(int InvoiceId)
+        {
+            var sql = @"select LineItems.quantity, LineItems.ProductId
+                        from LineItems	
+	                        join Invoice	
+		                        on LineItems.InvoiceId = Invoice.InvoiceId
+			                        where Invoice.InvoiceId = @InvoiceId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
                 var parameters = new
                 {
-                    InvoiceId = invoiceToComplete.InvoiceId,
-                    PaymentId = invoiceToComplete.PaymentId,
-                    InvoiceDate = invoiceToComplete.InvoiceDate,
-                    BillingAddress = invoiceToComplete.BillingAddress,
-                    BillingCity = invoiceToComplete.BillingCity,
-                    BillingState = invoiceToComplete.BillingState,
-                    BillingZip = invoiceToComplete.BillingZip,
-                    SalesRepId = invoiceToComplete.SalesRepId,
-                    StatusId = invoiceToComplete.StatusId
+                    InvoiceId = InvoiceId,
                 };
-                var result = db.Execute(sql, parameters);
+
+                var result = db.Query<ProductQuantityUpdate>(sql, parameters).ToList();
+
                 return result;
             }
         }

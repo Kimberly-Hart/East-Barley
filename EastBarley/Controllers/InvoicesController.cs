@@ -16,11 +16,13 @@ namespace EastBarley.Controllers
     {
         InvoicesRepository _repository;
         UsersRepository _userRepository;
+        ProductsRepository _productsRepository;
 
-        public InvoicesController(InvoicesRepository repository, UsersRepository userRepo)
+        public InvoicesController(InvoicesRepository repository, UsersRepository userRepo, ProductsRepository productsRepository)
         {
             _repository = repository;
             _userRepository = userRepo;
+            _productsRepository = productsRepository;
         }
 
         // get all invoices
@@ -179,7 +181,12 @@ namespace EastBarley.Controllers
         public IActionResult CompleteOrder(Invoices invoiceToComplete)
         {
             var completedInvoice = _repository.CompleteOrder(invoiceToComplete);
-            if (completedInvoice == 0)
+            var deleteQuantity = _repository.GetQuantityToDelete(invoiceToComplete.InvoiceId);
+            foreach (var item in deleteQuantity)
+            {
+            _productsRepository.UpdateProductQuantity(item);
+            }
+            if (completedInvoice == null)
             {
                 return Problem("There was in issue completing your order. Please try again.");
             }
