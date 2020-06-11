@@ -189,8 +189,10 @@ namespace EastBarley.Controllers
             if (completedInvoice == null)
             {
                 return Problem("There was in issue completing your order. Please try again.");
+            } else
+            {
+                return Ok(completedInvoice);
             }
-            return Ok("Your order has been received! We will process your order and email you shortly with shipping information.");
         }
     }
 }

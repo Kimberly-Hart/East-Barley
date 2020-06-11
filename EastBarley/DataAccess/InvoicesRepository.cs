@@ -185,7 +185,7 @@ namespace EastBarley.DataAccess
             throw new NotImplementedException();
         }
 
-        public IEnumerable<FinishOrder> CompleteOrder(Invoices invoiceToComplete)
+        public List<Invoices> CompleteOrder(Invoices invoiceToComplete)
         {
             var sql = @"UPDATE Invoice
                          Set PaymentId = @PaymentId
@@ -196,12 +196,13 @@ namespace EastBarley.DataAccess
 	                        ,BillingState = @BillingState
 	                        ,SalesRepId = @SalesRepId
 	                        ,StatusId = @StatusId
-                              WHERE Invoice.InvoiceId = @InvoiceId
-                              AND Invoice.StatusId = 1";
+                                output inserted.*	
+                                    WHERE Invoice.InvoiceId = @InvoiceId
+                                    AND Invoice.StatusId = 1";
 
             using (var db = new SqlConnection(ConnectionString))
             {
-                var result = db.Query<FinishOrder>(sql, invoiceToComplete);
+                var result = db.Query<Invoices>(sql, invoiceToComplete).ToList();
                 return result;
             }
         }
