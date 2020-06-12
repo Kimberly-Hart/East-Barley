@@ -163,6 +163,10 @@ Values('Open Cart'),
       ('Complete'),
 	  ('Shipped')
 
+update Invoice
+set statusId = 1
+where InvoiceId = 3
+
 SELECT * FROM OrderStatus
 
 Insert into Invoice([UserId], TotalCost, PaymentId, InvoiceDate, BillingAddress, BillingCity, BillingZip, BillingState, StatusId, SalesRepId)
@@ -173,6 +177,14 @@ Values(1, 30, 1, '2020-06-19', '159 Snake Street', 'Cleveland', 44101, 'OH', 1, 
       (2, 15, 3, '2020-06-15', '939 Bridge Way', 'Johnson City', 37601, 'TN', 2, 1) -- book
 
 SELECT * FROM Invoice
+
+select *
+from LineItems	
+	join Invoice	
+		on LineItems.InvoiceId = Invoice.InvoiceId
+			where Invoice.InvoiceId = 3
+
+SELECT * FROM Products
 
 Insert into LineItems(ProductId, InvoiceId, Price, Quantity)
 Values(5, 1, 30, 1),

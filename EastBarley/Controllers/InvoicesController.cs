@@ -184,7 +184,8 @@ namespace EastBarley.Controllers
             var deleteQuantity = _repository.GetQuantityToDelete(invoiceToComplete.InvoiceId);
             foreach (var item in deleteQuantity)
             {
-            _productsRepository.UpdateProductQuantity(item);
+                item.Quantity = item.Quantity * -1;
+                _productsRepository.UpdateProductQuantity(item);
             }
             if (completedInvoice == null)
             {
