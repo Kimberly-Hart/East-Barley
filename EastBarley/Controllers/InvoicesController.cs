@@ -182,8 +182,8 @@ namespace EastBarley.Controllers
             bool cartDoesExist = openCart != null;
             if (!cartDoesExist)
             {
-                //return NotFound("This user does not have any open carts.");
-                //openCart = _repository.StartNewOrder(userId, totalCost);
+                // if no cart, then start one
+                openCart = _repository.StartNewOrder(userId, totalCost);
             }
             else if (cartDoesExist)
             {
@@ -196,8 +196,8 @@ namespace EastBarley.Controllers
                 }
                 else if (changedLineItem.Quantity <= 0)
                 {
-                    //// if line item quantity is zero then delete the line item
-                    //openCart = _repository.DeleteLineItem(lineItemId);
+                    // if line item quantity is zero then delete the line item
+                    openCart = _repository.DeleteLineItem(lineItemId);
                 }
                 else
                 {
@@ -206,24 +206,6 @@ namespace EastBarley.Controllers
                     openCart.TotalCost += updatedLineItem.Quantity * updatedLineItem.Price;
                 }
             }
-            //openCart = _repository.AddToExistingCart(changedLineItem.InvoiceId, newCost);
-            //else if (openCart != null && openCart.TotalCost <= 0)
-            //{
-            //    openCart = _repository.DeleteCart(invoiceId);
-            //}
-            //else if (cartDoesExist && changedLineItem.Quantity <= 0)
-            //{
-            //}
-            //else if (changedLineItem.Quantity != 0)
-            //{
-            //    openCart = _repository.ChangeLineItemQty(changedLineItem)
-            //}
-            //var cart = _repository.ChangeLineItemQty(changedLineItem);
-            //if (cart == null)
-            //{
-            //    return NotFound("There are no items left in your cart. Add something!");
-            //}
-            //return Ok(cart);
             return Ok(openCart);
         }
     }
