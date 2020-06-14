@@ -187,7 +187,8 @@ namespace EastBarley.Controllers
                 item.Quantity = item.Quantity * -1;
                 _productsRepository.UpdateProductQuantity(item);
             }
-            if (completedInvoice == null)
+            var noInvoice = !completedInvoice.Any();
+            if (noInvoice)
             {
                 return Problem("There was in issue completing your order. Please try again.");
             } else
