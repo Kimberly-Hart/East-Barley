@@ -16,11 +16,13 @@ namespace EastBarley.Controllers
     {
         InvoicesRepository _repository;
         UsersRepository _userRepository;
+        ProductsRepository _productsRepository;
 
-        public InvoicesController(InvoicesRepository repository, UsersRepository userRepo)
+        public InvoicesController(InvoicesRepository repository, UsersRepository userRepo, ProductsRepository productsRepository)
         {
             _repository = repository;
             _userRepository = userRepo;
+            _productsRepository = productsRepository;
         }
 
         // get all invoices
@@ -173,6 +175,26 @@ namespace EastBarley.Controllers
                 return NotFound("There was an error adding this item to your cart. Please try again.");
             }
             return Created("", cart);
+        }
+
+        [HttpPut("cart/purchase")]
+        public IActionResult CompleteOrder(Invoices invoiceToComplete)
+        {
+            var completedInvoice = _repository.CompleteOrder(invoiceToComplete);
+            var deleteQuantity = _repository.GetQuantityToDelete(invoiceToComplete.InvoiceId);
+            foreach (var item in deleteQuantity)
+            {
+                item.Quantity = item.Quantity * -1;
+                _productsRepository.UpdateProductQuantity(item);
+            }
+            var noInvoice = !completedInvoice.Any();
+            if (noInvoice)
+            {
+                return Problem("There was in issue completing your order. Please try again.");
+            } else
+            {
+                return Ok(completedInvoice);
+            }
         }
     }
 }

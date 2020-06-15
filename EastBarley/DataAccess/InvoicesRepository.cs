@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using EastBarley.Models;
+using EastBarley.DataAccess;
 using Dapper;
 
 namespace EastBarley.DataAccess
@@ -182,6 +183,49 @@ namespace EastBarley.DataAccess
         public OrderCart AddToExistingCart(int invoiceId, decimal totalCost)
         {
             throw new NotImplementedException();
+        }
+
+        public List<Invoices> CompleteOrder(Invoices invoiceToComplete)
+        {
+            var sql = @"UPDATE Invoice
+                         Set PaymentId = @PaymentId
+                            ,InvoiceDate = @InvoiceDate
+	                        ,BillingAddress = @BillingAddress
+	                        ,BillingCity = @BillingCity
+	                        ,BillingZip = @BillingZip
+	                        ,BillingState = @BillingState
+	                        ,SalesRepId = @SalesRepId
+	                        ,StatusId = @StatusId
+                                output inserted.*	
+                                    WHERE Invoice.InvoiceId = @InvoiceId
+                                    AND Invoice.StatusId = 1";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var result = db.Query<Invoices>(sql, invoiceToComplete).ToList();
+                return result;
+            }
+        }
+
+        public List<ProductQuantityUpdate> GetQuantityToDelete(int InvoiceId)
+        {
+            var sql = @"select LineItems.quantity, LineItems.ProductId
+                        from LineItems	
+	                        join Invoice	
+		                        on LineItems.InvoiceId = Invoice.InvoiceId
+			                        where Invoice.InvoiceId = @InvoiceId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new
+                {
+                    InvoiceId = InvoiceId,
+                };
+
+                var result = db.Query<ProductQuantityUpdate>(sql, parameters).ToList();
+
+                return result;
+            }
         }
 
     }
