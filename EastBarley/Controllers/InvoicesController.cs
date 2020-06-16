@@ -196,5 +196,41 @@ namespace EastBarley.Controllers
                 return Ok(completedInvoice);
             }
         }
+
+
+        // WIP
+        //[HttpPut("updatedcart/")]
+        //public IActionResult UpdatedCart(int statusId, int userId, int invoiceId, int totalCost, int lineItemId, LineItems changedLineItem)
+        //{
+        //    var openCart = _repository.FindOpenCart(invoiceId, statusId);
+        //    bool cartDoesExist = openCart != null;
+        //    if (!cartDoesExist)
+        //    {
+        //        // if no cart, then start one
+        //        openCart = _repository.StartNewOrder(userId, totalCost);
+        //    }
+        //    else if (cartDoesExist)
+        //    {
+        //        var shoppingCartItems = _repository.GetLineItem(invoiceId);
+        //        if (shoppingCartItems == null)
+        //        {
+        //            // if the line item doesn't exist then add it
+        //            var addedLineItems = _repository.AddLineItem(changedLineItem);
+        //            openCart.TotalCost += addedLineItems.Quantity * addedLineItems.Price;
+        //        }
+        //        else if (changedLineItem.Quantity <= 0)
+        //        {
+        //            // if line item quantity is zero then delete the line item
+        //            openCart = _repository.DeleteLineItem(lineItemId);
+        //        }
+        //        else
+        //        {
+        //            // if the line item exists then modify it
+        //            var updatedLineItem = _repository.ChangeLineItemQty(changedLineItem.Quantity, changedLineItem.LineItemId);
+        //            openCart.TotalCost += updatedLineItem.Quantity * updatedLineItem.Price;
+        //        }
+        //    }
+        //    return Ok(openCart);
+        //}
     }
 }

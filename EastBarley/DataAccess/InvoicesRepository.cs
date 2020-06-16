@@ -180,10 +180,97 @@ namespace EastBarley.DataAccess
             }
         }
 
+        // WIP
+        //public OrderCart FindOpenCart(int userId, int statusId)
+        //{
+        //    var sql = @"SELECT *
+        //                FROM Invoice
+        //                WHERE UserId = @userId
+        //                AND StatusId = @statusId";
+
+        //    using (var db = new SqlConnection(ConnectionString))
+        //    {
+        //        var parameters = new { UserId = userId, StatusId = statusId };
+        //        var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
+        //        return result;
+        //    }
+        //}
+
         public OrderCart AddToExistingCart(int invoiceId, decimal totalCost)
         {
-            throw new NotImplementedException();
+            var sql = @"SELECT *
+                        SET TotalCost = TotalCost + @totalCost
+                        FROM Invoice
+                        WHERE Invoice.InvoiceId = @invoiceId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { InvoiceId = invoiceId, TotalCost = totalCost };
+                var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
+                return result;
+            }
         }
+
+        // WIP
+        //public LineItems ChangeLineItemQty(int newQuantity, int lineItemId)
+        //{
+        //    var sql = @"UPDATE LineItems
+        //                output inserted .*
+        //                SET Quantity = Quantity + @NewQuantity
+        //                WHERE LineItemId = @LineItemId";
+
+        //    using (var db = new SqlConnection(ConnectionString))
+        //    {
+        //        var parameters = new { NewQuantity = newQuantity, LineItemId = lineItemId };
+        //        var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
+
+        //        return result;
+        //    }
+        //}
+
+        // WIP
+        //public LineItems GetLineItem(int invoiceId)
+        //{
+        //    var sql = @"SELECT *
+        //                FROM LineItems
+        //                WHERE LineItems.InvoiceId = @invoiceId";
+
+        //    using (var db = new SqlConnection(ConnectionString))
+        //    {
+        //        var parameters = new { InvoiceId = invoiceId };
+        //        var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
+        //        return result;
+        //    }
+        //}
+
+        // WIP
+        //public OrderCart DeleteCart(int invoiceId)
+        //{
+        //    var sql = @"DELETE FROM Invoices
+        //                WHERE Invoice.InvoiceId = @invoiceId
+        //                AND status = 1";
+
+        //    using (var db = new SqlConnection(ConnectionString))
+        //    {
+        //        var parameters = new { InvoiceId = invoiceId };
+        //        var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
+        //        return result;
+        //    }
+        //}
+
+        // WIP
+        //public LineItems DeleteLineItem(int lineItemId)
+        //{
+        //    var sql = @"DELETE FROM LineItem
+        //                WHERE LineItem.LineItemId = @lineItemId";
+
+        //    using (var db = new SqlConnection(ConnectionString))
+        //    {
+        //        var parameters = new { LineItemId = lineItemId };
+        //        var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
+        //        return result;
+        //    }
+        //}
 
         public List<Invoices> CompleteOrder(Invoices invoiceToComplete)
         {
@@ -227,6 +314,5 @@ namespace EastBarley.DataAccess
                 return result;
             }
         }
-
     }
 }
