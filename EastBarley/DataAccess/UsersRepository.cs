@@ -29,18 +29,18 @@ namespace EastBarley.DataAccess
         // GET USER BY ID
         public Users GetUserById(int userId)
         {
-                var query = @"select *
+            var query = @"select *
                           from Users
                           where UserId = @userId";
 
-                using (var db = new SqlConnection(ConnectionString))
-                {
-                    var parameters = new { UserId = userId };
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { UserId = userId };
 
-                    var user = db.QueryFirstOrDefault<Users>(query, parameters);
+                var user = db.QueryFirstOrDefault<Users>(query, parameters);
 
-                    return user;
-                }
+                return user;
+            }
         }
         // create a new user
         public Users CreateNewUser(Users newUser)
@@ -73,6 +73,23 @@ namespace EastBarley.DataAccess
             }
         }
 
+         public bool DeactivateUser(int userId)
+            {
+                var sql = @"UPDATE Users
+                            SET isAcctActive = 0
+                                WHERE UserId = @UserId";
+                         
+                using (var db = new SqlConnection(ConnectionString))
+                {
+                    var parameters = new { UserId = userId  };
+
+                    var userToDeactivateId = db.Execute(sql, parameters);
+
+                    return userToDeactivateId == 1;
+                }
+            }
+        }
     }
-}
+
+
 

@@ -43,7 +43,7 @@ namespace EastBarley.Controllers
             }
             return Ok(singleWhiskey);
         }
-    
+
         [HttpGet("beer/all")]
         public IActionResult GetAllBeer()
         {
@@ -65,7 +65,7 @@ namespace EastBarley.Controllers
                 return NotFound("That beer doesn't exist.");
             }
             return Ok(singleBeer);
-            
+
         }
 
         [HttpGet("books/all")]
@@ -91,5 +91,13 @@ namespace EastBarley.Controllers
             }
             return Ok(singleBook);
         }
+
+        [HttpPut("inventory")]
+        public IActionResult UpdateProductQty(ProductQuantityUpdate products)
+        {
+            var updatedProductQty = _repository.UpdateProductQuantity(products);
+            return Ok(updatedProductQty);
+        }
     }
+
 }

@@ -16,11 +16,13 @@ namespace EastBarley.Controllers
     {
         InvoicesRepository _repository;
         UsersRepository _userRepository;
+        ProductsRepository _productsRepository;
 
-        public InvoicesController(InvoicesRepository repository, UsersRepository userRepo)
+        public InvoicesController(InvoicesRepository repository, UsersRepository userRepo, ProductsRepository productsRepository)
         {
             _repository = repository;
             _userRepository = userRepo;
+            _productsRepository = productsRepository;
         }
 
         // get all invoices
@@ -175,38 +177,60 @@ namespace EastBarley.Controllers
             return Created("", cart);
         }
 
-        [HttpPut("updatedcart/")]
-        public IActionResult UpdatedCart(int statusId, int userId, int invoiceId, int totalCost, int lineItemId, LineItems changedLineItem)
+        [HttpPut("cart/purchase")]
+        public IActionResult CompleteOrder(Invoices invoiceToComplete)
         {
-            var openCart = _repository.FindOpenCart(invoiceId, statusId);
-            bool cartDoesExist = openCart != null;
-            if (!cartDoesExist)
+            var completedInvoice = _repository.CompleteOrder(invoiceToComplete);
+            var deleteQuantity = _repository.GetQuantityToDelete(invoiceToComplete.InvoiceId);
+            foreach (var item in deleteQuantity)
             {
-                // if no cart, then start one
-                openCart = _repository.StartNewOrder(userId, totalCost);
+                item.Quantity = item.Quantity * -1;
+                _productsRepository.UpdateProductQuantity(item);
             }
-            else if (cartDoesExist)
+            var noInvoice = !completedInvoice.Any();
+            if (noInvoice)
             {
-                var shoppingCartItems = _repository.GetLineItem(invoiceId);
-                if (shoppingCartItems == null)
-                {
-                    // if the line item doesn't exist then add it
-                    var addedLineItems = _repository.AddLineItem(changedLineItem);
-                    openCart.TotalCost += addedLineItems.Quantity * addedLineItems.Price;
-                }
-                else if (changedLineItem.Quantity <= 0)
-                {
-                    // if line item quantity is zero then delete the line item
-                    openCart = _repository.DeleteLineItem(lineItemId);
-                }
-                else
-                {
-                    // if the line item exists then modify it
-                    var updatedLineItem = _repository.ChangeLineItemQty(changedLineItem.Quantity, changedLineItem.LineItemId);
-                    openCart.TotalCost += updatedLineItem.Quantity * updatedLineItem.Price;
-                }
+                return Problem("There was in issue completing your order. Please try again.");
+            } else
+            {
+                return Ok(completedInvoice);
             }
-            return Ok(openCart);
         }
+
+
+        // WIP
+        //[HttpPut("updatedcart/")]
+        //public IActionResult UpdatedCart(int statusId, int userId, int invoiceId, int totalCost, int lineItemId, LineItems changedLineItem)
+        //{
+        //    var openCart = _repository.FindOpenCart(invoiceId, statusId);
+        //    bool cartDoesExist = openCart != null;
+        //    if (!cartDoesExist)
+        //    {
+        //        // if no cart, then start one
+        //        openCart = _repository.StartNewOrder(userId, totalCost);
+        //    }
+        //    else if (cartDoesExist)
+        //    {
+        //        var shoppingCartItems = _repository.GetLineItem(invoiceId);
+        //        if (shoppingCartItems == null)
+        //        {
+        //            // if the line item doesn't exist then add it
+        //            var addedLineItems = _repository.AddLineItem(changedLineItem);
+        //            openCart.TotalCost += addedLineItems.Quantity * addedLineItems.Price;
+        //        }
+        //        else if (changedLineItem.Quantity <= 0)
+        //        {
+        //            // if line item quantity is zero then delete the line item
+        //            openCart = _repository.DeleteLineItem(lineItemId);
+        //        }
+        //        else
+        //        {
+        //            // if the line item exists then modify it
+        //            var updatedLineItem = _repository.ChangeLineItemQty(changedLineItem.Quantity, changedLineItem.LineItemId);
+        //            openCart.TotalCost += updatedLineItem.Quantity * updatedLineItem.Price;
+        //        }
+        //    }
+        //    return Ok(openCart);
+        //}
     }
 }
