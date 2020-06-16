@@ -1,5 +1,6 @@
 import React, { Component } from 'react';
 import './App.scss';
+import AllBooks from '../components/pages/AllBooks/AllBooks';
 
 class App extends Component {
   testClick() {
@@ -14,6 +15,7 @@ class App extends Component {
         onClick={() => this.testClick()}
         >
           Test Button</button>
+          <AllBooks />
     </div>
     );
   }
