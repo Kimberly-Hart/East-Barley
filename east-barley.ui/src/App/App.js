@@ -42,7 +42,7 @@ class App extends React.Component {
             <Route path="/auth" exact component={Auth} verified={over21} authed={authed} />
             <PrivateRoute path="/profile" exact component={Profile} verified={over21} authed={authed} />
             {/* <Over21Route path="/whiskey" exact component={Whiskeys} verified={over21} authed={authed} /> */}
-            <Over21Route path="/beer" exact component={Beers} verified={over21} authed={authed} />
+            <Over21Route path="/beers" exact component={Beers} verified={over21} authed={authed} />
             <Route path="/books" exact component={Books} verified={over21} authed={authed} />
             <PrivateRoute path="/cart" exact component={Cart} verified={over21} authed={authed} />
         </Switch>
