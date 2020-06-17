@@ -1,23 +1,52 @@
-import React, { Component } from 'react';
+import React from 'react';
+import {
+  BrowserRouter as Router,
+  Route,
+  Redirect,
+  Switch,
+} from 'react-router-dom';
 import './App.scss';
-import AllBooks from '../components/pages/AllBooks/AllBooks';
-import AllBeers from '../components/pages/AllBeers/AllBeers';
 
-class App extends Component {
-  testClick() {
-    console.log('this is a test');
+import Auth from '../components/pages/Auth/Auth';
+import Beers from '../components/pages/AllBeers/AllBeers';
+import Books from '../components/pages/AllBooks/AllBooks';
+import Cart from '../components/pages/Cart/Cart';
+import Homepage from '../components/pages/Homepage/Homepage';
+import Profile from '../components/pages/Profile/Profile';
+// import Whiskeys from '../components/pages/AllWhiskeys/AllWhiskeys';
+
+const Over21Route = ({ component: Component, verified, ...rest }) => {
+  const routeChecker = (props) => (verified === true ? <Component {...props} {...rest}/> : <Redirect exact to={{ pathname: '/', state: { from: props.location } }} />);
+  return <Route {...rest} render={(props) => routeChecker(props)} />;
+};
+const PrivateRoute = ({ component: Component, authed, ...rest }) => {
+  const routeChecker = (props) => (authed === true ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />);
+  return <Route {...rest} render={(props) => routeChecker(props)} />;
+};
+
+class App extends React.Component {
+  state = {
+    authed: false,
+    over21: true,
   }
 
   render() {
+    const { authed, over21 } = this.state;
+
     return (
     <div className="App">
-      <button
-        className="btn btn-danger"
-        onClick={() => this.testClick()}
-        >
-          Test Button</button>
-          <AllBooks />
-          <AllBeers />
+
+      <Router>
+        <Switch>
+            <Route path="/" exact component={Homepage} verified={over21} authed={authed} />
+            <Route path="/auth" exact component={Auth} verified={over21} authed={authed} />
+            <PrivateRoute path="/profile" exact component={Profile} verified={over21} authed={authed} />
+            {/* <Over21Route path="/whiskey" exact component={Whiskeys} verified={over21} authed={authed} /> */}
+            <Over21Route path="/beer" exact component={Beers} verified={over21} authed={authed} />
+            <Route path="/books" exact component={Books} verified={over21} authed={authed} />
+            <PrivateRoute path="/cart" exact component={Cart} verified={over21} authed={authed} />
+        </Switch>
+      </Router>
     </div>
     );
   }
