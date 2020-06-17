@@ -71,8 +71,8 @@ namespace EastBarley.Controllers
     [HttpDelete("{userId}")]
     public IActionResult DeactivateAUser(int userId)
         {
-            var didItWork = _repository.DeactivateUser(userId);
-            if (didItWork)
+            var deactivatedUser = _repository.DeactivateUser(userId);
+            if (deactivatedUser)
             {
                 return Ok(userId);
             }
