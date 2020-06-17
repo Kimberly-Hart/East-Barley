@@ -5,6 +5,7 @@ using System.Data.SqlClient;
 using System.Linq;
 using System.Threading.Tasks;
 using EastBarley.Models;
+using EastBarley.DataAccess;
 using Dapper;
 
 namespace EastBarley.DataAccess
@@ -49,6 +50,48 @@ namespace EastBarley.DataAccess
             using (var db = new SqlConnection(ConnectionString))
             {
                 var parameters = new { InvoiceId = invoiceId };
+                var result = db.Query<Invoices>(sql, parameters);
+                return result;
+            }
+        }
+
+        public IEnumerable<Invoices> GetInvoicesByStateAbbr(string billingState)
+        {
+            var sql = @"SELECT *
+                        FROM Invoice
+                        WHERE BillingState = @billingState";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { BillingState = billingState };
+                var result = db.Query<Invoices>(sql, parameters);
+                return result;
+            }
+        }
+
+        public IEnumerable<Invoices> GetInvoicesByStatus(int statusId)
+        {
+            var sql = @"SELECT *
+                        FROM Invoice
+                        WHERE StatusId = @statusId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { StatusId = statusId };
+                var result = db.Query<Invoices>(sql, parameters);
+                return result;
+            }
+        }
+
+        public IEnumerable<Invoices> GetInvoicesBySalesRepId(int salesRepId)
+        {
+            var sql = @"SELECT *
+                        FROM Invoice
+                        WHERE SalesRepId = @salesRepId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { SalesRepId = salesRepId };
                 var result = db.Query<Invoices>(sql, parameters);
                 return result;
             }
@@ -137,10 +180,139 @@ namespace EastBarley.DataAccess
             }
         }
 
+        // WIP
+        //public OrderCart FindOpenCart(int userId, int statusId)
+        //{
+        //    var sql = @"SELECT *
+        //                FROM Invoice
+        //                WHERE UserId = @userId
+        //                AND StatusId = @statusId";
+
+        //    using (var db = new SqlConnection(ConnectionString))
+        //    {
+        //        var parameters = new { UserId = userId, StatusId = statusId };
+        //        var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
+        //        return result;
+        //    }
+        //}
+
         public OrderCart AddToExistingCart(int invoiceId, decimal totalCost)
         {
-            throw new NotImplementedException();
+            var sql = @"SELECT *
+                        SET TotalCost = TotalCost + @totalCost
+                        FROM Invoice
+                        WHERE Invoice.InvoiceId = @invoiceId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { InvoiceId = invoiceId, TotalCost = totalCost };
+                var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
+                return result;
+            }
         }
 
+        // WIP
+        //public LineItems ChangeLineItemQty(int newQuantity, int lineItemId)
+        //{
+        //    var sql = @"UPDATE LineItems
+        //                output inserted .*
+        //                SET Quantity = Quantity + @NewQuantity
+        //                WHERE LineItemId = @LineItemId";
+
+        //    using (var db = new SqlConnection(ConnectionString))
+        //    {
+        //        var parameters = new { NewQuantity = newQuantity, LineItemId = lineItemId };
+        //        var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
+
+        //        return result;
+        //    }
+        //}
+
+        // WIP
+        //public LineItems GetLineItem(int invoiceId)
+        //{
+        //    var sql = @"SELECT *
+        //                FROM LineItems
+        //                WHERE LineItems.InvoiceId = @invoiceId";
+
+        //    using (var db = new SqlConnection(ConnectionString))
+        //    {
+        //        var parameters = new { InvoiceId = invoiceId };
+        //        var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
+        //        return result;
+        //    }
+        //}
+
+        // WIP
+        //public OrderCart DeleteCart(int invoiceId)
+        //{
+        //    var sql = @"DELETE FROM Invoices
+        //                WHERE Invoice.InvoiceId = @invoiceId
+        //                AND status = 1";
+
+        //    using (var db = new SqlConnection(ConnectionString))
+        //    {
+        //        var parameters = new { InvoiceId = invoiceId };
+        //        var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
+        //        return result;
+        //    }
+        //}
+
+        // WIP
+        //public LineItems DeleteLineItem(int lineItemId)
+        //{
+        //    var sql = @"DELETE FROM LineItem
+        //                WHERE LineItem.LineItemId = @lineItemId";
+
+        //    using (var db = new SqlConnection(ConnectionString))
+        //    {
+        //        var parameters = new { LineItemId = lineItemId };
+        //        var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
+        //        return result;
+        //    }
+        //}
+
+        public List<Invoices> CompleteOrder(Invoices invoiceToComplete)
+        {
+            var sql = @"UPDATE Invoice
+                         Set PaymentId = @PaymentId
+                            ,InvoiceDate = @InvoiceDate
+	                        ,BillingAddress = @BillingAddress
+	                        ,BillingCity = @BillingCity
+	                        ,BillingZip = @BillingZip
+	                        ,BillingState = @BillingState
+	                        ,SalesRepId = @SalesRepId
+	                        ,StatusId = @StatusId
+                                output inserted.*	
+                                    WHERE Invoice.InvoiceId = @InvoiceId
+                                    AND Invoice.StatusId = 1";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var result = db.Query<Invoices>(sql, invoiceToComplete).ToList();
+                return result;
+            }
+        }
+
+        public List<ProductQuantityUpdate> GetQuantityToDelete(int InvoiceId)
+        {
+            var sql = @"select LineItems.quantity, LineItems.ProductId
+                        from LineItems	
+	                        join Invoice	
+		                        on LineItems.InvoiceId = Invoice.InvoiceId
+			                        where Invoice.InvoiceId = @InvoiceId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new
+                {
+                    InvoiceId = InvoiceId,
+                };
+
+                var result = db.Query<ProductQuantityUpdate>(sql, parameters).ToList();
+
+                return result;
+            }
+        }
     }
 }

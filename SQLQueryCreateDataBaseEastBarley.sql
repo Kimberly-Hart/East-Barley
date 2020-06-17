@@ -91,6 +91,7 @@ alter table BookDetails add foreign key (ProductId) references Products(ProductI
 alter table LineItems add foreign key (ProductId) references Products(ProductId)
 
 alter table LineItems add foreign key (InvoiceId) references Invoice(InvoiceId)
+
 alter table Invoice add foreign key (SalesRepId) references Employees(SalesRepId)
 
 alter table Invoice add foreign key (UserId) references Users(UserId)
@@ -131,7 +132,8 @@ JOIN Products ON Products.ProductId = BookDetails.ProductId
 Insert into Employees(LastName, FirstName, Title, HireDate, Email)
 Values('Smith','Jay', 'BookKeeper', '2020-04-10', 'jay.smith@eastbarley.com'),
       ('Delk', 'Ryan', 'Asst. Manager', '2020-03-15', 'ryan.delk@eastbarley.com'),
-      ('Jones', 'Megan', 'Manager', '2020-02-20', 'megan.jones@eastbarley.com')
+      ('Jones', 'Megan', 'Manager', '2020-02-20', 'megan.jones@eastbarley.com'),
+	  ('Bot', 'Online', 'OnlineBot', '2019-01-01', 'East&Barley@eastbarley.com')
 
 SELECT * FROM Employees
 
@@ -161,6 +163,10 @@ Values('Open Cart'),
       ('Complete'),
 	  ('Shipped')
 
+update Invoice
+set statusId = 1
+where InvoiceId = 3
+
 SELECT * FROM OrderStatus
 
 Insert into Invoice([UserId], TotalCost, PaymentId, InvoiceDate, BillingAddress, BillingCity, BillingZip, BillingState, StatusId, SalesRepId)
@@ -171,6 +177,14 @@ Values(1, 30, 1, '2020-06-19', '159 Snake Street', 'Cleveland', 44101, 'OH', 1, 
       (2, 15, 3, '2020-06-15', '939 Bridge Way', 'Johnson City', 37601, 'TN', 2, 1) -- book
 
 SELECT * FROM Invoice
+
+select *
+from LineItems	
+	join Invoice	
+		on LineItems.InvoiceId = Invoice.InvoiceId
+			where Invoice.InvoiceId = 3
+
+SELECT * FROM Products
 
 Insert into LineItems(ProductId, InvoiceId, Price, Quantity)
 Values(5, 1, 30, 1),

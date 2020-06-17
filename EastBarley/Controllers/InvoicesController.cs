@@ -16,11 +16,13 @@ namespace EastBarley.Controllers
     {
         InvoicesRepository _repository;
         UsersRepository _userRepository;
+        ProductsRepository _productsRepository;
 
-        public InvoicesController(InvoicesRepository repository, UsersRepository userRepo)
+        public InvoicesController(InvoicesRepository repository, UsersRepository userRepo, ProductsRepository productsRepository)
         {
             _repository = repository;
             _userRepository = userRepo;
+            _productsRepository = productsRepository;
         }
 
         // get all invoices
@@ -51,8 +53,7 @@ namespace EastBarley.Controllers
         }
 
         // get single invoice by invoiceId
-
-        [HttpGet("invoiceId/{invoiceId}")]
+        [HttpGet("invoiceid/{invoiceId}")]
         public IActionResult GetInvoicesByInvoiceId(int invoiceId)
 
         {
@@ -63,6 +64,48 @@ namespace EastBarley.Controllers
                 return NotFound("There are currently no invoices matching this invoice id.");
             }
             return Ok(invoicesByInvoiceId);
+        }
+
+        // get invoices by billing state
+        [HttpGet("state/{billingState}")]
+        public IActionResult GetInvoicesByStateAbbr(string billingState)
+
+        {
+            var invoicesByBillingState = _repository.GetInvoicesByStateAbbr(billingState);
+            var noInvoicesByBillingState = !invoicesByBillingState.Any();
+            if (noInvoicesByBillingState)
+            {
+                return NotFound("There are currently no invoices for this state.");
+            }
+            return Ok(invoicesByBillingState);
+        }
+
+        // get invoices by billing status id
+        [HttpGet("status/{statusId}")]
+        public IActionResult GetInvoicesByStatus(int statusId)
+
+        {
+            var invoicesByStatus = _repository.GetInvoicesByStatus(statusId);
+            var noInvoicesByStatus = !invoicesByStatus.Any();
+            if (noInvoicesByStatus)
+            {
+                return NotFound("There are currently no invoices with this status.");
+            }
+            return Ok(invoicesByStatus);
+        }
+
+        // get invoices by sales rep id
+        [HttpGet("salesrep/{salesRepId}")]
+        public IActionResult GetInvoicesBySalesRepId(int salesRepId)
+
+        {
+            var invoicesBySalesRep = _repository.GetInvoicesBySalesRepId(salesRepId);
+            var noInvoicesBySalesRep = !invoicesBySalesRep.Any();
+            if (noInvoicesBySalesRep)
+            {
+                return NotFound("There are currently no invoices for this sales rep.");
+            }
+            return Ok(invoicesBySalesRep);
         }
 
         // get payment types by user
@@ -133,5 +176,61 @@ namespace EastBarley.Controllers
             }
             return Created("", cart);
         }
+
+        [HttpPut("cart/purchase")]
+        public IActionResult CompleteOrder(Invoices invoiceToComplete)
+        {
+            var completedInvoice = _repository.CompleteOrder(invoiceToComplete);
+            var deleteQuantity = _repository.GetQuantityToDelete(invoiceToComplete.InvoiceId);
+            foreach (var item in deleteQuantity)
+            {
+                item.Quantity = item.Quantity * -1;
+                _productsRepository.UpdateProductQuantity(item);
+            }
+            var noInvoice = !completedInvoice.Any();
+            if (noInvoice)
+            {
+                return Problem("There was in issue completing your order. Please try again.");
+            } else
+            {
+                return Ok(completedInvoice);
+            }
+        }
+
+
+        // WIP
+        //[HttpPut("updatedcart/")]
+        //public IActionResult UpdatedCart(int statusId, int userId, int invoiceId, int totalCost, int lineItemId, LineItems changedLineItem)
+        //{
+        //    var openCart = _repository.FindOpenCart(invoiceId, statusId);
+        //    bool cartDoesExist = openCart != null;
+        //    if (!cartDoesExist)
+        //    {
+        //        // if no cart, then start one
+        //        openCart = _repository.StartNewOrder(userId, totalCost);
+        //    }
+        //    else if (cartDoesExist)
+        //    {
+        //        var shoppingCartItems = _repository.GetLineItem(invoiceId);
+        //        if (shoppingCartItems == null)
+        //        {
+        //            // if the line item doesn't exist then add it
+        //            var addedLineItems = _repository.AddLineItem(changedLineItem);
+        //            openCart.TotalCost += addedLineItems.Quantity * addedLineItems.Price;
+        //        }
+        //        else if (changedLineItem.Quantity <= 0)
+        //        {
+        //            // if line item quantity is zero then delete the line item
+        //            openCart = _repository.DeleteLineItem(lineItemId);
+        //        }
+        //        else
+        //        {
+        //            // if the line item exists then modify it
+        //            var updatedLineItem = _repository.ChangeLineItemQty(changedLineItem.Quantity, changedLineItem.LineItemId);
+        //            openCart.TotalCost += updatedLineItem.Quantity * updatedLineItem.Price;
+        //        }
+        //    }
+        //    return Ok(openCart);
+        //}
     }
 }
