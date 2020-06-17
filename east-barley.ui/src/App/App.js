@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import HomePage from '../components/pages/Homepage/HomePage.js';
 import './App.scss';
 
 class App extends Component {
@@ -9,11 +10,7 @@ class App extends Component {
   render() {
     return (
     <div className="App">
-      <button
-        className="btn btn-danger"
-        onClick={() => this.testClick()}
-        >
-          Test Button</button>
+      <HomePage />
     </div>
     );
   }

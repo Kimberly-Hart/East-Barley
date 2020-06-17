@@ -1,0 +1,15 @@
+.communityPhoto {
+  background-image: url('https://image.freepik.com/free-vector/craft-beer-whiskey-glass-beaker-with-barley-wheat-ears-grains-scattering_1441-2640.jpg');
+  // background-color: blue;
+  height: 100vh;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.communityContents {
+  display: flex;
+  justify-content: center;
+  height: 100vh;
+}
