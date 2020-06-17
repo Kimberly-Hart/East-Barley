@@ -27,6 +27,12 @@ namespace EastBarley
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllers();
+
+            services.AddCors(options =>
+                options.AddPolicy("ItsAllGood",
+                    builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin())
+            );
+
             services.AddTransient<EmployeesRepository>();
             services.AddTransient<InvoicesRepository>();
             services.AddTransient<ProductsRepository>();
@@ -45,6 +51,8 @@ namespace EastBarley
             app.UseHttpsRedirection();
 
             app.UseRouting();
+
+            app.UseCors("ItsAllGood");
 
             app.UseAuthorization();
 
