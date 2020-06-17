@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import './App.scss';
 import AllBooks from '../components/pages/AllBooks/AllBooks';
 import AllBeers from '../components/pages/AllBeers/AllBeers';
+import AllWhiskeys from '../components/pages/AllWhiskeys/AllWhiskeys';
 
 class App extends Component {
   testClick() {
@@ -18,6 +19,7 @@ class App extends Component {
           Test Button</button>
           <AllBooks />
           <AllBeers />
+          <AllWhiskeys />
     </div>
     );
   }
