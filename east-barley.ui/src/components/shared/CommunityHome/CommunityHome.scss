@@ -1,7 +1,7 @@
 .communityPhoto {
-  background-image: url('https://image.freepik.com/free-vector/craft-beer-whiskey-glass-beaker-with-barley-wheat-ears-grains-scattering_1441-2640.jpg');
+  background-image: url('https://upload.wikimedia.org/wikipedia/commons/a/a7/Spent_grain.jpg');
   // background-color: blue;
-  height: 100vh;
+  height: 50vh;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -9,7 +9,18 @@
 }
 
 .communityContents {
+  display: block;
+  margin-top: 2em;
+  height: 100%;
+}
+
+.communityTitle {
   display: flex;
   justify-content: center;
-  height: 100vh;
+}
+
+.communityParagraph {
+  display: flex;
+  margin-top: 5em;
+  margin-bottom: 3em;
 }

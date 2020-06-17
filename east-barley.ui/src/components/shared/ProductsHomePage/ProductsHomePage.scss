@@ -1,7 +1,7 @@
 .productsBanner {
-  background-image: url('https://image.freepik.com/free-vector/craft-beer-whiskey-glass-beaker-with-barley-wheat-ears-grains-scattering_1441-2640.jpg');
+  background-image: url('https://i2.wp.com/craftmalting.com/wp-content/uploads/2017/03/barley-close-up-banner.jpg?ssl=1');
   // background-color: blue;
-  height: 25vh;
+  height: 50vh;
   background-attachment: fixed;
   background-position: center;
   background-repeat: no-repeat;
@@ -9,28 +9,29 @@
 }
 
 .productsContents {
+  display: flex;
+  justify-content: center;
   height: 100%;
 }
 
+.homepageProductTitle {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+}
+
 .productsCards {
-  margin: 5px;
-  padding: 10px;
+  margin-top: 2.5em;
+  margin-bottom: 2.5em;
 }
 
-.beerPhoto {
-  height: 30em;
-  width: 30em;
+.cardPhoto {
+  height: 20em;
+  width: auto;
 }
 
-.beerCard {
+.homeProductCard {
   margin: 6px;
-}
-
-.whiskeyCard {
-  margin: 6px;
-}
-
-.booksCard {
-  margin: 6px;
+  width: 20em;
 }
 
