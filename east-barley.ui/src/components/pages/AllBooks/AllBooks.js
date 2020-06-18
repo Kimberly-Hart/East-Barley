@@ -20,7 +20,8 @@ class AllBooks extends React.Component {
       const { books } = this.state;
       return (
         <div className="Allbooks">
-        { books.map((book) => <SingleBook key={book.productId} book={book} />)}
+          <h1>Books</h1>
+          { books.map((book) => <SingleBook key={book.productId} book={book} />)}
         </div>
       );
     }
