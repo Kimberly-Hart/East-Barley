@@ -7,8 +7,9 @@ import {
 } from 'react-router-dom';
 
 import './App.scss';
+
 import Auth from '../components/pages/Auth/Auth';
-import Beers from '../components/pages/AllBeer/AllBeer';
+import Beers from '../components/pages/AllBeers/AllBeers';
 import Books from '../components/pages/AllBooks/AllBooks';
 import Cart from '../components/pages/Cart/Cart';
 import Homepage from '../components/pages/Homepage/Homepage';
@@ -35,6 +36,7 @@ class App extends React.Component {
 
     return (
     <div className="App">
+
       <Router>
         <Switch>
             <Route path="/" exact component={() => <Homepage verified={over21} authed={authed} />} />
