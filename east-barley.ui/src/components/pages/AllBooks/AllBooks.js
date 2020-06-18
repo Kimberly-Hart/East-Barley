@@ -21,7 +21,9 @@ class AllBooks extends React.Component {
       return (
         <div className="Allbooks">
           <h1>Books</h1>
+          <div className="container">
           { books.map((book) => <SingleBook key={book.productId} book={book} />)}
+          </div>
         </div>
       );
     }
