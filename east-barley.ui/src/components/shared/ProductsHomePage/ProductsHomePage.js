@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Card,
   Image,
@@ -10,13 +11,17 @@ import './ProductsHomePage.scss';
 class ProductsHome extends React.Component {
   state = {
     products: [],
-    verified: true,
+  }
+
+  static propTypes = {
+    verified: PropTypes.bool,
   }
 
   render() {
+    const { verified } = this.props;
     return (
       <div className="productsHome">
-        { (this.state.verified)
+        { (verified)
           ? <React.Fragment>
             <div className="productsBanner"></div>
              <div className="productsContents">

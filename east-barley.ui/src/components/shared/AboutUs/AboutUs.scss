@@ -1,5 +1,5 @@
 .aboutPhoto {
-  background-image: url('https://image.freepik.com/free-vector/craft-beer-whiskey-glass-beaker-with-barley-wheat-ears-grains-scattering_1441-2640.jpg');
+  background-image: url('https://github.com/phillipsja97/react-spotify/blob/master/src/Assets/Barley2.jpg?raw=true');
   // background-color: blue;
   height: 100vh;
   background-attachment: fixed;
@@ -8,8 +8,25 @@
   background-size: cover;
 }
 
+.aboutBackground {
+  background-color: black;
+}
+
+.overlayTitle {
+  position: absolute;
+  left: 40%;
+  top: 50%;
+  color: white;
+  opacity: 1.0 !important;
+}
+
 .aboutContents {
   display: flex;
   justify-content: center;
+  align-content: center;
   height: 100vh;
+}
+
+.aboutTitle {
+  margin-top: 5em;
 }
