@@ -1,25 +1,23 @@
-import './Homepage.scss';
 import React from 'react';
-import PropTypes from 'prop-types';
 import AboutUs from '../../shared/AboutUs/AboutUs';
 import ProductsHomePage from '../../shared/ProductsHomePage/ProductsHomePage';
 import CommunityHome from '../../shared/CommunityHome/CommunityHome';
+import './Homepage.scss';
 
-class Homepage extends React.Component {
-  static propTypes = {
-    verified: PropTypes.bool,
+class HomePage extends React.Component {
+  state = {
+    verified: true,
   }
 
   render() {
-    const { verified } = this.props;
-    return (
-      <div>
+    return(
+      <div className="homepage">
         <AboutUs />
-        <ProductsHomePage verified={verified} />
+        <ProductsHomePage />
         <CommunityHome />
       </div>
     );
   }
 }
 
-export default Homepage;
+export default HomePage;
