@@ -14,7 +14,7 @@ import Books from '../components/pages/AllBooks/AllBooks';
 import Cart from '../components/pages/Cart/Cart';
 import Homepage from '../components/pages/Homepage/Homepage';
 import Profile from '../components/pages/Profile/Profile';
-import Whiskeys from '../components/pages/AllWhiskey/AllWhiskey';
+import Whiskeys from '../components/pages/AllWhiskeys/AllWhiskeys';
 
 const Over21Route = ({ component: Component, verified, ...rest }) => {
   const routeChecker = (props) => (verified === true ? <Component {...props} {...rest}/> : <Redirect exact to={{ pathname: '/', state: { from: props.location } }} />);
@@ -36,7 +36,6 @@ class App extends React.Component {
 
     return (
     <div className="App">
-
       <Router>
         <Switch>
             <Route path="/" exact component={() => <Homepage verified={over21} authed={authed} />} />
