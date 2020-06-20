@@ -1,8 +1,17 @@
-import React, { Component } from 'react';
-import { Button, Modal } from 'semantic-ui-react';
+import React from 'react';
+import {
+  Button,
+  Modal,
+  Form,
+  Input,
+} from 'semantic-ui-react';
+import './AgeVerificationModal.scss';
 
-class AgeVerificationModal extends Component {
-  state = { open: true }
+class AgeVerificationModal extends React.Component {
+  state = {
+    open: true,
+    dateOfBirth: '',
+  }
 
   closeConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
     this.setState({ closeOnEscape: false, closeOnDimmerClick: false, open: true });
@@ -15,27 +24,31 @@ class AgeVerificationModal extends Component {
 
     return (
       <div>
-\        <Modal
+        <Modal
           open={open}
           closeOnEscape={closeOnEscape}
           closeOnDimmerClick={closeOnDimmerClick}
         >
-          <Modal.Header>Delete Your Account</Modal.Header>
+          <Modal.Header>You must be 21 to view our beverage selection</Modal.Header>
           <Modal.Content>
-            <p>Are you sure you want to delete your account</p>
+            <Form>
+              <Form.Field>
+                <label>First Name</label>
+                <Input type='date' id='dateOfBirth' />
+              </Form.Field>
+              <Modal.Actions>
+                <Button
+                  onClick={this.close}
+                  type='submit'
+                  labelPosition='right'
+                  icon='calendar check outline'
+                  content='Submit'
+                  basic color='green'
+                />
+              </Modal.Actions>
+              {/* <Button type='submit'>Submit</Button> */}
+            </Form>
           </Modal.Content>
-          <Modal.Actions>
-            <Button onClick={this.close} negative>
-              No
-            </Button>
-            <Button
-              onClick={this.close}
-              positive
-              labelPosition='right'
-              icon='checkmark'
-              content='Yes'
-            />
-          </Modal.Actions>
         </Modal>
       </div>
     );

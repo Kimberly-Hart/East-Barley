@@ -7,7 +7,7 @@ import {
 } from 'react-router-dom';
 
 import './App.scss';
-
+import AgeVerificationModal from '../components/shared/AgeVerificationModal/AgeVerificationModal';
 import Auth from '../components/pages/Auth/Auth';
 import Beers from '../components/pages/AllBeers/AllBeers';
 import Books from '../components/pages/AllBooks/AllBooks';
@@ -34,9 +34,14 @@ class App extends React.Component {
   render() {
     const { authed, over21 } = this.state;
 
+    const setAge = () => {
+
+    };
+
     return (
     <div className="App">
       <Router>
+      <AgeVerificationModal />
         <Switch>
             <Route path="/" exact component={() => <Home verified={over21} authed={authed} />} />
             <Route path="/auth" exact component={() => <Auth verified={over21} authed={authed} />} />
