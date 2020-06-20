@@ -1,0 +1,37 @@
+.productsBanner {
+  background-image: url('https://i2.wp.com/craftmalting.com/wp-content/uploads/2017/03/barley-close-up-banner.jpg?ssl=1');
+  // background-color: blue;
+  height: 50vh;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.productsContents {
+  display: flex;
+  justify-content: center;
+  height: 100%;
+}
+
+.homepageProductTitle {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+}
+
+.productsCards {
+  margin-top: 2.5em;
+  margin-bottom: 2.5em;
+}
+
+.cardPhoto {
+  height: 20em;
+  width: auto;
+}
+
+.homeProductCard {
+  margin: 6px;
+  width: 20em;
+}
+
