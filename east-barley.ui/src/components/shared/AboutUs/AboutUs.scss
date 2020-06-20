@@ -1,0 +1,32 @@
+.aboutPhoto {
+  background-image: url('https://github.com/phillipsja97/react-spotify/blob/master/src/Assets/Barley2.jpg?raw=true');
+  // background-color: blue;
+  height: 100vh;
+  background-attachment: fixed;
+  background-position: center;
+  background-repeat: no-repeat;
+  background-size: cover;
+}
+
+.aboutBackground {
+  background-color: black;
+}
+
+.overlayTitle {
+  position: absolute;
+  left: 40%;
+  top: 50%;
+  color: white;
+  opacity: 1.0 !important;
+}
+
+.aboutContents {
+  display: flex;
+  justify-content: center;
+  align-content: center;
+  height: 100vh;
+}
+
+.aboutTitle {
+  margin-top: 5em;
+}
