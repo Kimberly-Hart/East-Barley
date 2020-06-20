@@ -12,7 +12,7 @@ import Auth from '../components/pages/Auth/Auth';
 import Beers from '../components/pages/AllBeers/AllBeers';
 import Books from '../components/pages/AllBooks/AllBooks';
 import Cart from '../components/pages/Cart/Cart';
-import Homepage from '../components/pages/Homepage/Homepage';
+import Home from '../components/pages/Homepage/Home';
 import Profile from '../components/pages/Profile/Profile';
 import Whiskeys from '../components/pages/AllWhiskeys/AllWhiskeys';
 
@@ -38,7 +38,7 @@ class App extends React.Component {
     <div className="App">
       <Router>
         <Switch>
-            <Route path="/" exact component={() => <Homepage verified={over21} authed={authed} />} />
+            <Route path="/" exact component={() => <Home verified={over21} authed={authed} />} />
             <Route path="/auth" exact component={() => <Auth verified={over21} authed={authed} />} />
             <PrivateRoute path="/profile" exact component={() => <Profile verified={over21} authed={authed} />} authed={authed} />
             <Over21Route path="/whiskey" exact component={() => <Whiskeys verified={over21} authed={authed} />} verified={over21} />
