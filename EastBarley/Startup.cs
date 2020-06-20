@@ -11,6 +11,8 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
 
 namespace EastBarley
 {
@@ -33,6 +35,27 @@ namespace EastBarley
                     builder => builder.AllowAnyHeader().AllowAnyMethod().AllowAnyOrigin())
             );
 
+
+            var authSettings = Configuration.GetSection("AuthenticationSettings");
+
+
+            services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+                .AddJwtBearer(options =>
+                {
+                    options.IncludeErrorDetails = true;
+                    options.Authority = authSettings["Authority"];
+                    options.TokenValidationParameters = new TokenValidationParameters
+                    {
+                        ValidateIssuer = true,
+                        ValidIssuer = authSettings["Issuer"],
+                        ValidateAudience = true,
+                        ValidAudience = authSettings["Audience"],
+                        ValidateLifetime = true
+                    };
+                }
+         );
+
+
             services.AddTransient<EmployeesRepository>();
             services.AddTransient<InvoicesRepository>();
             services.AddTransient<ProductsRepository>();
@@ -47,6 +70,8 @@ namespace EastBarley
             {
                 app.UseDeveloperExceptionPage();
             }
+
+            app.UseAuthentication();
 
             app.UseHttpsRedirection();
 
