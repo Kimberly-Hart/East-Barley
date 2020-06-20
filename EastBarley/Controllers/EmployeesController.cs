@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using EastBarley.DataAccess;
 using EastBarley.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
