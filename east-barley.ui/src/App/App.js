@@ -27,21 +27,22 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
 
 class App extends React.Component {
   state = {
-    authed: true,
-    over21: true,
+    authed: false,
+    over21: false,
+    ageVerificationComplete: false,
   }
 
   render() {
-    const { authed, over21 } = this.state;
+    const { authed, over21, ageVerificationComplete } = this.state;
 
-    const setAge = () => {
-
+    const setOver21 = () => {
+      this.setState({ over21: true });
     };
 
     return (
     <div className="App">
       <Router>
-      <AgeVerificationModal />
+      <AgeVerificationModal hasVerified={ageVerificationComplete} setOver21={setOver21()} />
         <Switch>
             <Route path="/" exact component={() => <Home verified={over21} authed={authed} />} />
             <Route path="/auth" exact component={() => <Auth verified={over21} authed={authed} />} />

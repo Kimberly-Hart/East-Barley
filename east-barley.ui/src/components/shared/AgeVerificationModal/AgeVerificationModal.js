@@ -1,4 +1,5 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import {
   Button,
   Modal,
@@ -11,6 +12,18 @@ class AgeVerificationModal extends React.Component {
   state = {
     open: true,
     dateOfBirth: '',
+  }
+
+  static propTypes = {
+    hasVerified: PropTypes.bool,
+    setOver21: PropTypes.func,
+  }
+
+  componentDidMount() {
+    const { hasVerified } = this.props;
+    if (hasVerified) {
+      this.setState({ open: false });
+    }
   }
 
   closeConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
