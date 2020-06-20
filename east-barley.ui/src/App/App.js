@@ -5,6 +5,7 @@ import {
   Redirect,
   Switch,
 } from 'react-router-dom';
+import firebase from 'firebase/app';
 import './App.scss';
 import Auth from '../components/pages/Auth/Auth';
 import Beers from '../components/pages/AllBeer/AllBeer';
@@ -13,7 +14,8 @@ import Cart from '../components/pages/Cart/Cart';
 import Homepage from '../components/pages/Homepage/Homepage';
 import Profile from '../components/pages/Profile/Profile';
 import Whiskeys from '../components/pages/AllWhiskey/AllWhiskey';
-import firebaseApp from "../helpers/data/connection";
+import firebaseApp from '../helpers/data/connection';
+import MyNavBar from '../components/shared/MyNavBar/MyNavBar';
 
 const Over21Route = ({ component: Component, verified, ...rest }) => {
   const routeChecker = (props) => (verified === true ? <Component {...props} {...rest}/> : <Redirect exact to={{ pathname: '/', state: { from: props.location } }} />);
@@ -32,12 +34,27 @@ class App extends React.Component {
     over21: true,
   }
 
+  componentDidMount() {
+    this.removeListener = firebase.auth().onAuthStateChanged((user) => {
+      if (user) {
+        this.setState({ authed: true });
+      } else {
+        this.setState({ authed: false });
+      }
+    });
+  }
+
+  componentWillUnmount() {
+    this.removeListener();
+  }
+
   render() {
     const { authed, over21 } = this.state;
 
     return (
     <div className="App">
       <Router>
+      <MyNavBar authed={authed} verified={over21} />
         <Switch>
             <Route path="/" exact component={Homepage} verified={over21} authed={authed} />
             <Route path="/auth" exact component={Auth} verified={over21} authed={authed} />
