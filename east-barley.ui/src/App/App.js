@@ -14,7 +14,7 @@ import Books from '../components/pages/AllBooks/AllBooks';
 import Cart from '../components/pages/Cart/Cart';
 import Home from '../components/pages/Homepage/Home';
 import Profile from '../components/pages/Profile/Profile';
-import Whiskeys from '../components/pages/AllWhiskey/AllWhiskey';
+import Whiskeys from '../components/pages/AllWhiskeys/AllWhiskeys';
 import firebaseApp from '../helpers/data/connection';
 import MyNavBar from '../components/shared/MyNavBar/MyNavBar';
 
