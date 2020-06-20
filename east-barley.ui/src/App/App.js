@@ -13,6 +13,7 @@ import Cart from '../components/pages/Cart/Cart';
 import Homepage from '../components/pages/Homepage/Homepage';
 import Profile from '../components/pages/Profile/Profile';
 import Whiskeys from '../components/pages/AllWhiskey/AllWhiskey';
+import firebaseApp from "../helpers/data/connection";
 
 const Over21Route = ({ component: Component, verified, ...rest }) => {
   const routeChecker = (props) => (verified === true ? <Component {...props} {...rest}/> : <Redirect exact to={{ pathname: '/', state: { from: props.location } }} />);
@@ -22,6 +23,8 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = (props) => (authed === true ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />);
   return <Route {...rest} render={(props) => routeChecker(props)} />;
 };
+
+firebaseApp();
 
 class App extends React.Component {
   state = {
