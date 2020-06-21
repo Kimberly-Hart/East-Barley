@@ -1,8 +1,41 @@
 .profilePage {
   display: flex;
-  justify-content: center;
+  justify-content: center !important;
 }
 
 .accountTitle {
+  align-content: center !important;
   margin-top: 3em;
+  width: 75%;
+}
+
+.accountDetailContainer {
+  display: flex;
+  justify-content: center !important;
+  margin-top: 2em;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.dividedContainer {
+  width: 70em;
+}
+
+.rightSideDetails {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.accountDetails {
+  justify-content: center !important;
+}
+
+.leftPhotoCard {
+  display: flex;
+  justify-content: center;
+  margin-top: 2em;
 }
