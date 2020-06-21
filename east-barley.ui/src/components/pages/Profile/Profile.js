@@ -5,6 +5,8 @@ import {
   Divider,
   Segment,
   Grid,
+  Button,
+  Image,
 } from 'semantic-ui-react';
 import userData from '../../../helpers/data/userData';
 import authData from '../../../helpers/data/authData';
@@ -85,6 +87,14 @@ class Profile extends React.Component {
                   <Divider vertical>And</Divider>
               </Segment>
               </div>
+              <div className="profileButtonGroup">
+                <div className="buttonContainer">
+                  <Button.Group attached='bottom'>
+                    <Button inverted color='blue' onClick={() => alert('will do later')}>Edit Profile Information</Button>
+                    <Button inverted color='red' onClick={() => alert('will do later')}>Deactivate Profile</Button>
+                  </Button.Group>
+                </div>
+              </div>
             </div>
             <div className="divider2">
               <Divider />
@@ -102,8 +112,14 @@ class Profile extends React.Component {
                       </Header>
                     </Segment>
                   </div>
-                : <div className="invoice">
-                    {invoices.map((invoice) => <InvoiceCard key={invoice.id} invoice={invoice} />)}
+                : <div className="multipleInvoice">
+                    <div className="invoiceContainer">
+                      <Grid columns={2}>
+                        <Grid.Column>
+                          {invoices.map((invoice) => <InvoiceCard key={invoice.id} invoice={invoice} />)}
+                        </Grid.Column>
+                      </Grid>
+                    </div>
                   </div>
               }
             </div>

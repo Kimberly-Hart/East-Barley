@@ -50,3 +50,29 @@
 .divider2 {
   margin-top: 3em;
 }
+
+.profileButtonGroup {
+  display: flex;
+  justify-content: center;
+}
+
+.buttonContainer {
+  width: 75%;
+  margin-top: 2em;
+}
+
+.multipleInvoice {
+  display: inline-flex !important;
+  flex-wrap: wrap !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  width: 100%;
+  margin-top: 3em;
+}
+
+.invoiceContainer {
+  display: inline-flex !important;
+  flex-wrap: wrap !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+}

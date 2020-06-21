@@ -1,9 +1,21 @@
 import React from 'react';
+import { Image } from 'semantic-ui-react';
 
 class InvoiceCard extends React.Component {
   render() {
+    const { invoice } = this.props;
     return (
-      <h1>Hello</h1>
+      <Image
+        fluid
+        label={{
+          as: 'a',
+          color: 'black',
+          content: 'Shipped',
+          icon: 'hotel',
+          ribbon: true,
+        }}
+        src='https://react.semantic-ui.com/images/wireframe/image.png'
+    />
     );
   }
 }
