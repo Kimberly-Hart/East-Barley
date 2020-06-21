@@ -30,6 +30,13 @@
   justify-content: center;
 }
 
+.meh {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 7em;
+}
+
 .accountDetails {
   justify-content: center !important;
 }
@@ -38,4 +45,8 @@
   display: flex;
   justify-content: center;
   margin-top: 2em;
+}
+
+.divider2 {
+  margin-top: 3em;
 }

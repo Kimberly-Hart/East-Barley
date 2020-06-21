@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
+import './ProfileDetails.scss';
 
 class ProfileDetails extends React.Component {
     formatMonth = (dt) => {
@@ -19,7 +20,7 @@ class ProfileDetails extends React.Component {
     render() {
       const { user } = this.props;
       return (
-      <Table definition>
+      <Table definition className="tableDetails">
         <Table.Body>
           <Table.Row>
             <Table.Cell width={2}>Email</Table.Cell>
