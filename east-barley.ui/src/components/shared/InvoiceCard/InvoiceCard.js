@@ -32,6 +32,17 @@ class InvoiceCard extends React.Component {
     }
   }
 
+  shipStatus = (statusId) => {
+    const { invoice } = this.props;
+    if (statusId === 1) {
+      return 'Go view items saved in your cart'
+    } else if (statusId === 2) {
+      return `Shipping To: ${invoice.billingAddress}, ${invoice.billingCity}, ${invoice.billingState} ${invoice.billingZip}`;
+    } else {
+      return `Shipped To: ${invoice.billingAddress}, ${invoice.billingCity}, ${invoice.billingState} ${invoice.billingZip}`;
+    }
+  }
+
   render() {
     const { invoice } = this.props;
     return (
@@ -39,8 +50,8 @@ class InvoiceCard extends React.Component {
         <Grid.Column>
           <Card className="invoiceCard" onClick={() => alert('to be done later')}>
             {this.getStatus(invoice.statusId)}
-              <Card.Content header={invoice.invoiceId} />
-              <Card.Content description={`$${invoice.totalCost}`} />
+              <Card.Content header={`$${invoice.totalCost}`} />
+              <Card.Content description={this.shipStatus(invoice.statusId)} />
               <Card.Content extra className="extraDetails">
                 <Icon name='calendar alternate outline' />{this.formatDate(invoice.invoiceDate)}
               </Card.Content>
