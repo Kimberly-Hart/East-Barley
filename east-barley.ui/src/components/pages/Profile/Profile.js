@@ -6,7 +6,6 @@ import {
   Segment,
   Grid,
   Button,
-  Image,
 } from 'semantic-ui-react';
 import userData from '../../../helpers/data/userData';
 import authData from '../../../helpers/data/authData';
@@ -21,22 +20,6 @@ class Profile extends React.Component {
     user: {},
     invoices: [],
   }
-
-  // getUserInfo = (uid) => {
-  //   userData.getUserByUID(uid)
-  //     .then((user) => {
-  //       this.setState({ user });
-  //     })
-  //     .catch((errorFromProfile) => console.error(errorFromProfile));
-  // }
-
-  // getInvoicesByUser = (userId) => {
-  //   invoiceData.getInvoicesByUserId(userId)
-  //     .then((invoices) => {
-  //       this.setState({ invoices });
-  //     })
-  //     .catch((errorFromProfile) => console.error(errorFromProfile));
-  // }
 
   componentDidMount() {
     userData.getUserByUID(authData.getUid())
@@ -73,7 +56,7 @@ class Profile extends React.Component {
                 <Grid columns={2} relaxed='very'>
                   <Grid.Column>
                     <div className="leftPhotoCard">
-                      <ProfileCard user={user}/>
+                      <ProfileCard user={user} invoices={invoices} />
                     </div>
                   </Grid.Column>
                   <Grid.Column>
@@ -91,7 +74,7 @@ class Profile extends React.Component {
                 <div className="buttonContainer">
                   <Button.Group attached='bottom'>
                     <Button inverted color='blue' onClick={() => alert('will do later')}>Edit Profile Information</Button>
-                    <Button inverted color='red' onClick={() => alert('will do later')}>Deactivate Profile</Button>
+                    <Button inverted color='red' onClick={() => alert('will do later')}>Delete Profile</Button>
                   </Button.Group>
                 </div>
               </div>
@@ -114,10 +97,8 @@ class Profile extends React.Component {
                   </div>
                 : <div className="multipleInvoice">
                     <div className="invoiceContainer">
-                      <Grid columns={2}>
-                        <Grid.Column>
+                      <Grid>
                           {invoices.map((invoice) => <InvoiceCard key={invoice.id} invoice={invoice} />)}
-                        </Grid.Column>
                       </Grid>
                     </div>
                   </div>

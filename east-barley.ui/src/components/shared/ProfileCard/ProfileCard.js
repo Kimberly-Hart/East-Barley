@@ -16,10 +16,10 @@ class ProfileCard extends React.Component {
   };
 
   render() {
-    const { user } = this.props;
+    const { user, invoices } = this.props;
     return (
       <Card>
-          <Image src='https://react.semantic-ui.com/images/avatar/large/daniel.jpg' wrapped ui={false} />
+          <Image src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' wrapped ui={false} />
           <Card.Content>
             <Card.Header>{user.firstName} {user.lastName}</Card.Header>
             <Card.Meta>{this.formatDate(user.dateAccountCreated)}</Card.Meta>
@@ -27,7 +27,7 @@ class ProfileCard extends React.Component {
           <Card.Content extra>
             <a>
               <Icon name='user' />
-              10 Friends
+              {invoices.length} Total Orders
             </a>
           </Card.Content>
         </Card>
