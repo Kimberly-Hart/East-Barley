@@ -35,7 +35,7 @@ class App extends React.Component {
   state = {
     authed: false,
     over21: false,
-    ageVerificationComplete: false,
+    dobModalIsOpen: false,
     user: {},
   }
 
@@ -51,9 +51,12 @@ class App extends React.Component {
             } else {
               this.setState({ over21: false });
             }
-          }).catch((errorFromApp) => console.error(errorFromApp));
+          }).catch((errorFromApp) => {
+            this.setState({ dobModalIsOpen: true });
+            console.error(errorFromApp);
+          });
       } else {
-        this.setState({ authed: false });
+        this.setState({ authed: false, dobModalIsOpen: true });
       }
     });
   }
@@ -66,15 +69,15 @@ class App extends React.Component {
     this.setState({ over21: true });
   };
 
-  setAgeVerified = () => {
-    this.setState({ ageVerificationComplete: true });
+  setDobModalIsOpen = (status) => {
+    this.setState({ dobModalIsOpen: status });
   };
 
   render() {
     const {
       authed,
       over21,
-      ageVerificationComplete,
+      dobModalIsOpen,
       user,
     } = this.state;
 
@@ -82,7 +85,7 @@ class App extends React.Component {
     <div className="App">
       <Router>
       <MyNavBar authed={authed} verified={over21} />
-      <AgeVerificationModal hasVerified={ageVerificationComplete} verified={over21} setOver21={this.setOver21} setAgeVerified={this.setAgeVerified} />
+      <AgeVerificationModal dobModalIsOpen={dobModalIsOpen} verified={over21} setOver21={this.setOver21} setDobModalIsOpen={this.setDobModalIsOpen} />
         <Switch>
             <Route path="/" exact component={() => <Home verified={over21} authed={authed} />} />
             <Route path="/auth" exact component={() => <Auth verified={over21} authed={authed} />} />

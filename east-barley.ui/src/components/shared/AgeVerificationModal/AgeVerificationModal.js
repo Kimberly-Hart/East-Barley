@@ -10,29 +10,21 @@ import './AgeVerificationModal.scss';
 
 class AgeVerificationModal extends React.Component {
   state = {
-    open: true,
     dateOfBirth: '',
   }
 
   static propTypes = {
-    hasVerified: PropTypes.bool,
+    dobModalIsOpen: PropTypes.bool,
     verified: PropTypes.bool,
     setOver21: PropTypes.func,
-    setAgeVerified: PropTypes.func,
-  }
-
-  componentDidMount() {
-    const { hasVerified, verified } = this.props;
-    if (hasVerified || verified) {
-      this.setState({ open: false });
-    }
+    setDobModalIsOpen: PropTypes.func,
   }
 
   closeConfigShow = (closeOnEscape, closeOnDimmerClick) => () => {
-    this.setState({ closeOnEscape: false, closeOnDimmerClick: false, open: true });
+    const { setDobModalIsOpen } = this.props;
+    this.setState({ closeOnEscape: false, closeOnDimmerClick: false });
+    setDobModalIsOpen(true);
   }
-
-  close = () => this.setState({ open: false });
 
   changeDOB = (e) => {
     e.preventDefault();
@@ -58,29 +50,28 @@ class AgeVerificationModal extends React.Component {
   checkAge = (e) => {
     e.preventDefault();
     const { dateOfBirth } = this.state;
-    const { setAgeVerified, setOver21 } = this.props;
+    const { setDobModalIsOpen, setOver21 } = this.props;
     if (dateOfBirth) {
       const age = this.calculateAge();
       if (age >= 21) {
         setOver21();
       }
-      setAgeVerified();
-      this.close();
+      setDobModalIsOpen(false);
     }
   }
 
   render() {
     const {
-      open,
       closeOnEscape,
       closeOnDimmerClick,
       dateOfBirth,
     } = this.state;
+    const { dobModalIsOpen } = this.props;
 
     return (
       <div>
         <Modal
-          open={open}
+          open={dobModalIsOpen}
           closeOnEscape={closeOnEscape}
           closeOnDimmerClick={closeOnDimmerClick}
         >
