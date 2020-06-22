@@ -98,7 +98,7 @@ class Profile extends React.Component {
                 : <div className="multipleInvoice">
                     <div className="invoiceContainer">
                       <Grid>
-                          {invoices.map((invoice) => <InvoiceCard key={invoice.id} invoice={invoice} />)}
+                          {invoices.map((invoice) => <InvoiceCard key={invoice.invoiceId} invoice={invoice} />)}
                       </Grid>
                     </div>
                   </div>

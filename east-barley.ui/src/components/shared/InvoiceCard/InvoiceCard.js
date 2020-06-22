@@ -1,6 +1,12 @@
+/* eslint-disable no-useless-concat */
 /* eslint-disable no-else-return */
 import React from 'react';
-import { Card, Label, Icon, Grid, Button } from 'semantic-ui-react';
+import {
+  Card,
+  Label,
+  Icon,
+  Grid,
+} from 'semantic-ui-react';
 import './InvoiceCard.scss';
 
 class InvoiceCard extends React.Component {
@@ -13,29 +19,31 @@ class InvoiceCard extends React.Component {
   };
 
   getStatus = (statusId) => {
+    let label;
     if (statusId === 1) {
-      return <Label as='a' color='yellow' ribbon>
+      label = <Label color='grey' ribbon>
             Open Cart
-      </Label>;
+             </Label>;
     } else if (statusId === 2) {
-      return <Label as='a' color='teal' ribbon>
+      label = <Label color='yellow' ribbon>
             Received
-      </Label>;
+             </Label>;
     } else if (statusId === 3) {
-      return <Label as='a' color='orange' ribbon>
+      label = <Label color='orange' ribbon>
             Completed
-      </Label>;
+             </Label>;
     } else if (statusId === 4) {
-      return <Label as='a' color='blue' ribbon>
+      label = <Label color='blue' ribbon>
             Shipped
-      </Label>;
+             </Label>;
     }
+    return label;
   }
 
   shipStatus = (statusId) => {
     const { invoice } = this.props;
     if (statusId === 1) {
-      return 'Go view items saved in your cart'
+      return 'Go view items saved in your cart';
     } else if (statusId === 2) {
       return `Shipping To: ${invoice.billingAddress}, ${invoice.billingCity}, ${invoice.billingState} ${invoice.billingZip}`;
     } else {

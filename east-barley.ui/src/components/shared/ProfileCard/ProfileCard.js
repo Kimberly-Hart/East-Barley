@@ -25,10 +25,8 @@ class ProfileCard extends React.Component {
             <Card.Meta>{this.formatDate(user.dateAccountCreated)}</Card.Meta>
           </Card.Content>
           <Card.Content extra>
-            <a>
               <Icon name='user' />
               {invoices.length} Total Orders
-            </a>
           </Card.Content>
         </Card>
     );

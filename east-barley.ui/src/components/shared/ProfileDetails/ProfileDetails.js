@@ -1,3 +1,4 @@
+/* eslint-disable no-useless-concat */
 import React from 'react';
 import { Table } from 'semantic-ui-react';
 import './ProfileDetails.scss';
