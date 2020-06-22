@@ -31,7 +31,7 @@ firebaseApp();
 
 class App extends React.Component {
   state = {
-    authed: true,
+    authed: false,
     over21: true,
   }
 

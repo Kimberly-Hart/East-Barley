@@ -88,7 +88,22 @@ namespace EastBarley.DataAccess
                     return userToDeactivateId == 1;
                 }
             }
-        }
+
+         public Users GetUserByFirebaseUID(string firebaseUID)
+             {
+                var sql = @"Select *
+                            from Users
+                                where FirebaseUID = @firebaseUID";
+
+                using (var db = new SqlConnection(ConnectionString))
+                {
+                    var parameters = new { firebaseUID = firebaseUID };
+                    var user = db.QueryFirstOrDefault<Users>(sql, parameters);
+                    return user;
+                }
+             }
+
+         }
     }
 
 
