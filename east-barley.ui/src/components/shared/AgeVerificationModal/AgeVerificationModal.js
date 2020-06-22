@@ -16,12 +16,14 @@ class AgeVerificationModal extends React.Component {
 
   static propTypes = {
     hasVerified: PropTypes.bool,
+    verified: PropTypes.bool,
     setOver21: PropTypes.func,
+    setAgeVerified: PropTypes.func,
   }
 
   componentDidMount() {
-    const { hasVerified } = this.props;
-    if (hasVerified) {
+    const { hasVerified, verified } = this.props;
+    if (hasVerified || verified) {
       this.setState({ open: false });
     }
   }
@@ -31,6 +33,31 @@ class AgeVerificationModal extends React.Component {
   }
 
   close = () => this.setState({ open: false });
+
+  calculateAge = () => {
+    const today = new Date();
+    const birthDate = new Date(this.state.dateOfBirth);
+    let age = today.getFullYear() - birthDate.getFullYear();
+    const m = today.getMonth() - birthDate.getMonth();
+    if (m < 0 || (m === 0 && today.getDate() < birthDate.getDate())) {
+      age -= 1;
+    }
+    return age;
+  };
+
+  checkAge = (e) => {
+    e.preventDefault();
+    const { dateOfBirth } = this.state;
+    const { setAgeVerified, setOver21 } = this.props;
+    if (dateOfBirth) {
+      const age = this.calculateAge();
+      if (age >= 21) {
+        setOver21();
+      }
+      setAgeVerified();
+      this.close();
+    }
+  }
 
   render() {
     const { open, closeOnEscape, closeOnDimmerClick } = this.state;
@@ -47,11 +74,11 @@ class AgeVerificationModal extends React.Component {
             <Form>
               <Form.Field>
                 <label>First Name</label>
-                <Input type='date' id='dateOfBirth' />
+                <Input type='date' id='dateOfBirth' required />
               </Form.Field>
               <Modal.Actions>
                 <Button
-                  onClick={this.close}
+                  onClick={this.checkAge}
                   type='submit'
                   labelPosition='right'
                   icon='calendar check outline'
@@ -59,8 +86,7 @@ class AgeVerificationModal extends React.Component {
                   basic color='green'
                 />
               </Modal.Actions>
-              {/* <Button type='submit'>Submit</Button> */}
-            </Form>
+\            </Form>
           </Modal.Content>
         </Modal>
       </div>

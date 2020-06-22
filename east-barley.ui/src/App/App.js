@@ -32,17 +32,21 @@ class App extends React.Component {
     ageVerificationComplete: false,
   }
 
+  setOver21 = () => {
+    this.setState({ over21: true });
+  };
+
+  setAgeVerified = () => {
+    this.setState({ ageVerificationComplete: true });
+  };
+
   render() {
     const { authed, over21, ageVerificationComplete } = this.state;
-
-    const setOver21 = () => {
-      this.setState({ over21: true });
-    };
 
     return (
     <div className="App">
       <Router>
-      <AgeVerificationModal hasVerified={ageVerificationComplete} setOver21={setOver21()} />
+      <AgeVerificationModal hasVerified={ageVerificationComplete} verified={over21} setOver21={this.setOver21} setAgeVerified={this.setAgeVerified} />
         <Switch>
             <Route path="/" exact component={() => <Home verified={over21} authed={authed} />} />
             <Route path="/auth" exact component={() => <Auth verified={over21} authed={authed} />} />
