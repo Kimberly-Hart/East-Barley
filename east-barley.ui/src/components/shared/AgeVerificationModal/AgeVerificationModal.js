@@ -34,6 +34,16 @@ class AgeVerificationModal extends React.Component {
 
   close = () => this.setState({ open: false });
 
+  changeDOB = (e) => {
+    e.preventDefault();
+    if (e.target.value.length < 8) {
+      this.setState({ dateOfBirth: '' });
+    }
+    if (e.target.value.length >= 8) {
+      this.setState({ dateOfBirth: e.target.value });
+    }
+  }
+
   calculateAge = () => {
     const today = new Date();
     const birthDate = new Date(this.state.dateOfBirth);
@@ -60,7 +70,12 @@ class AgeVerificationModal extends React.Component {
   }
 
   render() {
-    const { open, closeOnEscape, closeOnDimmerClick } = this.state;
+    const {
+      open,
+      closeOnEscape,
+      closeOnDimmerClick,
+      dateOfBirth,
+    } = this.state;
 
     return (
       <div>
@@ -74,7 +89,7 @@ class AgeVerificationModal extends React.Component {
             <Form>
               <Form.Field>
                 <label>First Name</label>
-                <Input type='date' id='dateOfBirth' required />
+                <Input type='date' id='dateOfBirth' value={dateOfBirth} onChange={this.changeDOB} required />
               </Form.Field>
               <Modal.Actions>
                 <Button
