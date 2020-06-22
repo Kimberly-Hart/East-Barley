@@ -71,8 +71,8 @@ namespace EastBarley.Controllers
     [HttpDelete("{userId}")]
     public IActionResult DeactivateAUser(int userId)
         {
-            var didItWork = _repository.DeactivateUser(userId);
-            if (didItWork)
+            var deactivatedUser = _repository.DeactivateUser(userId);
+            if (deactivatedUser)
             {
                 return Ok(userId);
             }
@@ -80,6 +80,14 @@ namespace EastBarley.Controllers
             {
                 return Problem("No user was found to deactivate");
             }
+        }
+
+    [HttpGet("firebase/{firebaseUID}")]
+    public IActionResult GetUserByFirebaseId(string firebaseUID)
+        {
+            var user = _repository.GetUserByFirebaseUID(firebaseUID);
+            if (user == null) return NotFound("User Does Not Exist");
+            return Ok(user);
         }
     }
 }
