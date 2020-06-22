@@ -7,6 +7,8 @@ import {
 } from 'react-router-dom';
 import firebase from 'firebase/app';
 import './App.scss';
+import userData from '../helpers/data/userData';
+import authData from '../helpers/data/authData';
 import AgeVerificationModal from '../components/shared/AgeVerificationModal/AgeVerificationModal';
 import Auth from '../components/pages/Auth/Auth';
 import Beers from '../components/pages/AllBeers/AllBeers';
@@ -34,18 +36,22 @@ class App extends React.Component {
     authed: false,
     over21: false,
     ageVerificationComplete: false,
+    user: {},
   }
 
   componentDidMount() {
     this.removeListener = firebase.auth().onAuthStateChanged((user) => {
       if (user) {
         this.setState({ authed: true });
-        console.log(user);
-        if (user.over21) {
-          this.setState({ over21: true });
-        } else {
-          this.setState({ over21: false });
-        }
+        userData.getUserByUID(authData.getUid())
+          .then((userDetails) => {
+            this.setState({ user: userDetails });
+            if (userDetails.isOver21) {
+              this.setState({ over21: true });
+            } else {
+              this.setState({ over21: false });
+            }
+          }).catch((errorFromApp) => console.error(errorFromApp));
       } else {
         this.setState({ authed: false });
       }
@@ -65,7 +71,12 @@ class App extends React.Component {
   };
 
   render() {
-    const { authed, over21, ageVerificationComplete } = this.state;
+    const {
+      authed,
+      over21,
+      ageVerificationComplete,
+      user,
+    } = this.state;
 
     return (
     <div className="App">
@@ -75,7 +86,7 @@ class App extends React.Component {
         <Switch>
             <Route path="/" exact component={() => <Home verified={over21} authed={authed} />} />
             <Route path="/auth" exact component={() => <Auth verified={over21} authed={authed} />} />
-            <PrivateRoute path="/profile" exact component={() => <Profile verified={over21} authed={authed} />} authed={authed} />
+            <PrivateRoute path="/profile" exact component={() => <Profile verified={over21} authed={authed} user={user} />} authed={authed} />
             <Over21Route path="/whiskey" exact component={() => <Whiskeys verified={over21} authed={authed} />} verified={over21} />
             <Over21Route path="/beer" exact component={() => <Beers verified={over21} authed={authed} />} verified={over21} />
             <Route path="/books" exact component={() => <Books verified={over21} authed={authed} />} />
