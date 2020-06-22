@@ -7,35 +7,33 @@ import {
   Grid,
   Button,
 } from 'semantic-ui-react';
-import userData from '../../../helpers/data/userData';
-import authData from '../../../helpers/data/authData';
 import invoiceData from '../../../helpers/data/invoiceData';
 import ProfileCard from '../../shared/ProfileCard/ProfileCard';
 import ProfileDetails from '../../shared/ProfileDetails/ProfileDetails';
 import InvoiceCard from '../../shared/InvoiceCard/InvoiceCard';
+import userShape from '../../../helpers/propz/usersShape';
 import './Profile.scss';
 
 class Profile extends React.Component {
   state = {
-    user: {},
     invoices: [],
   }
 
+  static propTypes = {
+    user: userShape.userShape,
+  }
+
   componentDidMount() {
-    userData.getUserByUID(authData.getUid())
-      .then((user) => {
-        this.setState({ user });
-      }).then(() => {
-        invoiceData.getInvoicesByUserId(this.state.user.userId)
-          .then((invoices) => {
-            this.setState({ invoices });
-          });
+    invoiceData.getInvoicesByUserId(this.props.user.userId)
+      .then((invoices) => {
+        this.setState({ invoices });
       })
       .catch((errorFromProfile) => console.error(errorFromProfile));
   }
 
   render() {
-    const { user, invoices } = this.state;
+    const { invoices } = this.state;
+    const { user } = this.props;
     return (
       <div className="profilePage">
         <div className="accountTitle">

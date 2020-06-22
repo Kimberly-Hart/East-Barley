@@ -1,7 +1,12 @@
 import React from 'react';
 import { Card, Image, Icon } from 'semantic-ui-react';
+import userShape from '../../../helpers/propz/usersShape';
 
 class ProfileCard extends React.Component {
+  static propTypes = {
+    user: userShape.userShape,
+  }
+
   formatMonth = (dt) => {
     const mlist = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
     return mlist[dt - 1];
