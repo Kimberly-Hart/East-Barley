@@ -92,7 +92,7 @@ class AgeVerificationModal extends React.Component {
                   basic color='green'
                 />
               </Modal.Actions>
-\            </Form>
+             </Form>
           </Modal.Content>
         </Modal>
       </div>
