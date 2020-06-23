@@ -20,7 +20,10 @@ class AllWhiskeys extends React.Component {
       const { whiskeys } = this.state;
       return (
         <div className="AllWhiskeys">
-        { whiskeys.map((whiskey) => <SingleWhiskey key={whiskey.productId} whiskey={whiskey} />)}
+          <h1>Whiskeys</h1>
+          <div>
+          { whiskeys.map((whiskey) => <SingleWhiskey key={whiskey.productId} whiskey={whiskey} />)}
+          </div>
         </div>
       );
     }
