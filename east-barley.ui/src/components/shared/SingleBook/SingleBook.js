@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { Card, Segment, Button } from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 import booksShape from '../../../helpers/propz/booksShape';
 import './SingleBook.scss';
 
@@ -8,20 +8,12 @@ class SingleBook extends Component {
       book: booksShape.booksShape,
     }
 
-    button = () => (
-      <div>
-        <div className="ui inverted segment">
-        <button class="ui teal inverted button">Teal</button>
-        </div>
-      </div>
-    )
-
     render() {
       const { book } = this.props;
       return (
         <div className="SingleBook">
             <Card className="bookCard"
-              image='https://react.semantic-ui.com/images/avatar/large/elliot.jpg'
+              image={book.imageUrl}
               header={book.title}
               meta={book.author}
               description={book.description}
