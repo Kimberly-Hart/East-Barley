@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Card } from 'semantic-ui-react';
 import booksShape from '../../../helpers/propz/booksShape';
 import './SingleBook.scss';
 
@@ -11,17 +12,22 @@ class SingleBook extends Component {
       const { book } = this.props;
       return (
         <div className="SingleBook">
-            <ul>
+            <Card className="bookCard"
+              image={book.imageUrl}
+              header={book.title}
+              meta={book.author}
+              description={book.description}
+              extra={this.button}
+            />
+            {/* <ul>
                 <li>Category: {book.category}</li>
                 <li>Price: {book.price}</li>
-                <li>Title: {book.title}</li>
                 <li>Description: {book.description}</li>
                 <li>Quantity: {book.quantity}</li>
-                <li>Author: {book.author}</li>
                 <li>ISBN: {book.isbn}</li>
                 <li>Publisher: {book.publisher}</li>
                 <li>Page Count: {book.pageCount}</li>
-            </ul>
+            </ul> */}
         </div>
       );
     }

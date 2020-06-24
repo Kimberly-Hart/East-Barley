@@ -19,8 +19,11 @@ class AllBeers extends React.Component {
     render() {
       const { beers } = this.state;
       return (
-        <div className="AllBeers">
-        { beers.map((beer) => <SingleBeer key={beer.productId} beer={beer} />)}
+        <div className="AllBeers text-center">
+          <h1>Beers</h1>
+          <div className="container">
+          { beers.map((beer) => <SingleBeer key={beer.productId} beer={beer} />)}
+          </div>
         </div>
       );
     }

@@ -8,6 +8,7 @@ const booksShape = PropTypes.shape({
   title: PropTypes.string.isRequired,
   description: PropTypes.string.isRequired,
   quantity: PropTypes.number.isRequired,
+  imageUrl: PropTypes.string.isRequired,
   bookDetailsId: PropTypes.number,
   author: PropTypes.string.isRequired,
   isbn: PropTypes.string.isRequired,
