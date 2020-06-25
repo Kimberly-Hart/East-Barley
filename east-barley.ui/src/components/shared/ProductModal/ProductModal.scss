@@ -1,0 +1,29 @@
+.modalCardContent {
+  display: flex;
+  justify-content: center;
+}
+
+.allModalContent {
+  display: flex;
+  justify-content: center !important;
+}
+
+.modalHeader {
+  color: white;
+}
+
+.breadcrumb {
+  background: transparent;
+}
+
+.breadcrumbSection {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 2em;
+}
+
+.productModalButtons {
+  display: flex;
+  justify-content: center;
+  margin-top: 2em;
+}
