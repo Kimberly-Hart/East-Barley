@@ -22,21 +22,13 @@ class SingleBeer extends Component {
     const { modalOpen } = this.state;
     return (
       <div className="SingleBeer">
-          {/* <Card className="beerCard"
-            image={beer.imageUrl}
-            header={beer.title}
-            meta={beer.category}
-            description={beer.description}
-            extra={this.button}
-            onClick={this.handleOpen}
-          /> */}
             <Card className='beerCard'>
               <Image className="image" src={beer.imageUrl} onClick={this.handleOpen}/>
                 <Card.Content header={beer.title} textAlign='center' meta={beer.category} description={beer.description}/>
                 <Input icon='plus cart' iconPosition='left' placeholder='Quantity'/>
                 <Button.Group fluid>
-                  <Button attached='left'>More Details</Button>
-                  <Button attached='right'>Add To Cart</Button>
+                  <Button attached='left' onClick={this.handleOpen}>More Details</Button>
+                  <Button attached='right' onClick={() => alert('set up later')}>Add To Cart</Button>
                 </Button.Group>
             </Card>
             <ProductModal modalOpen={modalOpen} product={beer} handleClose={this.handleClose} handleOpen={this.handleOpen} />
