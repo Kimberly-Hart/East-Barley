@@ -197,40 +197,32 @@ namespace EastBarley.Controllers
             }
         }
 
-
-        // WIP
-        //[HttpPut("updatedcart/")]
-        //public IActionResult UpdatedCart(int statusId, int userId, int invoiceId, int totalCost, int lineItemId, LineItems changedLineItem)
-        //{
-        //    var openCart = _repository.FindOpenCart(invoiceId, statusId);
-        //    bool cartDoesExist = openCart != null;
-        //    if (!cartDoesExist)
-        //    {
-        //        // if no cart, then start one
-        //        openCart = _repository.StartNewOrder(userId, totalCost);
-        //    }
-        //    else if (cartDoesExist)
-        //    {
-        //        var shoppingCartItems = _repository.GetLineItem(invoiceId);
-        //        if (shoppingCartItems == null)
-        //        {
-        //            // if the line item doesn't exist then add it
-        //            var addedLineItems = _repository.AddLineItem(changedLineItem);
-        //            openCart.TotalCost += addedLineItems.Quantity * addedLineItems.Price;
-        //        }
-        //        else if (changedLineItem.Quantity <= 0)
-        //        {
-        //            // if line item quantity is zero then delete the line item
-        //            openCart = _repository.DeleteLineItem(lineItemId);
-        //        }
-        //        else
-        //        {
-        //            // if the line item exists then modify it
-        //            var updatedLineItem = _repository.ChangeLineItemQty(changedLineItem.Quantity, changedLineItem.LineItemId);
-        //            openCart.TotalCost += updatedLineItem.Quantity * updatedLineItem.Price;
-        //        }
-        //    }
-        //    return Ok(openCart);
-        //}
+       [HttpPut("updatedcart/{userId}")]
+        public IActionResult UpdatedCart(int userId, LineItems changedLineItem)
+        {
+            var openCart = _repository.FindOpenCarts(userId);
+            bool cartDoesExist = openCart != null;
+            if (cartDoesExist)
+            {
+                var shoppingCartItems = _repository.GetLineItem(changedLineItem.InvoiceId);
+                var findCartItems = shoppingCartItems.ToList().Find(x => x.LineItemId == changedLineItem.LineItemId);
+                if (changedLineItem.Quantity == 0)
+                {
+                    // if line item quantity is zero then delete the line item
+                    var multiplyQuantity = findCartItems.Price * findCartItems.Quantity;
+                    _repository.DeleteLineItem(changedLineItem.LineItemId);
+                    openCart = _repository.UpdateTotalCost(multiplyQuantity, changedLineItem.InvoiceId);
+                }
+                else
+                {
+                    // if the line item exists then modify it
+                    var cartDif = findCartItems.Quantity - changedLineItem.Quantity;
+                    var multiDiff = cartDif * findCartItems.Price;
+                    var updatedLineItem = _repository.ChangeLineItemQty(changedLineItem.Quantity, changedLineItem.LineItemId);
+                    openCart = _repository.UpdateTotalCost(multiDiff, changedLineItem.InvoiceId);
+                }
+            }
+            return Ok(openCart);
+        }
     }
 }
