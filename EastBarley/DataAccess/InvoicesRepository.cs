@@ -213,9 +213,9 @@ namespace EastBarley.DataAccess
 
         public OrderCart AddToExistingCart(int invoiceId, decimal totalCost)
         {
-            var sql = @"SELECT *
+            var sql = @"UPDATE Invoice
                         SET TotalCost = TotalCost + @totalCost
-                        FROM Invoice
+						output inserted .*
                         WHERE Invoice.InvoiceId = @invoiceId";
 
             using (var db = new SqlConnection(ConnectionString))
@@ -256,21 +256,6 @@ namespace EastBarley.DataAccess
                 return result;
             }
         }
-
-        // WIP
-        //public OrderCart DeleteCart(int invoiceId)
-        //{
-        //    var sql = @"DELETE FROM Invoices
-        //                WHERE Invoice.InvoiceId = @invoiceId
-        //                AND status = 1";
-
-        //    using (var db = new SqlConnection(ConnectionString))
-        //    {
-        //        var parameters = new { InvoiceId = invoiceId };
-        //        var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
-        //        return result;
-        //    }
-        //}
 
         // WIP
         public LineItems DeleteLineItem(int lineItemId)
