@@ -180,6 +180,7 @@ namespace EastBarley.DataAccess
             }
         }
 
+        // WIP
         public OrderCart FindOpenCarts(int userId)
         {
             var sql = @"SELECT *
@@ -225,6 +226,7 @@ namespace EastBarley.DataAccess
             }
         }
 
+        // WIP
         public LineItems ChangeLineItemQty(int newQuantity, int lineItemId)
         {
             var sql = @"UPDATE LineItems
@@ -240,7 +242,7 @@ namespace EastBarley.DataAccess
                 return result;
             }
         }
-
+        // WIP
         public IEnumerable<LineItems> GetLineItem(int invoiceId)
         {
             var sql = @"SELECT *
@@ -255,6 +257,7 @@ namespace EastBarley.DataAccess
             }
         }
 
+        // WIP
         public LineItems DeleteLineItem(int lineItemId)
         {
             var sql = @"DELETE FROM LineItems
