@@ -181,20 +181,35 @@ namespace EastBarley.DataAccess
         }
 
         // WIP
-        //public OrderCart FindOpenCart(int userId, int statusId)
-        //{
-        //    var sql = @"SELECT *
-        //                FROM Invoice
-        //                WHERE UserId = @userId
-        //                AND StatusId = @statusId";
+        public OrderCart FindOpenCarts(int userId)
+        {
+            var sql = @"SELECT *
+                        FROM Invoice
+                        WHERE UserId = @userId
+                        AND StatusId = 1";
 
-        //    using (var db = new SqlConnection(ConnectionString))
-        //    {
-        //        var parameters = new { UserId = userId, StatusId = statusId };
-        //        var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
-        //        return result;
-        //    }
-        //}
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { UserId = userId };
+                var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
+                return result;
+            }
+        }
+
+        public OrderCart UpdateTotalCost(decimal totalCost, int invoiceId)
+        {
+            var sql = @"UPDATE Invoice
+                        SET TotalCost = TotalCost - @totalCost
+                        output inserted .*
+                        WHERE InvoiceId = @invoiceId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { TotalCost = totalCost, InvoiceId = invoiceId };
+                var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
+                return result;
+            }
+        }
 
         public OrderCart AddToExistingCart(int invoiceId, decimal totalCost)
         {
@@ -212,36 +227,35 @@ namespace EastBarley.DataAccess
         }
 
         // WIP
-        //public LineItems ChangeLineItemQty(int newQuantity, int lineItemId)
-        //{
-        //    var sql = @"UPDATE LineItems
-        //                output inserted .*
-        //                SET Quantity = Quantity + @NewQuantity
-        //                WHERE LineItemId = @LineItemId";
+        public LineItems ChangeLineItemQty(int newQuantity, int lineItemId)
+        {
+            var sql = @"UPDATE LineItems
+                        SET Quantity = @NewQuantity
+                        output inserted .*
+                        WHERE LineItemId = @LineItemId";
 
-        //    using (var db = new SqlConnection(ConnectionString))
-        //    {
-        //        var parameters = new { NewQuantity = newQuantity, LineItemId = lineItemId };
-        //        var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { NewQuantity = newQuantity, LineItemId = lineItemId };
+                var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
 
-        //        return result;
-        //    }
-        //}
-
+                return result;
+            }
+        }
         // WIP
-        //public LineItems GetLineItem(int invoiceId)
-        //{
-        //    var sql = @"SELECT *
-        //                FROM LineItems
-        //                WHERE LineItems.InvoiceId = @invoiceId";
+        public IEnumerable<LineItems> GetLineItem(int invoiceId)
+        {
+            var sql = @"SELECT *
+                        FROM LineItems
+                        WHERE LineItems.InvoiceId = @invoiceId";
 
-        //    using (var db = new SqlConnection(ConnectionString))
-        //    {
-        //        var parameters = new { InvoiceId = invoiceId };
-        //        var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
-        //        return result;
-        //    }
-        //}
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { InvoiceId = invoiceId };
+                var result = db.Query<LineItems>(sql, parameters);
+                return result;
+            }
+        }
 
         // WIP
         //public OrderCart DeleteCart(int invoiceId)
@@ -259,18 +273,18 @@ namespace EastBarley.DataAccess
         //}
 
         // WIP
-        //public LineItems DeleteLineItem(int lineItemId)
-        //{
-        //    var sql = @"DELETE FROM LineItem
-        //                WHERE LineItem.LineItemId = @lineItemId";
+        public LineItems DeleteLineItem(int lineItemId)
+        {
+            var sql = @"DELETE FROM LineItems
+                        WHERE LineItems.LineItemId = @lineItemId";
 
-        //    using (var db = new SqlConnection(ConnectionString))
-        //    {
-        //        var parameters = new { LineItemId = lineItemId };
-        //        var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
-        //        return result;
-        //    }
-        //}
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { LineItemId = lineItemId };
+                var result = db.QueryFirstOrDefault<LineItems>(sql, parameters);
+                return result;
+            }
+        }
 
         public List<Invoices> CompleteOrder(Invoices invoiceToComplete)
         {
