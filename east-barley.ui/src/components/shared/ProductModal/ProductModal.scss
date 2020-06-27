@@ -3,9 +3,20 @@
   justify-content: center !important;
 }
 
-// .productModalCard {
-//   width: 70% !important;
-// }gi
+.modalSecondCard {
+  width: 70% !important;
+}
+
+.modalSecondContainer {
+  display: flex;
+  justify-content: center !important;
+}
+
+.modalFirstCard {
+  display: flex !important;
+  justify-content: center !important;
+  margin-bottom: 1em;
+}
 
 .allModalContent {
   display: flex;
@@ -27,7 +38,7 @@
 }
 
 .productModalButtons {
-  display: flex;
+  display: inline-flex;
   justify-content: center;
   margin-top: 2em;
 }

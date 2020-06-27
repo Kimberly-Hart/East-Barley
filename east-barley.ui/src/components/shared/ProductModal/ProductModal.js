@@ -68,8 +68,11 @@ class ProductModal extends React.Component {
         </div>
         <div className="modalCardContent">
           <Modal.Content>
+            <div className='modalFirstCard'>
             <Card color='red' image={product.imageUrl} />
-              <Card className='productModalCard'>
+            </div>
+              <div className='modalSecondContainer'>
+              <Card className='modalSecondCard'>
                 <Card.Content header={product.title} textAlign='center' />
                 {(this.state.isBook)
                   ? <Card.Content meta={product.author} textAlign='center' />
@@ -94,9 +97,11 @@ class ProductModal extends React.Component {
                       </Label.Group>
                     </Card.Content>
               </Card>
+            </div>
         </Modal.Content>
         </div>
         <div className="productModalButtons">
+          <div className="productButtonContainer">
           <Modal.Actions>
           <Input icon='plus cart' iconPosition='left' placeholder='Quantity' />
             <Button color='green' onClick={handleClose} inverted>
@@ -106,6 +111,7 @@ class ProductModal extends React.Component {
               <Icon name='checkmark' /> Add to Cart & Keep shopping
             </Button>
           </Modal.Actions>
+          </div>
         </div>
       </Modal>
       </div>
