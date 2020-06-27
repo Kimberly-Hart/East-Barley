@@ -157,7 +157,7 @@ namespace EastBarley.Controllers
             {
                 return NotFound("This user could not be found.");
             }
-            var hasCart = _repository.CheckForCart(UserId);
+            var hasCart = _repository.FindOpenCarts(UserId);
             var totalCost = lineItemToAdd.Price * lineItemToAdd.Quantity;
             OrderCart cart;
             if (hasCart != null)
