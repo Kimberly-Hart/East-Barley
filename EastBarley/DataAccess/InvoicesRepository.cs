@@ -313,5 +313,19 @@ namespace EastBarley.DataAccess
                 return result;
             }
         }
+
+        public List<LineItems>  GetLineItemsByInvoiceId(int invoiceId)
+        {
+            var sql = @"select *
+                        from LineItems
+                            where InvoiceId = @invoiceId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { invoiceId = invoiceId };
+                var result = db.Query<LineItems>(sql, parameters).ToList();
+                return result;
+            }
+        }
     }
 }
