@@ -244,5 +244,17 @@ namespace EastBarley.Controllers
             var monthlySales = _repository.MonthlySalesBySalesRepId(month, year, salesRepId);
             return Ok(monthlySales);
         }
+
+        [HttpGet("lineItems/{invoiceId}")]
+        public IActionResult GetLineItemsByInvoiceId(int invoiceId)
+        {
+            var lineItem = _repository.GetLineItemsByInvoiceId(invoiceId);
+            var noLineItem = !lineItem.Any();
+            if (noLineItem)
+            {
+                return NotFound("There are no line items to be found");
+            }
+            return Ok(lineItem);
+        }
     }
 }

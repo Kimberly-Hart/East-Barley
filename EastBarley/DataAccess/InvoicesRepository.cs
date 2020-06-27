@@ -300,7 +300,6 @@ namespace EastBarley.DataAccess
         public decimal TotalSalesBySalesRepId(int salesRepId)
         {
             var repInvoices = GetInvoicesBySalesRepId(salesRepId);
-            //var repInvoices = findInvoices.ToList();
             var totalSales = 0m;
             foreach (var invoice in repInvoices)
             {
@@ -312,7 +311,6 @@ namespace EastBarley.DataAccess
         public decimal MonthlySalesBySalesRepId(int month, int year, int salesRepId)
         {
             var repInvoices = GetInvoicesBySalesRepId(salesRepId);
-            //var repInvoices = findInvoices.ToList();
             var totalSales = 0m;
             foreach (var invoice in repInvoices)
             {
@@ -324,5 +322,19 @@ namespace EastBarley.DataAccess
             return totalSales;
         }
 
+
+        public List<LineItems>  GetLineItemsByInvoiceId(int invoiceId)
+        {
+            var sql = @"select *
+                        from LineItems
+                            where InvoiceId = @invoiceId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { invoiceId = invoiceId };
+                var result = db.Query<LineItems>(sql, parameters).ToList();
+                return result;
+            }
+        }
     }
 }
