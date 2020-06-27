@@ -10,6 +10,7 @@ const userShape = PropTypes.shape({
   isOver21: PropTypes.bool.isRequired,
   isAcctActive: PropTypes.bool.isRequired,
   firebaseUID: PropTypes.string.isRequired,
+  imageURL: PropTypes.string,
 });
 
 export default { userShape };
