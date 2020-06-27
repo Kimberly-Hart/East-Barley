@@ -24,6 +24,8 @@ class MyNavBar extends React.Component {
     authed: PropTypes.bool,
     isEmployee: PropTypes.bool,
     verified: PropTypes.bool,
+    setOver21: PropTypes.func,
+    setIsEmployee: PropTypes.func,
   }
 
   loginClickEvent = (e) => {
@@ -33,6 +35,9 @@ class MyNavBar extends React.Component {
 
   logoutClickEvent = (e) => {
     e.preventDefault();
+    const { setOver21, setIsEmployee } = this.props;
+    setOver21(false);
+    setIsEmployee(false);
     firebase.auth().signOut();
   }
 
@@ -67,9 +72,7 @@ class MyNavBar extends React.Component {
                               <NavItem>
                               <Link className="nav-link" to="/Books">Books</Link>
                               </NavItem>
-                              <NavItem>
-                              <Link className="nav-link profile" to="/Profile">Profile</Link>
-                              </NavItem>
+                              { (authed) ? <NavItem><Link className="nav-link profile" to="/Profile">Profile</Link></NavItem> : <NavItem></NavItem> }
                               { (isEmployee) ? <NavItem><Link className="nav-link" to="/Employee">Employee Dashboard</Link></NavItem> : <NavItem></NavItem> }
                             </Nav>
                            { (authed)
@@ -91,7 +94,7 @@ class MyNavBar extends React.Component {
                       <NavItem>
                       <Link className="nav-link" to="/Books">Books</Link>
                       </NavItem>
-                      <Link className="nav-link profile" to="/Profile">Profile</Link>
+                      { (authed) ? <NavItem><Link className="nav-link profile" to="/Profile">Profile</Link></NavItem> : <NavItem></NavItem> }
                     </Nav>
                     { (authed)
                       ? <button className="btn btn-secondary" onClick={this.logoutClickEvent}>Log Out</button>

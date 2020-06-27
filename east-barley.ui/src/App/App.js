@@ -70,7 +70,12 @@ class App extends React.Component {
             console.error(errorFromApp);
           });
       } else {
-        this.setState({ authed: false, dobModalIsOpen: true, over21: false });
+        this.setState({
+          authed: false,
+          dobModalIsOpen: true,
+          over21: false,
+          isEmployee: false,
+        });
       }
     });
   }
@@ -79,8 +84,12 @@ class App extends React.Component {
     this.removeListener();
   }
 
-  setOver21 = () => {
-    this.setState({ over21: true });
+  setOver21 = (status) => {
+    this.setState({ over21: status });
+  };
+
+  setIsEmployee = (status) => {
+    this.setState({ isEmployee: status });
   };
 
   setDobModalIsOpen = (status) => {
@@ -100,8 +109,8 @@ class App extends React.Component {
     return (
     <div className="App">
       <Router>
-      <MyNavBar authed={authed} verified={over21} isEmployee={isEmployee} />
-      <AgeVerificationModal dobModalIsOpen={dobModalIsOpen} verified={over21} setOver21={this.setOver21} setDobModalIsOpen={this.setDobModalIsOpen} />
+      <MyNavBar authed={authed} verified={over21} isEmployee={isEmployee} setOver21={this.setOver21} setIsEmployee={this.setIsEmployee} />
+      <AgeVerificationModal authed={authed} dobModalIsOpen={dobModalIsOpen} verified={over21} setOver21={this.setOver21} setDobModalIsOpen={this.setDobModalIsOpen} />
         <Switch>
             <Route path="/" exact component={() => <Home verified={over21} authed={authed} />} />
             <Route path="/auth" exact component={() => <Auth verified={over21} authed={authed} />} />

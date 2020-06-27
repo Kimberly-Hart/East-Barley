@@ -33,19 +33,22 @@ class ProfileCard extends React.Component {
     } = this.props;
     return (
       <Card>
-          <Image src={user.imageUrl} wrapped ui={false} />
-          <Card.Content>
-            <Card.Header>{user.firstName} {user.lastName}</Card.Header>
-            { (isEmployee)
-              ? <Card.Meta>{this.formatDate(employee.hireDate)}</Card.Meta>
-              : <Card.Meta>{this.formatDate(user.dateAccountCreated)}</Card.Meta>
-            }
-          </Card.Content>
+        { (user.imageUrl)
+          ? <Image src={user.imageUrl} wrapped ui={false} />
+          : <Image src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' wrapped ui={false} />
+        }
+        <Card.Content>
+          <Card.Header>{user.firstName} {user.lastName}</Card.Header>
           { (isEmployee)
-            ? <Card.Content extra><Icon name='user' /> Total Number of Sales: {invoices.length} </Card.Content>
-            : <Card.Content extra><Icon name='user' />{invoices.length} Total Orders </Card.Content>
+            ? <Card.Meta>{this.formatDate(employee.hireDate)}</Card.Meta>
+            : <Card.Meta>{this.formatDate(user.dateAccountCreated)}</Card.Meta>
           }
-        </Card>
+        </Card.Content>
+        { (isEmployee)
+          ? <Card.Content extra><Icon name='user' /> Total Number of Sales: {invoices.length} </Card.Content>
+          : <Card.Content extra><Icon name='user' />{invoices.length} Total Orders </Card.Content>
+        }
+      </Card>
     );
   }
 }
