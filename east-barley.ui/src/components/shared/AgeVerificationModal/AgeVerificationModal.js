@@ -1,4 +1,6 @@
 import React from 'react';
+import firebase from 'firebase/app';
+import 'firebase/auth';
 import PropTypes from 'prop-types';
 import {
   Button,
@@ -60,6 +62,13 @@ class AgeVerificationModal extends React.Component {
     }
   }
 
+  loginClickEvent = (e) => {
+    const provider = new firebase.auth.GoogleAuthProvider();
+    const { setDobModalIsOpen } = this.props;
+    firebase.auth().signInWithPopup(provider);
+    setDobModalIsOpen(false);
+  }
+
   render() {
     const {
       closeOnEscape,
@@ -90,6 +99,14 @@ class AgeVerificationModal extends React.Component {
                   icon='calendar check outline'
                   content='Submit'
                   basic color='green'
+                />
+                <Button
+                  onClick={this.loginClickEvent}
+                  type='submit'
+                  labelPosition='right'
+                  icon='hand point right outline'
+                  content='Login'
+                  basic color='blue'
                 />
               </Modal.Actions>
              </Form>
