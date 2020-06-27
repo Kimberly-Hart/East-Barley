@@ -14,13 +14,13 @@ class SingleWhiskey extends Component {
     modalOpen: false,
   }
 
+  static propTypes = {
+    whiskey: whiskeysShape.productsShape,
+  }
+
   handleOpen = () => this.setState({ modalOpen: true })
 
   handleClose = () => this.setState({ modalOpen: false })
-
-  static propTypes = {
-    whiskey: whiskeysShape.whiskeysShape,
-  }
 
   render() {
     const { whiskey } = this.props;

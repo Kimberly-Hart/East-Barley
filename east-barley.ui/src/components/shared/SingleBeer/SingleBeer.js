@@ -15,7 +15,7 @@ class SingleBeer extends Component {
   }
 
   static propTypes = {
-    beer: beersShape.beersShape,
+    beer: beersShape.productsShape,
   }
 
   handleOpen = () => this.setState({ modalOpen: true })
@@ -29,7 +29,7 @@ class SingleBeer extends Component {
       <div className="SingleBeer">
             <Card className='beerCard'>
               <Image className="image" src={beer.imageUrl} onClick={this.handleOpen}/>
-                <Card.Content header={beer.title} textAlign='center' meta={beer.category} description={beer.description}/>
+                <Card.Content header={beer.title} textAlign='center' meta={beer.category} />
                 <Input icon='plus cart' iconPosition='left' placeholder='Quantity'/>
                 <Button.Group fluid>
                   <Button attached='left' onClick={this.handleOpen}>More Details</Button>

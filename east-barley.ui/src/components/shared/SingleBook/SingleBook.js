@@ -1,24 +1,42 @@
 import React, { Component } from 'react';
-import { Card } from 'semantic-ui-react';
+import {
+  Card,
+  Image,
+  Input,
+  Button,
+} from 'semantic-ui-react';
 import booksShape from '../../../helpers/propz/booksShape';
+import ProductModal from '../ProductModal/ProductModal';
 import './SingleBook.scss';
 
 class SingleBook extends Component {
-    static propTypes = {
-      book: booksShape.booksShape,
-    }
+  state = {
+    modalOpen: false,
+  }
+
+  static propTypes = {
+    book: booksShape.booksShape,
+  }
+
+    handleOpen = () => this.setState({ modalOpen: true })
+
+    handleClose = () => this.setState({ modalOpen: false })
 
     render() {
       const { book } = this.props;
+      const { modalOpen } = this.state;
       return (
         <div className="SingleBook">
-            <Card className="bookCard"
-              image={book.imageUrl}
-              header={book.title}
-              meta={book.author}
-              description={book.description}
-              extra={this.button}
-            />
+            <Card className='bookCard'>
+              <Image className="image" src={book.imageUrl} onClick={this.handleOpen}/>
+                <Card.Content header={book.title} textAlign='center' meta={book.category} />
+                <Input icon='plus cart' iconPosition='left' placeholder='Quantity'/>
+                <Button.Group fluid>
+                  <Button attached='left' onClick={this.handleOpen}>More Details</Button>
+                  <Button attached='right' onClick={() => alert('set up later')}>Add To Cart</Button>
+                </Button.Group>
+            </Card>
+            <ProductModal modalOpen={modalOpen} product={book} handleClose={this.handleClose} handleOpen={this.handleOpen} />
             {/* <ul>
                 <li>Category: {book.category}</li>
                 <li>Price: {book.price}</li>
