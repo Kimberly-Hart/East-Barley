@@ -24,7 +24,7 @@ class SingleBook extends Component {
         <div className="SingleBook">
             <Card className='bookCard'>
               <Image className="image" src={book.imageUrl} onClick={this.handleOpen}/>
-                <Card.Content header={book.title} textAlign='center' meta={book.category} description={book.description}/>
+                <Card.Content header={book.title} textAlign='center' meta={book.category} />
                 <Input icon='plus cart' iconPosition='left' placeholder='Quantity'/>
                 <Button.Group fluid>
                   <Button attached='left' onClick={this.handleOpen}>More Details</Button>

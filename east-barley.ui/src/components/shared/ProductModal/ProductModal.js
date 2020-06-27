@@ -67,10 +67,9 @@ class ProductModal extends React.Component {
             </React.Fragment>
         </div>
         <div className="modalCardContent">
-
           <Modal.Content>
-            <Card color='red' image={product.imageUrl} />
-              <Card className='productModalCard'>
+            <Card color='red' image={product.imageUrl}>
+              {/* <Card className='productModalCard'> */}
                 <Card.Content header={product.title} textAlign='center' />
                 {(this.state.isBook)
                   ? <Card.Content meta={product.author} textAlign='center' />

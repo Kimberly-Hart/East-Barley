@@ -1,7 +1,11 @@
 .modalCardContent {
-  display: flex;
-  justify-content: center;
+  display: flex !important;
+  justify-content: center !important;
 }
+
+// .productModalCard {
+//   width: 70% !important;
+// }gi
 
 .allModalContent {
   display: flex;
