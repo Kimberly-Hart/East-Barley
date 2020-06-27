@@ -14,6 +14,7 @@ import Auth from '../components/pages/Auth/Auth';
 import Beers from '../components/pages/AllBeers/AllBeers';
 import Books from '../components/pages/AllBooks/AllBooks';
 import Cart from '../components/pages/Cart/Cart';
+import Employees from '../components/pages/Employees/Employees';
 import Home from '../components/pages/Homepage/Home';
 import Profile from '../components/pages/Profile/Profile';
 import Whiskeys from '../components/pages/AllWhiskeys/AllWhiskeys';
@@ -28,6 +29,10 @@ const PrivateRoute = ({ component: Component, authed, ...rest }) => {
   const routeChecker = (props) => (authed === true ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/auth', state: { from: props.location } }} />);
   return <Route {...rest} render={(props) => routeChecker(props)} />;
 };
+const EmployeeRoute = ({ component: Component, isEmployee, ...rest }) => {
+  const routeChecker = (props) => (isEmployee === true ? <Component {...props} {...rest}/> : <Redirect to={{ pathname: '/profile', state: { from: props.location } }} />);
+  return <Route {...rest} render={(props) => routeChecker(props)} />;
+};
 
 firebaseApp();
 
@@ -35,7 +40,9 @@ class App extends React.Component {
   state = {
     authed: false,
     over21: false,
+    isEmployee: false,
     dobModalIsOpen: false,
+    employee: {},
     user: {},
   }
 
@@ -77,14 +84,16 @@ class App extends React.Component {
     const {
       authed,
       over21,
+      isEmployee,
       dobModalIsOpen,
+      employee,
       user,
     } = this.state;
 
     return (
     <div className="App">
       <Router>
-      <MyNavBar authed={authed} verified={over21} />
+      <MyNavBar authed={authed} verified={over21} isEmployee={isEmployee} />
       <AgeVerificationModal dobModalIsOpen={dobModalIsOpen} verified={over21} setOver21={this.setOver21} setDobModalIsOpen={this.setDobModalIsOpen} />
         <Switch>
             <Route path="/" exact component={() => <Home verified={over21} authed={authed} />} />
@@ -94,6 +103,7 @@ class App extends React.Component {
             <Over21Route path="/beer" exact component={() => <Beers verified={over21} authed={authed} />} verified={over21} />
             <Route path="/books" exact component={() => <Books verified={over21} authed={authed} />} />
             <PrivateRoute path="/cart" exact component={() => <Cart verified={over21} authed={authed} />} authed={authed} />
+            <EmployeeRoute path="/employee" exact component={() => <Employees employee={employee} />} isEmployee={isEmployee} />
         </Switch>
       </Router>
     </div>
