@@ -5,7 +5,7 @@ import './SingleWhiskey.scss';
 
 class SingleWhiskey extends Component {
     static propTypes = {
-      whiskey: whiskeysShape.whiskeysShape,
+      whiskey: whiskeysShape.productsShape,
     }
 
     render() {

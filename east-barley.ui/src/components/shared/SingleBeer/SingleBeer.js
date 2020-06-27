@@ -10,7 +10,7 @@ class SingleBeer extends Component {
   }
 
   static propTypes = {
-    beer: beersShape.beersShape,
+    beer: beersShape.productsShape,
   }
 
   handleOpen = () => this.setState({ modalOpen: true })
