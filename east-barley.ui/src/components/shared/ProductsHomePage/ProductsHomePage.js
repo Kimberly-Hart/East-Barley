@@ -29,7 +29,7 @@ class ProductsHome extends React.Component {
                 <h1 className="homepageProductTitle">Our Products</h1>
                 <div className="productsCards">
                 <Grid>
-                    <Grid.Row relaxed columns={4}>
+                    <Grid.Row columns={4}>
                       <Grid.Column>
                           <Card className="homeProductCard">
                             <Image className="cardPhoto" src='https://modistbrewing.com/wp-content/uploads/2017/09/Image-uploaded-from-iOS-3.jpg' />

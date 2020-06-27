@@ -70,7 +70,7 @@ class App extends React.Component {
             console.error(errorFromApp);
           });
       } else {
-        this.setState({ authed: false, dobModalIsOpen: true });
+        this.setState({ authed: false, dobModalIsOpen: true, over21: false });
       }
     });
   }

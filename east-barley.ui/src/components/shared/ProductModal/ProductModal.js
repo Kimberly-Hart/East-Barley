@@ -12,6 +12,33 @@ import {
 import './ProductModal.scss';
 
 class ProductModal extends React.Component {
+  state = {
+    isBook: false,
+  }
+
+  isbnNumber = () => {
+    const { product } = this.props;
+    return `ISBN: ${product.isbn}`;
+  }
+
+  publisher = () => {
+    const { product } = this.props;
+    return `Publisher: ${product.publisher}`;
+  }
+
+  pageCount = () => {
+    const { product } = this.props;
+    return `Page Count: ${product.pageCount}`;
+  }
+
+  componentDidMount() {
+    const { product } = this.props;
+    if (product.productTypesTableId === 1) {
+      this.setState({ isBook: true });
+    } else {
+      this.setState({ isBook: false });
+    }
+  }
 
   render() {
     const {
@@ -41,19 +68,40 @@ class ProductModal extends React.Component {
         </div>
         <div className="modalCardContent">
           <Modal.Content>
+            <div className='modalFirstCard'>
             <Card color='red' image={product.imageUrl} />
-              <Card className='productModalCard'>
+            </div>
+              <div className='modalSecondContainer'>
+              <Card className='modalSecondCard'>
                 <Card.Content header={product.title} textAlign='center' />
+                {(this.state.isBook)
+                  ? <Card.Content meta={product.author} textAlign='center' />
+                  : null
+                }
                   <Card.Content description={product.description} textAlign='center' />
+                  {(this.state.isBook)
+                    ? <Card.Content description={this.isbnNumber()} textAlign='center' />
+                    : null
+                  }
+                  {(this.state.isBook)
+                    ? <Card.Content description={this.pageCount()} textAlign='center' />
+                    : null
+                  }
+                  {(this.state.isBook)
+                    ? <Card.Content description={this.publisher()} textAlign='center' />
+                    : null
+                  }
                     <Card.Content extra textAlign='center'>
                       <Label.Group tag size='huge'>
                         <Label><Icon name='dollar sign' header>{product.price}</Icon></Label>
                       </Label.Group>
                     </Card.Content>
               </Card>
+            </div>
         </Modal.Content>
         </div>
         <div className="productModalButtons">
+          <div className="productButtonContainer">
           <Modal.Actions>
           <Input icon='plus cart' iconPosition='left' placeholder='Quantity' />
             <Button color='green' onClick={handleClose} inverted>
@@ -63,6 +111,7 @@ class ProductModal extends React.Component {
               <Icon name='checkmark' /> Add to Cart & Keep shopping
             </Button>
           </Modal.Actions>
+          </div>
         </div>
       </Modal>
       </div>
