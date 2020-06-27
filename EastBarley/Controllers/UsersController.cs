@@ -89,5 +89,13 @@ namespace EastBarley.Controllers
             if (user == null) return NotFound("User Does Not Exist");
             return Ok(user);
         }
+
+        [HttpGet("employee/{userId}")]
+        public IActionResult GetEmployeeByUid(int UserId)
+        {
+            var employee = _repository.GetEmployeeByUserId(UserId);
+            if (employee == null) return NotFound("No Employees Match This User Id");
+            return Ok(employee);
+        }
     }
 }
