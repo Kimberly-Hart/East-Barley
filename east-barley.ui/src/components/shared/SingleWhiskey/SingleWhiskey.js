@@ -24,7 +24,7 @@ class SingleWhiskey extends Component {
         <div className="SingleWhiskey">
            <Card className='whiskeyCard'>
               <Image className="image" src={whiskey.imageUrl} onClick={this.handleOpen}/>
-                <Card.Content header={whiskey.title} textAlign='center' meta={whiskey.category} description={whiskey.description}/>
+                <Card.Content header={whiskey.title} textAlign='center' meta={whiskey.category} />
                 <Input icon='plus cart' iconPosition='left' placeholder='Quantity'/>
                 <Button.Group fluid>
                   <Button attached='left' onClick={this.handleOpen}>More Details</Button>
