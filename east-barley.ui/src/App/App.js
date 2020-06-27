@@ -91,7 +91,7 @@ class App extends React.Component {
             <Route path="/" exact component={() => <Home verified={over21} authed={authed} />} />
             <Route path="/auth" exact component={() => <Auth verified={over21} authed={authed} />} />
             <PrivateRoute path="/profile" exact component={() => <Profile verified={over21} authed={authed} user={user} />} authed={authed} />
-            <PrivateRoute path='/invoice/:invoiceId' exact component={() => <Invoice verified={over21} authed={authed} user={user} />} authed={authed} />
+            <PrivateRoute path='/invoice/:invoiceId' exact component={(props) => <Invoice verified={over21} {...props} authed={authed} user={user} />} authed={authed} />
             <Over21Route path="/whiskey" exact component={() => <Whiskeys verified={over21} authed={authed} />} verified={over21} />
             <Over21Route path="/beer" exact component={() => <Beers verified={over21} authed={authed} />} verified={over21} />
             <Route path="/books" exact component={() => <Books verified={over21} authed={authed} />} />

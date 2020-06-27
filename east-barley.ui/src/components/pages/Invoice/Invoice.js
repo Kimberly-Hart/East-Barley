@@ -1,64 +1,39 @@
 import React from 'react';
 import { Table } from 'semantic-ui-react';
+import InvoiceDetails from '../../shared/InvoiceDetailsCard/InvoiceDetailsCard';
+import invoiceData from '../../../helpers/data/invoiceData';
 
 class Invoice extends React.Component {
+  state = {
+    lineItems: [],
+  }
+
+  componentDidMount() {
+    const theInvoiceId = this.props.match.params.invoiceId;
+    invoiceData.getLineItemsByInvoiceId(theInvoiceId)
+      .then((lineItems) => {
+        this.setState({ lineItems });
+      })
+      .catch((errorFromLineItems) => console.error(errorFromLineItems));
+  }
+
   render() {
+    const { lineItems } = this.state;
     return (
       <Table celled>
         <Table.Header>
           <Table.Row>
+            <Table.HeaderCell>Product</Table.HeaderCell>
             <Table.HeaderCell>Product Name</Table.HeaderCell>
             <Table.HeaderCell>Price</Table.HeaderCell>
             <Table.HeaderCell>Quantity</Table.HeaderCell>
             <Table.HeaderCell>Details</Table.HeaderCell>
           </Table.Row>
         </Table.Header>
-
         <Table.Body>
-          <Table.Row>
-            <Table.Cell>John</Table.Cell>
-            <Table.Cell>No Action</Table.Cell>
-            <Table.Cell selectable onClick={() => alert('do i work?')}>
-              <a href="#">Check me out</a>
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Jamie</Table.Cell>
-            <Table.Cell>Approved</Table.Cell>
-            <Table.Cell selectable>
-              <a href='#'>Edit</a>
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Jill</Table.Cell>
-            <Table.Cell>Denied</Table.Cell>
-            <Table.Cell selectable>
-              <a href='#'>Edit</a>
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row warning>
-            <Table.Cell>John</Table.Cell>
-            <Table.Cell>No Action</Table.Cell>
-            <Table.Cell selectable warning>
-              <a href='#'>Requires change</a>
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Jamie</Table.Cell>
-            <Table.Cell positive>Approved</Table.Cell>
-            <Table.Cell selectable positive>
-              <a href='#'>Approve</a>
-            </Table.Cell>
-          </Table.Row>
-          <Table.Row>
-            <Table.Cell>Jill</Table.Cell>
-            <Table.Cell negative>Denied</Table.Cell>
-            <Table.Cell selectable negative>
-              <a href='#'>Remove</a>
-            </Table.Cell>
-          </Table.Row>
+        { lineItems.map((lineItem) => <InvoiceDetails key={lineItem.lineItemid} lineItem={lineItem} />)}
         </Table.Body>
-  </Table>
+      </Table>
     );
   }
 }
