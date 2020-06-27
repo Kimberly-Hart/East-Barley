@@ -309,14 +309,14 @@ namespace EastBarley.DataAccess
             return totalSales;
         }
 
-        public decimal MonthlySalesBySalesRepId(int month, int salesRepId)
+        public decimal MonthlySalesBySalesRepId(int month, int year, int salesRepId)
         {
             var repInvoices = GetInvoicesBySalesRepId(salesRepId);
             //var repInvoices = findInvoices.ToList();
             var totalSales = 0m;
             foreach (var invoice in repInvoices)
             {
-                if (invoice.InvoiceDate.Month == month)
+                if (invoice.InvoiceDate.Month == month && invoice.InvoiceDate.Year == year)
                 {
                     totalSales += invoice.TotalCost;
                 }

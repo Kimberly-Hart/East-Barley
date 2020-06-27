@@ -21,9 +21,9 @@ namespace EastBarley.Controllers
             _repository = repository;
         }
         
-    //**Get All Users**
-    [HttpGet("all")]
-    public IActionResult GetAllUsers()
+        //**Get All Users**
+        [HttpGet("all")]
+        public IActionResult GetAllUsers()
         {
             var allUsers = _repository.GetAllUsers();
             var isEmpty = !allUsers.Any();
@@ -68,8 +68,8 @@ namespace EastBarley.Controllers
             }
         }
 
-    [HttpDelete("{userId}")]
-    public IActionResult DeactivateAUser(int userId)
+        [HttpDelete("{userId}")]
+        public IActionResult DeactivateAUser(int userId)
         {
             var deactivatedUser = _repository.DeactivateUser(userId);
             if (deactivatedUser)
@@ -82,8 +82,8 @@ namespace EastBarley.Controllers
             }
         }
 
-    [HttpGet("firebase/{firebaseUID}")]
-    public IActionResult GetUserByFirebaseId(string firebaseUID)
+        [HttpGet("firebase/{firebaseUID}")]
+        public IActionResult GetUserByFirebaseId(string firebaseUID)
         {
             var user = _repository.GetUserByFirebaseUID(firebaseUID);
             if (user == null) return NotFound("User Does Not Exist");

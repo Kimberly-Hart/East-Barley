@@ -20,6 +20,7 @@ import Profile from '../components/pages/Profile/Profile';
 import Whiskeys from '../components/pages/AllWhiskeys/AllWhiskeys';
 import firebaseApp from '../helpers/data/connection';
 import MyNavBar from '../components/shared/MyNavBar/MyNavBar';
+import employeeData from '../helpers/data/employeeData';
 
 const Over21Route = ({ component: Component, verified, ...rest }) => {
   const routeChecker = (props) => (verified === true ? <Component {...props} {...rest}/> : <Redirect exact to={{ pathname: '/', state: { from: props.location } }} />);
@@ -58,6 +59,12 @@ class App extends React.Component {
             } else {
               this.setState({ over21: false });
             }
+            employeeData.getEmployeeByUserId(userDetails.userId)
+              .then((employeeDetails) => {
+                if (employeeDetails.salesRepId) {
+                  this.setState({ isEmployee: true, employee: employeeDetails });
+                }
+              });
           }).catch((errorFromApp) => {
             this.setState({ dobModalIsOpen: true });
             console.error(errorFromApp);
@@ -103,7 +110,7 @@ class App extends React.Component {
             <Over21Route path="/beer" exact component={() => <Beers verified={over21} authed={authed} />} verified={over21} />
             <Route path="/books" exact component={() => <Books verified={over21} authed={authed} />} />
             <PrivateRoute path="/cart" exact component={() => <Cart verified={over21} authed={authed} />} authed={authed} />
-            <EmployeeRoute path="/employee" exact component={() => <Employees employee={employee} />} isEmployee={isEmployee} />
+            <EmployeeRoute path="/employee" exact component={() => <Employees employee={employee} user={user} />} isEmployee={isEmployee} />
         </Switch>
       </Router>
     </div>

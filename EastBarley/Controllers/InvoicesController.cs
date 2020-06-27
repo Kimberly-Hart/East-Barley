@@ -236,12 +236,12 @@ namespace EastBarley.Controllers
             return Ok(totalSales);
         }
 
-        [HttpGet("salesrep/{salesRepId}/monthlySales/{month}")]
-        public IActionResult GetMonthlySalesBySalesRepId(int salesRepId, int month)
+        [HttpGet("salesrep/{salesRepId}/monthlySales/{month}/{year}")]
+        public IActionResult GetMonthlySalesBySalesRepId(int salesRepId, int month, int year)
         {
             var employee = _userRepository.GetEmployeeById(salesRepId);
             if (employee == null) return NotFound("No Employees Match This Sales Rep Id");
-            var monthlySales = _repository.MonthlySalesBySalesRepId(month, salesRepId);
+            var monthlySales = _repository.MonthlySalesBySalesRepId(month, year, salesRepId);
             return Ok(monthlySales);
         }
     }
