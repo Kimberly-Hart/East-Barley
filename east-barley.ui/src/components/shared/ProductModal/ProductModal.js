@@ -12,7 +12,6 @@ import {
 import './ProductModal.scss';
 
 class ProductModal extends React.Component {
-
   render() {
     const {
       modalOpen,
