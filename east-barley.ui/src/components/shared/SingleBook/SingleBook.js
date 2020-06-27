@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { Card, Image, Input, Button } from 'semantic-ui-react';
+import {
+  Card,
+  Image,
+  Input,
+  Button,
+} from 'semantic-ui-react';
 import booksShape from '../../../helpers/propz/booksShape';
 import ProductModal from '../ProductModal/ProductModal';
 import './SingleBook.scss';

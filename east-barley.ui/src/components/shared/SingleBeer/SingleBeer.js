@@ -1,5 +1,10 @@
 import React, { Component } from 'react';
-import { Card, Button, Label, Icon, Image, Input } from 'semantic-ui-react';
+import {
+  Card,
+  Button,
+  Image,
+  Input,
+} from 'semantic-ui-react';
 import beersShape from '../../../helpers/propz/productsShape';
 import ProductModal from '../ProductModal/ProductModal';
 import './SingleBeer.scss';
