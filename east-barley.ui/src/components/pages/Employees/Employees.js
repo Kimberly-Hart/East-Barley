@@ -6,11 +6,10 @@ import {
   Divider,
   Segment,
   Grid,
-  Button,
 } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import ProfileCard from '../../shared/ProfileCard/ProfileCard';
-import ProfileDetails from '../../shared/ProfileDetails/ProfileDetails';
+import EmployeeDetails from '../../shared/EmployeeDetails/EmployeeDetails';
 import InvoiceCard from '../../shared/InvoiceCard/InvoiceCard';
 import employeeShape from '../../../helpers/propz/employeesShape';
 import userShape from '../../../helpers/propz/usersShape';
@@ -74,8 +73,8 @@ class Employees extends React.Component {
                 </Grid.Column>
                 <Grid.Column>
                   <div className="rightSideDetails">
-                    <div className="meh">
-                    <ProfileDetails user={user} />
+                    <div className="salesStats">
+                    <EmployeeDetails employee={employee} totalSales={totalSales} monthlySales={monthlySales} />
                     </div>
                   </div>
                 </Grid.Column>

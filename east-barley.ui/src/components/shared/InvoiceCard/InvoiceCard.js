@@ -58,7 +58,7 @@ class InvoiceCard extends React.Component {
         <Grid.Column>
           <Card className="invoiceCard" onClick={() => alert('to be done later')}>
             {this.getStatus(invoice.statusId)}
-              <Card.Content header={`$${invoice.totalCost}`} />
+              <Card.Content header={`$${invoice.totalCost.toFixed(2)}`} />
               <Card.Content description={this.shipStatus(invoice.statusId)} />
               <Card.Content extra className="extraDetails">
                 <Icon name='calendar alternate outline' />{this.formatDate(invoice.invoiceDate)}

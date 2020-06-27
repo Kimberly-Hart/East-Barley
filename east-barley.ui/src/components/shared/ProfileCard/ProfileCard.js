@@ -42,7 +42,7 @@ class ProfileCard extends React.Component {
             }
           </Card.Content>
           { (isEmployee)
-            ? <Card.Content extra><Icon name='user' /> {invoices.length} Total Number of Sales </Card.Content>
+            ? <Card.Content extra><Icon name='user' /> Total Number of Sales: {invoices.length} </Card.Content>
             : <Card.Content extra><Icon name='user' />{invoices.length} Total Orders </Card.Content>
           }
         </Card>
