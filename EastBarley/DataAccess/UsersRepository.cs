@@ -73,37 +73,66 @@ namespace EastBarley.DataAccess
             }
         }
 
-         public bool DeactivateUser(int userId)
-            {
-                var sql = @"UPDATE Users
+        public bool DeactivateUser(int userId)
+        {
+            var sql = @"UPDATE Users
                             SET isAcctActive = 0
                                 WHERE UserId = @UserId";
-                         
-                using (var db = new SqlConnection(ConnectionString))
-                {
-                    var parameters = new { UserId = userId  };
 
-                    var userToDeactivateId = db.Execute(sql, parameters);
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { UserId = userId };
 
-                    return userToDeactivateId == 1;
-                }
+                var userToDeactivateId = db.Execute(sql, parameters);
+
+                return userToDeactivateId == 1;
             }
+        }
 
-         public Users GetUserByFirebaseUID(string firebaseUID)
-             {
-                var sql = @"Select *
+        public Users GetUserByFirebaseUID(string firebaseUID)
+        {
+            var sql = @"Select *
                             from Users
                                 where FirebaseUID = @firebaseUID";
 
-                using (var db = new SqlConnection(ConnectionString))
-                {
-                    var parameters = new { firebaseUID = firebaseUID };
-                    var user = db.QueryFirstOrDefault<Users>(sql, parameters);
-                    return user;
-                }
-             }
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { firebaseUID = firebaseUID };
+                var user = db.QueryFirstOrDefault<Users>(sql, parameters);
+                return user;
+            }
+        }
 
-         }
+        public Employees GetEmployeeByUserId(int userId)
+        {
+            var sql = @"Select *
+                        from Employees
+                        where UserId = @UserId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { UserId = userId };
+                var employee = db.QueryFirstOrDefault<Employees>(sql, parameters);
+                return employee;
+            }
+        }
+
+        public Employees GetEmployeeById(int salesRepId)
+        {
+            var sql = @"Select *
+                        from Employees
+                        where SalesRepId = @SalesRepId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { SalesRepId = salesRepId };
+                var employee = db.QueryFirstOrDefault<Employees>(sql, parameters);
+                return employee;
+            }
+        }
+
+
     }
+}
 
 

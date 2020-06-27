@@ -99,6 +99,8 @@ namespace EastBarley.Controllers
         public IActionResult GetInvoicesBySalesRepId(int salesRepId)
 
         {
+            var employee = _userRepository.GetEmployeeById(salesRepId);
+            if (employee == null) return NotFound("No Employees Match This Sales Rep Id");
             var invoicesBySalesRep = _repository.GetInvoicesBySalesRepId(salesRepId);
             var noInvoicesBySalesRep = !invoicesBySalesRep.Any();
             if (noInvoicesBySalesRep)
@@ -157,7 +159,7 @@ namespace EastBarley.Controllers
             {
                 return NotFound("This user could not be found.");
             }
-            var hasCart = _repository.CheckForCart(UserId);
+            var hasCart = _repository.FindOpenCarts(UserId);
             var totalCost = lineItemToAdd.Price * lineItemToAdd.Quantity;
             OrderCart cart;
             if (hasCart != null)
@@ -223,6 +225,24 @@ namespace EastBarley.Controllers
                 }
             }
             return Ok(openCart);
+        }
+
+        [HttpGet("salesrep/{salesRepId}/totalSales")]
+        public IActionResult GetTotalSalesBySalesRepId(int salesRepId)
+        {
+            var employee = _userRepository.GetEmployeeById(salesRepId);
+            if (employee == null) return NotFound("No Employees Match This Sales Rep Id");
+            var totalSales = _repository.TotalSalesBySalesRepId(salesRepId);
+            return Ok(totalSales);
+        }
+
+        [HttpGet("salesrep/{salesRepId}/monthlySales/{month}/{year}")]
+        public IActionResult GetMonthlySalesBySalesRepId(int salesRepId, int month, int year)
+        {
+            var employee = _userRepository.GetEmployeeById(salesRepId);
+            if (employee == null) return NotFound("No Employees Match This Sales Rep Id");
+            var monthlySales = _repository.MonthlySalesBySalesRepId(month, year, salesRepId);
+            return Ok(monthlySales);
         }
 
         [HttpGet("lineItems/{invoiceId}")]

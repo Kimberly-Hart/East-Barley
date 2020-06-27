@@ -16,6 +16,7 @@ class AgeVerificationModal extends React.Component {
   }
 
   static propTypes = {
+    authed: PropTypes.bool,
     dobModalIsOpen: PropTypes.bool,
     verified: PropTypes.bool,
     setOver21: PropTypes.func,
@@ -56,7 +57,9 @@ class AgeVerificationModal extends React.Component {
     if (dateOfBirth) {
       const age = this.calculateAge();
       if (age >= 21) {
-        setOver21();
+        setOver21(true);
+      } else {
+        setOver21(false);
       }
       setDobModalIsOpen(false);
     }
@@ -75,7 +78,7 @@ class AgeVerificationModal extends React.Component {
       closeOnDimmerClick,
       dateOfBirth,
     } = this.state;
-    const { dobModalIsOpen } = this.props;
+    const { dobModalIsOpen, authed } = this.props;
 
     return (
       <div>
@@ -91,7 +94,15 @@ class AgeVerificationModal extends React.Component {
                 <label>First Name</label>
                 <Input type='date' id='dateOfBirth' value={dateOfBirth} onChange={this.changeDOB} required />
               </Form.Field>
-              <Modal.Actions>
+              { (authed) ? [<Modal.Actions>
+                <Button
+                  onClick={this.checkAge}
+                  type='submit'
+                  labelPosition='right'
+                  icon='calendar check outline'
+                  content='Submit'
+                  basic color='green'
+                /></Modal.Actions>] : [<Modal.Actions>
                 <Button
                   onClick={this.checkAge}
                   type='submit'
@@ -107,8 +118,8 @@ class AgeVerificationModal extends React.Component {
                   icon='hand point right outline'
                   content='Login'
                   basic color='blue'
-                />
-              </Modal.Actions>
+                /></Modal.Actions>]
+              }
              </Form>
           </Modal.Content>
         </Modal>

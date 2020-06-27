@@ -139,20 +139,6 @@ namespace EastBarley.DataAccess
             }
         }
 
-        public OrderCart CheckForCart(int userId)
-        {
-            var sql = @"select UserId, TotalCost, StatusId
-                                 from Invoice
-                                 where UserId = @userId";
-
-            using (var db = new SqlConnection(ConnectionString))
-            {
-                var parameters = new { UserId = userId };
-                var result = db.QueryFirstOrDefault<OrderCart>(sql, parameters);
-                return result;
-            }
-        }
-
         public OrderCart StartNewOrder(int userId, decimal totalCost)
         {
             var sql = @"insert into Invoice(UserId, TotalCost, StatusId)
@@ -180,7 +166,6 @@ namespace EastBarley.DataAccess
             }
         }
 
-        // WIP
         public OrderCart FindOpenCarts(int userId)
         {
             var sql = @"SELECT *
@@ -226,7 +211,6 @@ namespace EastBarley.DataAccess
             }
         }
 
-        // WIP
         public LineItems ChangeLineItemQty(int newQuantity, int lineItemId)
         {
             var sql = @"UPDATE LineItems
@@ -242,7 +226,7 @@ namespace EastBarley.DataAccess
                 return result;
             }
         }
-        // WIP
+
         public IEnumerable<LineItems> GetLineItem(int invoiceId)
         {
             var sql = @"SELECT *
@@ -257,7 +241,6 @@ namespace EastBarley.DataAccess
             }
         }
 
-        // WIP
         public LineItems DeleteLineItem(int lineItemId)
         {
             var sql = @"DELETE FROM LineItems
@@ -313,6 +296,32 @@ namespace EastBarley.DataAccess
                 return result;
             }
         }
+
+        public decimal TotalSalesBySalesRepId(int salesRepId)
+        {
+            var repInvoices = GetInvoicesBySalesRepId(salesRepId);
+            var totalSales = 0m;
+            foreach (var invoice in repInvoices)
+            {
+                totalSales += invoice.TotalCost;
+            }
+            return totalSales;
+        }
+
+        public decimal MonthlySalesBySalesRepId(int month, int year, int salesRepId)
+        {
+            var repInvoices = GetInvoicesBySalesRepId(salesRepId);
+            var totalSales = 0m;
+            foreach (var invoice in repInvoices)
+            {
+                if (invoice.InvoiceDate.Month == month && invoice.InvoiceDate.Year == year)
+                {
+                    totalSales += invoice.TotalCost;
+                }
+            }
+            return totalSales;
+        }
+
 
         public List<LineItems>  GetLineItemsByInvoiceId(int invoiceId)
         {

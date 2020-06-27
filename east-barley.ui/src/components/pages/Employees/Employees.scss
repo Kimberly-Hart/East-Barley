@@ -1,0 +1,68 @@
+.employeeDashboard {
+  display: flex;
+  justify-content: center !important;
+}
+
+.employeeTitle {
+  align-content: center !important;
+  margin-top: 3em;
+  width: 75%;
+}
+
+.employeeDetailContainer {
+  display: flex;
+  justify-content: center !important;
+  margin-top: 2em;
+}
+
+.titleContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.dividedContainer {
+  width: 70em;
+}
+
+.rightSideDetails {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.salesStats {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: 3em;
+}
+
+.employeeDetails {
+  justify-content: center !important;
+}
+
+.leftPhotoCard {
+  display: flex;
+  justify-content: center;
+  margin-top: 2em;
+}
+
+.divider2 {
+  margin-top: 3em;
+}
+
+.multipleInvoice {
+  display: inline-flex !important;
+  flex-wrap: wrap !important;
+  flex-direction: row !important;
+  justify-content: space-between !important;
+  width: 100%;
+  margin: 3em;
+}
+
+.invoiceContainer {
+  display: inline-flex !important;
+  flex-wrap: wrap !important;
+  flex-direction: row !important;
+  margin: 1em;
+}
