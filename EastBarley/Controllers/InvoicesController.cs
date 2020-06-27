@@ -99,6 +99,8 @@ namespace EastBarley.Controllers
         public IActionResult GetInvoicesBySalesRepId(int salesRepId)
 
         {
+            var employee = _userRepository.GetEmployeeById(salesRepId);
+            if (employee == null) return NotFound("No Employees Match This Sales Rep Id");
             var invoicesBySalesRep = _repository.GetInvoicesBySalesRepId(salesRepId);
             var noInvoicesBySalesRep = !invoicesBySalesRep.Any();
             if (noInvoicesBySalesRep)
@@ -223,6 +225,24 @@ namespace EastBarley.Controllers
                 }
             }
             return Ok(openCart);
+        }
+
+        [HttpGet("salesrep/{salesRepId}/totalSales")]
+        public IActionResult GetTotalSalesBySalesRepId(int salesRepId)
+        {
+            var employee = _userRepository.GetEmployeeById(salesRepId);
+            if (employee == null) return NotFound("No Employees Match This Sales Rep Id");
+            var totalSales = _repository.TotalSalesBySalesRepId(salesRepId);
+            return Ok(totalSales);
+        }
+
+        [HttpGet("salesrep/{salesRepId}/monthlySales/{month}")]
+        public IActionResult GetMonthlySalesBySalesRepId(int salesRepId, int month)
+        {
+            var employee = _userRepository.GetEmployeeById(salesRepId);
+            if (employee == null) return NotFound("No Employees Match This Sales Rep Id");
+            var monthlySales = _repository.MonthlySalesBySalesRepId(month, salesRepId);
+            return Ok(monthlySales);
         }
     }
 }

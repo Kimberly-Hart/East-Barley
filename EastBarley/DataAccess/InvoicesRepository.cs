@@ -296,5 +296,33 @@ namespace EastBarley.DataAccess
                 return result;
             }
         }
+
+        public decimal TotalSalesBySalesRepId(int salesRepId)
+        {
+            var repInvoices = GetInvoicesBySalesRepId(salesRepId);
+            //var repInvoices = findInvoices.ToList();
+            var totalSales = 0m;
+            foreach (var invoice in repInvoices)
+            {
+                totalSales += invoice.TotalCost;
+            }
+            return totalSales;
+        }
+
+        public decimal MonthlySalesBySalesRepId(int month, int salesRepId)
+        {
+            var repInvoices = GetInvoicesBySalesRepId(salesRepId);
+            //var repInvoices = findInvoices.ToList();
+            var totalSales = 0m;
+            foreach (var invoice in repInvoices)
+            {
+                if (invoice.InvoiceDate.Month == month)
+                {
+                    totalSales += invoice.TotalCost;
+                }
+            }
+            return totalSales;
+        }
+
     }
 }

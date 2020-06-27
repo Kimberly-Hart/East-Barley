@@ -117,6 +117,20 @@ namespace EastBarley.DataAccess
             }
         }
 
+        public Employees GetEmployeeById(int salesRepId)
+        {
+            var sql = @"Select *
+                        from Employees
+                        where SalesRepId = @SalesRepId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { SalesRepId = salesRepId };
+                var employee = db.QueryFirstOrDefault<Employees>(sql, parameters);
+                return employee;
+            }
+        }
+
 
     }
 }
