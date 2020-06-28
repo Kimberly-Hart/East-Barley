@@ -38,7 +38,7 @@ class Profile extends React.Component {
       <div className="profilePage">
         <div className="accountTitle">
           <div className="titleContainer">
-            <Header as='h2'>
+          <Header as='h2'>
               <Icon name='user' />
               <Header.Content>
                 Account Information

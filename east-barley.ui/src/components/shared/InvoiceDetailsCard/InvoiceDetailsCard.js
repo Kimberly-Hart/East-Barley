@@ -32,7 +32,7 @@ class InvoiceDetails extends React.Component {
         <Image className="productPicture" src={product.imageUrl} size='tiny' verticalAlign='middle' onClick={this.handleOpen} />{' '}
       </Table.Cell>
       <Table.Cell>{product.title}</Table.Cell>
-      <Table.Cell>{product.price}</Table.Cell>
+      <Table.Cell>${product.price}.00</Table.Cell>
       <Table.Cell>{lineItem.quantity}</Table.Cell>
       <Table.Cell selectable className="detailsButton">
         <Icon link name='list alternate' size={'huge'} onClick={this.handleOpen} />

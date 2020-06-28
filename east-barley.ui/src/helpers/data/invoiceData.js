@@ -13,4 +13,10 @@ const getLineItemsByInvoiceId = (invoiceId) => new Promise((resolve, reject) => 
     .catch((error) => reject(error));
 });
 
-export default { getInvoicesByUserId, getLineItemsByInvoiceId };
+const getInvoicesByInvoiceId = (invoiceId) => new Promise((resolve, reject) => {
+  axios.get(`https://localhost:44319/api/invoices/invoiceId/${invoiceId}`)
+    .then((result) => resolve(result.data))
+    .catch((error) => reject(error));
+});
+
+export default { getInvoicesByUserId, getLineItemsByInvoiceId, getInvoicesByInvoiceId };
