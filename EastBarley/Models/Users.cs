@@ -19,5 +19,6 @@ namespace EastBarley.Models
         public bool isOver21 { get; set; }
         public bool isAcctActive { get; set; }
         public string FirebaseUID { get; set; }
+        public string ImageUrl { get; set; }
     }
 }

@@ -60,7 +60,7 @@ class InvoiceCard extends React.Component {
           <Link to={`invoice/${invoice.invoiceId}`} >
           <Card className="invoiceCard">
             {this.getStatus(invoice.statusId)}
-              <Card.Content header={`$${invoice.totalCost}`} />
+              <Card.Content header={`$${invoice.totalCost.toFixed(2)}`} />
               <Card.Content description={this.shipStatus(invoice.statusId)} />
               <Card.Content extra className="extraDetails">
                 <Icon name='calendar alternate outline' />{this.formatDate(invoice.invoiceDate)}
