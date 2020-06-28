@@ -119,6 +119,20 @@ namespace EastBarley.DataAccess
                 return db.QueryFirstOrDefault<Products>(sql, parameters);
             }
         }
+
+        public Products GetAnyProductById(int productId)
+        {
+            var sql = @"SELECT p.*
+                               FROM Products p
+                                WHERE p.productId = @productId";
+
+            using (var db = new SqlConnection(ConnectionString))
+            {
+                var parameters = new { productId = productId };
+                var result = db.QueryFirstOrDefault<Products>(sql, parameters);
+                return result;
+            }
+        }
     }
 
 }
