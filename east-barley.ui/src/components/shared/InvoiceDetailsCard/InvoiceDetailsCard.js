@@ -1,11 +1,18 @@
 import React from 'react';
 import { Table, Image, Icon } from 'semantic-ui-react';
 import productData from '../../../helpers/data/productData';
+import ProductModal from '../../shared/ProductModal/ProductModal';
+import './InvoiceDetailsCard.scss';
 
 class InvoiceDetails extends React.Component {
   state = {
     product: [],
+    openModal: false,
   }
+
+  handleOpen = () => this.setState({ modalOpen: true })
+
+  handleClose = () => this.setState({ modalOpen: false })
 
   componentDidMount() {
     const { lineItem } = this.props;
@@ -17,19 +24,20 @@ class InvoiceDetails extends React.Component {
   }
 
   render() {
-    const { product } = this.state;
+    const { product, modalOpen } = this.state;
     const { lineItem } = this.props;
     return (
       <Table.Row>
       <Table.Cell>
-        <Image src={product.imageUrl} size='tiny' verticalAlign='middle' />{' '}
+        <Image className="productPicture" src={product.imageUrl} size='tiny' verticalAlign='middle' onClick={this.handleOpen} />{' '}
       </Table.Cell>
       <Table.Cell>{product.title}</Table.Cell>
       <Table.Cell>{product.price}</Table.Cell>
       <Table.Cell>{lineItem.quantity}</Table.Cell>
-      <Table.Cell selectable>
-        <Icon link name='list alternate' size={'huge'} onClick={() => alert('alert')} />
+      <Table.Cell selectable className="detailsButton">
+        <Icon link name='list alternate' size={'huge'} onClick={this.handleOpen} />
       </Table.Cell>
+      <ProductModal modalOpen={modalOpen} product={product} handleClose={this.handleClose} handleOpen={this.handleOpen} />
       </Table.Row>
     );
   }
