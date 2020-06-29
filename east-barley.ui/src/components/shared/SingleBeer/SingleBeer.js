@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Card,
   Button,
@@ -8,13 +9,16 @@ import {
 import beersShape from '../../../helpers/propz/productsShape';
 import ProductModal from '../ProductModal/ProductModal';
 import './SingleBeer.scss';
+import employeeData from '../../../helpers/data/employeeData';
 
 class SingleBeer extends Component {
   state = {
     modalOpen: false,
+    quantitySelected: 1,
   }
 
   static propTypes = {
+    isEmployee: PropTypes.bool,
     beer: beersShape.productsShape,
   }
 
@@ -22,19 +26,38 @@ class SingleBeer extends Component {
 
   handleClose = () => this.setState({ modalOpen: false })
 
-  render() {
+  changeQuantity = (e) => {
+    e.preventDefault();
+    this.setState({ quantitySelected: e.target.value });
+  }
+
+  updateInventory = (e) => {
+    e.preventDefault();
+    const { quantitySelected } = this.state;
     const { beer } = this.props;
-    const { modalOpen } = this.state;
+    const productToUpdate = {
+      ProductId: beer.productId,
+      Quantity: Number(quantitySelected),
+    };
+    employeeData.changeInventoryQuantity(productToUpdate);
+  }
+
+  render() {
+    const { beer, isEmployee } = this.props;
+    const { modalOpen, quantitySelected } = this.state;
     return (
       <div className="SingleBeer">
             <Card className='beerCard'>
               <Image className="image" src={beer.imageUrl} onClick={this.handleOpen}/>
                 <Card.Content header={beer.title} textAlign='center' meta={beer.category} />
-                <Input icon='plus cart' iconPosition='left' placeholder='Quantity'/>
-                <Button.Group fluid>
-                  <Button attached='left' onClick={this.handleOpen}>More Details</Button>
-                  <Button attached='right' onClick={() => alert('set up later')}>Add To Cart</Button>
-                </Button.Group>
+                <Input icon='plus cart' iconPosition='left' type='number' value={quantitySelected} onChange={this.changeQuantity} placeholder='Quantity'/>
+                { (isEmployee)
+                  ? <Button className='inventoryBtn' onClick={this.updateInventory} fluid>Update Inventory</Button>
+                  : [<Button.Group fluid>
+                    <Button attached='left' onClick={this.handleOpen}>More Details</Button>
+                    <Button attached='right' onClick={() => alert('set up later')}>Add To Cart</Button>
+                  </Button.Group>]
+                }
             </Card>
             <ProductModal modalOpen={modalOpen} product={beer} handleClose={this.handleClose} handleOpen={this.handleOpen} />
       </div>

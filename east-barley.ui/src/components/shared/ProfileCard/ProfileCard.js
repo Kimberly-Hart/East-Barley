@@ -3,6 +3,7 @@ import { Card, Image, Icon } from 'semantic-ui-react';
 import PropTypes from 'prop-types';
 import userShape from '../../../helpers/propz/usersShape';
 import employeeShape from '../../../helpers/propz/employeesShape';
+import './ProfileCard.scss';
 
 class ProfileCard extends React.Component {
   static propTypes = {
@@ -32,7 +33,7 @@ class ProfileCard extends React.Component {
       employee,
     } = this.props;
     return (
-      <Card>
+      <Card className='profileCard'>
         { (user.imageUrl)
           ? <Image src={user.imageUrl} wrapped ui={false} />
           : <Image src='https://cdn.pixabay.com/photo/2015/10/05/22/37/blank-profile-picture-973460_1280.png' wrapped ui={false} />

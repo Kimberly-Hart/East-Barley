@@ -1,6 +1,10 @@
 .invoiceCard {
   width: 30em;
   margin: 3em;
+
+  .header {
+    color: black!important;
+  }
 }
 
 .invoiceCardContainer {

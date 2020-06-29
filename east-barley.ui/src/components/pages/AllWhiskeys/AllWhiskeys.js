@@ -18,11 +18,12 @@ class AllWhiskeys extends React.Component {
 
     render() {
       const { whiskeys } = this.state;
+      const { isEmployee } = this.props;
       return (
         <div className="AllWhiskeys text-center">
           <h1>Whiskeys</h1>
           <div className="container">
-          { whiskeys.map((whiskey) => <SingleWhiskey key={whiskey.productId} whiskey={whiskey} />)}
+          { whiskeys.map((whiskey) => <SingleWhiskey key={whiskey.productId} whiskey={whiskey} isEmployee={isEmployee} />)}
           </div>
         </div>
       );

@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import PropTypes from 'prop-types';
 import {
   Card,
   Image,
@@ -8,13 +9,16 @@ import {
 import booksShape from '../../../helpers/propz/booksShape';
 import ProductModal from '../ProductModal/ProductModal';
 import './SingleBook.scss';
+import employeeData from '../../../helpers/data/employeeData';
 
 class SingleBook extends Component {
   state = {
     modalOpen: false,
+    quantitySelected: 1,
   }
 
   static propTypes = {
+    isEmployee: PropTypes.bool,
     book: booksShape.booksShape,
   }
 
@@ -22,19 +26,39 @@ class SingleBook extends Component {
 
     handleClose = () => this.setState({ modalOpen: false })
 
-    render() {
+    changeQuantity = (e) => {
+      e.preventDefault();
+      this.setState({ quantitySelected: e.target.value });
+    }
+
+    updateInventory = (e) => {
+      e.preventDefault();
+      const { quantitySelected } = this.state;
       const { book } = this.props;
-      const { modalOpen } = this.state;
+      const productToUpdate = {
+        ProductId: book.productId,
+        Quantity: Number(quantitySelected),
+      };
+      employeeData.changeInventoryQuantity(productToUpdate);
+      this.setState({ quantitySelected: 1 });
+    }
+
+    render() {
+      const { book, isEmployee } = this.props;
+      const { modalOpen, quantitySelected } = this.state;
       return (
         <div className="SingleBook">
             <Card className='bookCard'>
               <Image className="image" src={book.imageUrl} onClick={this.handleOpen}/>
                 <Card.Content header={book.title} textAlign='center' meta={book.category} />
-                <Input icon='plus cart' iconPosition='left' placeholder='Quantity'/>
-                <Button.Group fluid>
-                  <Button attached='left' onClick={this.handleOpen}>More Details</Button>
-                  <Button attached='right' onClick={() => alert('set up later')}>Add To Cart</Button>
-                </Button.Group>
+                <Input icon='plus cart' iconPosition='left' type='number' value={quantitySelected} onChange={this.changeQuantity} placeholder='Quantity'/>
+                { (isEmployee)
+                  ? <Button className='inventoryBtn' onClick={this.updateInventory} fluid>Update Inventory</Button>
+                  : [<Button.Group fluid>
+                    <Button attached='left' onClick={this.handleOpen}>More Details</Button>
+                    <Button attached='right' onClick={() => alert('set up later')}>Add To Cart</Button>
+                  </Button.Group>]
+                }
             </Card>
             <ProductModal modalOpen={modalOpen} product={book} handleClose={this.handleClose} handleOpen={this.handleOpen} />
             {/* <ul>
