@@ -1,0 +1,53 @@
+.tableContainer {
+  display: flex;
+  justify-content: center;
+  width: 75%;
+}
+
+.overallTableContainer {
+  display: flex;
+  justify-content: center;
+  margin-top: 3em;
+}
+
+.invoiceTitleContainer {
+  display: block !important;
+
+}
+
+.overallInvoiceContainer {
+  display: block;
+}
+
+.invoiceDateTitle {
+  display: flex;
+  justify-content: center;
+}
+
+.theTitle {
+  display: flex;
+  justify-content: center;
+  margin-top: 2em;
+}
+
+.stepOrderDetails {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+  width: 60%;
+}
+
+.stepCard {
+  width: 75%;
+}
+
+.stepOrderContainer {
+  display: flex;
+  justify-content: center;
+}
+
+.statusStepCard {
+  display: flex;
+  justify-content: center;
+  margin-top: 1em;
+}

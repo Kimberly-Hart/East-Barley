@@ -7,4 +7,16 @@ const getInvoicesByUserId = (userId) => new Promise((resolve, reject) => {
     .catch((error) => reject(error));
 });
 
-export default { getInvoicesByUserId };
+const getLineItemsByInvoiceId = (invoiceId) => new Promise((resolve, reject) => {
+  axios.get(`https://localhost:44319/api/invoices/lineItems/${invoiceId}`)
+    .then((result) => resolve(result.data))
+    .catch((error) => reject(error));
+});
+
+const getInvoicesByInvoiceId = (invoiceId) => new Promise((resolve, reject) => {
+  axios.get(`https://localhost:44319/api/invoices/invoiceId/${invoiceId}`)
+    .then((result) => resolve(result.data))
+    .catch((error) => reject(error));
+});
+
+export default { getInvoicesByUserId, getLineItemsByInvoiceId, getInvoicesByInvoiceId };

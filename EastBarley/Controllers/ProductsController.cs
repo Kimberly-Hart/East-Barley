@@ -98,6 +98,17 @@ namespace EastBarley.Controllers
             var updatedProductQty = _repository.UpdateProductQuantity(products);
             return Ok(updatedProductQty);
         }
+
+        [HttpGet("{productId}")]
+        public IActionResult GetAnyProductById(int productId)
+        {
+            var singleProduct = _repository.GetAnyProductById(productId);
+            if (singleProduct == null)
+            {
+                return NotFound("That product doesn't exist.");
+            }
+            return Ok(singleProduct);
+        }
     }
 
 }
