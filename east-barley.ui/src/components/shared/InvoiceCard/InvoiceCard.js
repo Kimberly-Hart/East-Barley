@@ -7,6 +7,7 @@ import {
   Icon,
   Grid,
 } from 'semantic-ui-react';
+import { Link } from 'react-router-dom';
 import './InvoiceCard.scss';
 
 class InvoiceCard extends React.Component {
@@ -56,7 +57,8 @@ class InvoiceCard extends React.Component {
     return (
       <div className="invoiceCardContainer">
         <Grid.Column>
-          <Card className="invoiceCard" onClick={() => alert('to be done later')}>
+          <Link to={`invoice/${invoice.invoiceId}`} >
+          <Card className="invoiceCard">
             {this.getStatus(invoice.statusId)}
               <Card.Content header={`$${invoice.totalCost.toFixed(2)}`} />
               <Card.Content description={this.shipStatus(invoice.statusId)} />
@@ -64,6 +66,7 @@ class InvoiceCard extends React.Component {
                 <Icon name='calendar alternate outline' />{this.formatDate(invoice.invoiceDate)}
               </Card.Content>
             </Card>
+            </Link>
         </Grid.Column>
       </div>
     );

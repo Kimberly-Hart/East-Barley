@@ -18,6 +18,7 @@ import Employees from '../components/pages/Employees/Employees';
 import Home from '../components/pages/Homepage/Home';
 import Profile from '../components/pages/Profile/Profile';
 import Whiskeys from '../components/pages/AllWhiskeys/AllWhiskeys';
+import Invoice from '../components/pages/Invoice/Invoice';
 import firebaseApp from '../helpers/data/connection';
 import MyNavBar from '../components/shared/MyNavBar/MyNavBar';
 import employeeData from '../helpers/data/employeeData';
@@ -115,6 +116,7 @@ class App extends React.Component {
             <Route path="/" exact component={() => <Home verified={over21} authed={authed} />} />
             <Route path="/auth" exact component={() => <Auth verified={over21} authed={authed} />} />
             <PrivateRoute path="/profile" exact component={() => <Profile verified={over21} authed={authed} user={user} isEmployee={isEmployee} />} authed={authed} />
+            <PrivateRoute path='/invoice/:invoiceId' exact component={(props) => <Invoice verified={over21} {...props} authed={authed} user={user} />} authed={authed} />
             <Over21Route path="/whiskey" exact component={() => <Whiskeys verified={over21} authed={authed} isEmployee={isEmployee} />} verified={over21} />
             <Over21Route path="/beer" exact component={() => <Beers verified={over21} authed={authed} isEmployee={isEmployee} />} verified={over21} />
             <Route path="/books" exact component={() => <Books verified={over21} authed={authed} isEmployee={isEmployee} />} />
