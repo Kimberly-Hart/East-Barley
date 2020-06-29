@@ -17,5 +17,11 @@ code {
 }
 
 body {
-  background-color: $teal;
+  background-color: $ebGrey;
+  color: white;
+
+  
+  .header{
+    color: white!important;
+  }
 }

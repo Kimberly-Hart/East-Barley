@@ -8,7 +8,7 @@ class AllBooks extends React.Component {
       books: [],
     }
 
-    componentDidMount() {
+    retreiveBooks = () => {
       booksData.getAllBooks()
         .then((books) => {
           this.setState({ books });
@@ -16,13 +16,18 @@ class AllBooks extends React.Component {
         .catch((errorFromGetBooks) => console.error({ errorFromGetBooks }));
     }
 
+    componentDidMount() {
+      this.retreiveBooks();
+    }
+
     render() {
       const { books } = this.state;
+      const { isEmployee } = this.props;
       return (
         <div className="Allbooks text-center">
           <h1>Books</h1>
           <div className="container">
-          { books.map((book) => <SingleBook key={book.productId} book={book} />)}
+          { books.map((book) => <SingleBook key={book.productId} book={book} isEmployee={isEmployee} retreiveBooks={this.retreiveBooks} />)}
           </div>
         </div>
       );

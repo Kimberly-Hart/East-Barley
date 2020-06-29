@@ -8,7 +8,7 @@ class AllWhiskeys extends React.Component {
       whiskeys: [],
     }
 
-    componentDidMount() {
+    retreiveWhiskeys = () => {
       whiskeysData.getAllWhiskeys()
         .then((whiskeys) => {
           this.setState({ whiskeys });
@@ -16,13 +16,18 @@ class AllWhiskeys extends React.Component {
         .catch((errorFromGetWhiskeys) => console.error({ errorFromGetWhiskeys }));
     }
 
+    componentDidMount() {
+      this.retreiveWhiskeys();
+    }
+
     render() {
       const { whiskeys } = this.state;
+      const { isEmployee } = this.props;
       return (
         <div className="AllWhiskeys text-center">
           <h1>Whiskeys</h1>
           <div className="container">
-          { whiskeys.map((whiskey) => <SingleWhiskey key={whiskey.productId} whiskey={whiskey} />)}
+          { whiskeys.map((whiskey) => <SingleWhiskey key={whiskey.productId} whiskey={whiskey} isEmployee={isEmployee} retreiveWhiskeys={this.retreiveWhiskeys} />)}
           </div>
         </div>
       );

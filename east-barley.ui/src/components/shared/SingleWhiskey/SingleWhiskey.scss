@@ -4,7 +4,15 @@
     border: 1px solid #bbb;
     transition: all 0.3s linear;
     max-width: 16em !important;
-    height: 32em;
+    height: 34em;
+
+    .header {
+        color: black!important;
+    }
+
+    .inStock{
+        padding: .25em!important;
+    }
 
     img {
         display: block;

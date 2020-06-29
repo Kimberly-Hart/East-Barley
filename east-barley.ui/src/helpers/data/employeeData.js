@@ -26,9 +26,12 @@ const monthlySalesBySalesRepId = (salesRepId, month, year) => new Promise((resol
     .catch((error) => reject(error));
 });
 
+const changeInventoryQuantity = (productObj) => axios.put(`${baseURL}/products/inventory`, productObj);
+
 export default {
   getEmployeeByUserId,
   getInvoicesBySalesRepId,
   totalSalesBySalesRepId,
   monthlySalesBySalesRepId,
+  changeInventoryQuantity,
 };
