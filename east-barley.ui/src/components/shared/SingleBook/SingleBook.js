@@ -19,6 +19,7 @@ class SingleBook extends Component {
 
   static propTypes = {
     isEmployee: PropTypes.bool,
+    retreiveBooks: PropTypes.func,
     book: booksShape.booksShape,
   }
 
@@ -34,13 +35,16 @@ class SingleBook extends Component {
     updateInventory = (e) => {
       e.preventDefault();
       const { quantitySelected } = this.state;
-      const { book } = this.props;
+      const { book, retreiveBooks } = this.props;
       const productToUpdate = {
         ProductId: book.productId,
         Quantity: Number(quantitySelected),
       };
-      employeeData.changeInventoryQuantity(productToUpdate);
-      this.setState({ quantitySelected: 1 });
+      employeeData.changeInventoryQuantity(productToUpdate)
+        .then(() => {
+          this.setState({ quantitySelected: 1 });
+          retreiveBooks();
+        }).catch((errorFromSingleBook) => console.error(errorFromSingleBook));
     }
 
     render() {
@@ -51,6 +55,7 @@ class SingleBook extends Component {
             <Card className='bookCard'>
               <Image className="image" src={book.imageUrl} onClick={this.handleOpen}/>
                 <Card.Content header={book.title} textAlign='center' meta={book.category} />
+                <Card.Content className='inStock' description={`Number in Stock: ${book.quantity}`} textAlign='center' />
                 <Input icon='plus cart' iconPosition='left' type='number' value={quantitySelected} onChange={this.changeQuantity} placeholder='Quantity'/>
                 { (isEmployee)
                   ? <Button className='inventoryBtn' onClick={this.updateInventory} fluid>Update Inventory</Button>

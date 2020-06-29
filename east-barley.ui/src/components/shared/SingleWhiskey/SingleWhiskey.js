@@ -19,6 +19,7 @@ class SingleWhiskey extends Component {
 
   static propTypes = {
     isEmployee: PropTypes.bool,
+    retreiveWhiskeys: PropTypes.func,
     whiskey: whiskeysShape.productsShape,
   }
 
@@ -34,12 +35,16 @@ class SingleWhiskey extends Component {
   updateInventory = (e) => {
     e.preventDefault();
     const { quantitySelected } = this.state;
-    const { whiskey } = this.props;
+    const { whiskey, retreiveWhiskeys } = this.props;
     const productToUpdate = {
       ProductId: whiskey.productId,
       Quantity: Number(quantitySelected),
     };
-    employeeData.changeInventoryQuantity(productToUpdate);
+    employeeData.changeInventoryQuantity(productToUpdate)
+      .then(() => {
+        this.setState({ quantitySelected: 1 });
+        retreiveWhiskeys();
+      }).catch((errorFromSingleWhiskey) => console.error(errorFromSingleWhiskey));
   }
 
   render() {
@@ -50,6 +55,7 @@ class SingleWhiskey extends Component {
            <Card className='whiskeyCard'>
               <Image className="image" src={whiskey.imageUrl} onClick={this.handleOpen}/>
                 <Card.Content header={whiskey.title} textAlign='center' meta={whiskey.category} />
+                <Card.Content className='inStock' description={`Number in Stock: ${whiskey.quantity}`} textAlign='center' />
                 <Input icon='plus cart' iconPosition='left' type='number' value={quantitySelected} onChange={this.changeQuantity} placeholder='Quantity'/>
                 { (isEmployee)
                   ? <Button className='inventoryBtn' onClick={this.updateInventory} fluid>Update Inventory</Button>

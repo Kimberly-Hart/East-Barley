@@ -8,12 +8,16 @@ class AllBeers extends React.Component {
       beers: [],
     }
 
-    componentDidMount() {
+    retreiveBeers = () => {
       beersData.getAllBeers()
         .then((beers) => {
           this.setState({ beers });
         })
         .catch((errorFromGetBeers) => console.error({ errorFromGetBeers }));
+    }
+
+    componentDidMount() {
+      this.retreiveBeers();
     }
 
     render() {
@@ -23,7 +27,7 @@ class AllBeers extends React.Component {
         <div className="AllBeers text-center">
           <h1>Beers</h1>
           <div className="container">
-          { beers.map((beer) => <SingleBeer key={beer.productId} beer={beer} isEmployee={isEmployee} />)}
+          { beers.map((beer) => <SingleBeer key={beer.productId} beer={beer} isEmployee={isEmployee} retreiveBeers={this.retreiveBeers} />)}
           </div>
         </div>
       );
